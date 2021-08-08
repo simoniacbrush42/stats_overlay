@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>Stats Overlay</title>
+    <link rel="stylesheet" href="index.css">
+    <link rel="stylesheet" href="bedwars.css">
+</head>
+
+<body>
+    <div id="sidebar">
+        <div class="toggle-btn" onclick="show()">
+            <span></span>
+            <span></span>
+            <span></span>
+        </div>
+        <ul>
+            <li>
+                <form action="bedwars.html">
+                    <button>Bedwars</button>
+                </form>
+            </li>
+            <li>
+                <form action="bridge.html">
+                    <button>Bridge</button>
+                </form>
+            </li>
+            <li>
+                <form action="search.html">
+                    <button>Search</button>
+                </form>
+            </li>
+            <li>
+                <form action="settings.html">
+                    <button>Settings</button>
+                </form>
+
+            </li>
+        </ul>
+    </div>
+    <div class = "stats">
+        <ul class = "titles">
+            <li style="padding-right: 60px;">Name</li>
+            <li>Star</li>
+            <li>WS</li>
+            <li>FKDR</li>
+            <li style="padding-right: 30px; padding-left: 30px;">Finals</li>
+            <li>Index</li>
+            <li>BBL</li>
+            <li>WLR</li>
+            <li>Joined Time</li>
+        </ul>
+    </div>
+    <script>
+        function show() {
+            document.getElementById("sidebar").classList.toggle('active');
+        }
+    </script>
+</body>
+
+</html>

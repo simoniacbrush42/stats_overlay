@@ -1,0 +1,14 @@
+.titles{
+    padding: 0;
+    margin: 0;
+    display: flex;
+    list-style: none;
+    justify-content: flex-end;
+    max-width: none;
+    font-size: 13px;
+}
+
+.titles li{
+    padding-left: 15px;
+    padding-right: 15px;
+}

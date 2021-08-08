@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="UTF-8">
+  <title>Stats Overlay</title>
+  <link rel="stylesheet" href="index.css">
+</head>
+
+<body>
+  <div id="sidebar">
+    <div class="toggle-btn" onclick="show()">
+      <span></span>
+      <span></span>
+      <span></span>
+    </div>
+    <ul>
+      <li>
+        <form action="bedwars.html">
+          <button>Bedwars</button>
+        </form>
+      </li>
+      <li>
+        <form action="bridge.html">
+          <button>Bridge</button>
+        </form>
+      </li>
+      <li>
+        <form action="search.html">
+          <button>Search</button>
+        </form>
+      </li>
+      <li>
+        <form action="settings.html">
+          <button>Settings</button>
+        </form>
+
+      </li>
+    </ul>
+  </div>
+  <script>
+    function show() {
+      document.getElementById("sidebar").classList.toggle('active');
+    }
+  </script>
+</body>
+
+</html>
