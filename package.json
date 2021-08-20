@@ -45,7 +45,15 @@
     }
   },
   "dependencies": {
-    "electron-squirrel-startup": "^1.0.0"
+    "chokidar": "^3.5.2",
+    "electron-squirrel-startup": "^1.0.0",
+    "fs": "0.0.1-security",
+    "hypixie": "^1.0.0",
+    "md5": "^2.3.0",
+    "node-fetch": "^2.6.1",
+    "node-watch": "^0.7.1",
+    "read-last-lines": "^1.8.0",
+    "text-file-follower": "^0.1.0"
   },
   "devDependencies": {
     "@electron-forge/cli": "^6.0.0-beta.59",

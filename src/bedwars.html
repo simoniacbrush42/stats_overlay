@@ -39,24 +39,162 @@
             </li>
         </ul>
     </div>
-    <div class = "stats">
-        <ul class = "titles">
-            <li style="padding-right: 60px;">Name</li>
-            <li>Star</li>
-            <li>WS</li>
-            <li>FKDR</li>
-            <li style="padding-right: 30px; padding-left: 30px;">Finals</li>
-            <li>Index</li>
-            <li>BBL</li>
-            <li>WLR</li>
-            <li>Joined Time</li>
-        </ul>
+    <div class="stats">
+        <table>
+            <thead class="titles">
+                <th style="padding-right: 60px;">Name</th>
+                <th>Star</th>
+                <th>WS</th>
+                <th>FKDR</th>
+                <th style="padding-right: 30px; padding-left: 30px;">Finals</th>
+                <th>Index</th>
+                <th>BBL</th>
+                <th>WLR</th>
+                <th style="padding-right: 0;">Joined Time</th>
+
+            </thead>
+        </table>
     </div>
     <script>
         function show() {
             document.getElementById("sidebar").classList.toggle('active');
         }
     </script>
+    <script>
+        console.log("running")
+        const electron = require('electron');
+        const chokidar = require('chokidar');
+        const readLastLines = require('read-last-lines');
+        var watch = require('node-watch');
+        var fs = require('fs');
+        var options = {
+            logFile: '../../../../../../Users/simon/.lunarclient/offline/1.8/logs/latest.log',
+            endOfLineChar: require('os').EOL
+        };
+        // Obtain the initial size of the log file before we begin watching it.
+        var fileSize = fs.statSync(options.logFile).size;
+        fs.watchFile(options.logFile, function (current, previous) {
+        // Check if file modified time is less than last time.
+        // If so, nothing changed so don't bother parsing.
+        if (current.mtime <= previous.mtime) { return; }
+
+        // We're only going to read the portion of the file that
+        // we have not read so far. Obtain new file size.
+        var newFileSize = fs.statSync(options.logFile).size;
+        // Calculate size difference.
+        var sizeDiff = newFileSize - fileSize;
+        // If less than zero then Hearthstone truncated its log file
+        // since we last read it in order to save space.
+        // Set fileSize to zero and set the size difference to the current
+        // size of the file.
+        if (sizeDiff < 0) {
+            fileSize = 0;
+            sizeDiff = newFileSize;
+        }
+        // Create a buffer to hold only the data we intend to read.
+        var buffer = new Buffer(sizeDiff);
+        // Obtain reference to the file's descriptor.
+        var fileDescriptor = fs.openSync(options.logFile, 'r');
+        // Synchronously read from the file starting from where we read
+        // to last time and store data in our buffer.
+        fs.readSync(fileDescriptor, buffer, 0, sizeDiff, fileSize);
+        fs.closeSync(fileDescriptor); // close the file
+        // Set old file size to the new size for next read.
+        fileSize = newFileSize;
+
+        // Parse the line(s) in the buffer.
+        parseBuffer(buffer);
+        });
+
+        function stop () {
+        fs.unwatchFile(options.logFile);
+        };
+
+        function parseBuffer (buffer) {
+        // Iterate over each line in the buffer.
+            buffer.toString().split(options.endOfLineChar).forEach(function (line) {
+                // Do stuff with the line :)
+                line_parts = line.split(' ')
+                if (line_parts[4] == "ONLINE:"){
+                    names = line_parts.slice(5);
+                    names.push('thesaltytobi')
+                    //console.log(names)
+                    stats = [];
+                    for (ind in names){
+                        let name = names[ind].replace(",", "");
+                        //console.log(name)
+                        let uid = ''
+                        try {
+                            fetch('https://api.mojang.com/users/profiles/minecraft/'+name+'?at=')
+                            .then(result => {
+                                return result.json()  
+                            })
+                            
+                            .then(({ id }) => {
+                                //console.log(id)
+                                // Log the player's username
+                                uid = id;
+                                fetch("https://api.hypixel.net/player?key=3aadacc6-2c7d-485e-8b8d-801109c40c46&uuid="+uid)
+                                    .then(result => result.json())
+                                    .then(({ player }) => {
+                                        // Log the player's username
+                                        let name = player.displayname
+                                        let last_login = player.lastLogin
+                                        let star = player.achievements.bedwars_level
+                                        let ws = player.stats.Bedwars.winstreak
+                                        let finals = player.stats.Bedwars.final_kills_bedwars
+                                        let final_deaths = player.stats.Bedwars.final_deaths_bedwars
+                                        let fkdr;
+                                        if (!final_deaths){
+                                            fkdr = finals
+                                        }else{
+                                            fkdr = (finals/final_deaths).toFixed(2)
+                                        }
+                                        let beds = player.stats.Bedwars.beds_broken_bedwars
+                                        let beds_lost = player.stats.Bedwars.beds_lost_bedwars
+                                        let bbl;
+                                        if (!beds_lost){
+                                            bbl = beds
+                                        }else{
+                                            bbl = (beds/beds_lost).toFixed(2)
+                                        }
+                                        let wins = player.stats.Bedwars.wins_bedwars
+                                        let losses = player.stats.Bedwars.losses_bedwars
+                                        let wlr;
+                                        if (!losses){
+                                            wlr = wins
+                                        }else{
+                                            wlr = (wins/losses).toFixed(2)
+                                        }
+                                        stats.push([[name], [star], [ws], [finals], [fkdr], [wlr], [bbl], [last_login]])
+
+                                    });
+                            })
+                            .catch((error) => {
+                                //console.log('err')
+                                stats.push([[name], ['NICKED'], ['NICKED'], ['NICKED'], ['NICKED'], ['NICKED'], ['NICKED'], ['NICKED']])
+                            })
+                        
+                     
+                            
+                        } catch (error) {
+                            //try removing catch and try later dont think needed
+                        }
+                           
+                    }
+                    console.log(stats)
+                }
+
+                    
+                
+            });
+        };
+    
+    </script>
+    
+
+
+
 </body>
 
 </html>
