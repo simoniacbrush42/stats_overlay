@@ -52,6 +52,7 @@
     "md5": "^2.3.0",
     "node-fetch": "^2.6.1",
     "node-watch": "^0.7.1",
+    "path": "^0.12.7",
     "read-last-lines": "^1.8.0",
     "text-file-follower": "^0.1.0"
   },

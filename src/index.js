@@ -3,7 +3,6 @@ const path = require('path');
 const fetch = require('node-fetch');
 const fs = require("fs");
 const { contextIsolated } = require('process');
-var follow = require('text-file-follower')
 
 
 // Handle creating/removing shortcuts on Windows when installing/uninstalling.
@@ -15,7 +14,7 @@ const createWindow = () => {
   // Create the browser window.
   const mainWindow = new BrowserWindow({
     width: 800,
-    height: 600,
+    height: 500,
     transparent:true,
     webPreferences: {
       nodeIntegration: true,

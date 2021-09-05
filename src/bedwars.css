@@ -1,17 +1,35 @@
 .titles{
     padding: 0;
-    margin: 0;
-    display: flex;
+    margin: 5%;
+    display: block;
     list-style: none;
     max-width: none;
-    font-size: 13px;
+    font-size: 15px;
+    margin-top: 1%;
 }
 
 .titles tr th{
-    padding-left: 15px;
-    padding-right: 15px;
+    padding-left: 25px;
+    padding-right: 25px;
 }
 
 .titles tr{
     margin-left: 15%;
+}
+
+.table_body{
+    display: block;
+    padding: 0;
+    margin: 0%;
+    font-size: 11px;
+}
+
+.table_body tr{
+    margin-left: 5%;
+    padding-top: 10px;
+}
+
+.table_body tr td{
+    padding-left: 30px;
+    padding-right: 30px;
 }
