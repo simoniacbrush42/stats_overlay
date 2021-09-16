@@ -47,6 +47,7 @@
   "dependencies": {
     "chokidar": "^3.5.2",
     "electron-squirrel-startup": "^1.0.0",
+    "electron-window-position": "^1.0.1",
     "fs": "0.0.1-security",
     "hypixie": "^1.0.0",
     "md5": "^2.3.0",
@@ -57,11 +58,11 @@
     "text-file-follower": "^0.1.0"
   },
   "devDependencies": {
-    "@electron-forge/cli": "^6.0.0-beta.59",
-    "@electron-forge/maker-deb": "^6.0.0-beta.59",
-    "@electron-forge/maker-rpm": "^6.0.0-beta.59",
-    "@electron-forge/maker-squirrel": "^6.0.0-beta.59",
-    "@electron-forge/maker-zip": "^6.0.0-beta.59",
+    "@electron-forge/cli": "^6.0.0-beta.61",
+    "@electron-forge/maker-deb": "^6.0.0-beta.61",
+    "@electron-forge/maker-rpm": "^6.0.0-beta.61",
+    "@electron-forge/maker-squirrel": "^6.0.0-beta.61",
+    "@electron-forge/maker-zip": "^6.0.0-beta.61",
     "electron": "13.1.8"
   }
 }
