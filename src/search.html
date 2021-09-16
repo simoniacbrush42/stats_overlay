@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>Stats Overlay</title>
+    <link rel="stylesheet" href="index.css">
+    <link rel="stylesheet" href="search.css">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link rel="stylesheet" href="http://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.3.0/css/font-awesome.css" type='text/css'>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/js/bootstrap.min.js" integrity="sha384-skAcpIdS7UcVUC05LJ9Dxay8AXcDYfBJqt1CJ85S/CFujBsIzCIv+l9liuYLaMQ/" crossorigin="anonymous"></script>
+</head>
+<body>
+    <div id="SLIDE_BG">
+    </div>
+    <div id="sidebar">
+        <div class="toggle-btn" onclick="show()">
+            <span></span>
+            <span></span>
+            <span></span>
+        </div>
+        <ul>
+            <li>
+                <form action="bedwars.html">
+                    <button>Bedwars</button>
+                </form>
+            </li>
+            <li>
+                <form action="bridge.html">
+                    <button>Bridge</button>
+                </form>
+            </li>
+            <li>
+                <form action="search.html">
+                    <button>Search</button>
+                </form>
+            </li>
+            <li>
+                <form action="settings.html">
+                    <button>Settings</button>
+                </form>
+
+            </li>
+        </ul>
+    </div>
+    
+    <div class = "searchbar">
+        <form class="form-inline md-form mr-auto mb-4" id = "ignform">
+            <input class="form-control mr-sm-2" type="text" placeholder="username" aria-label="Search" id = "ign">
+            <button class="btn btn-primary" type="submit">Search</button>
+          </form>
+          
+    </div>
+    
+    <script>
+        function show() {
+            document.getElementById("sidebar").classList.toggle('active');
+        }
+    </script>
+    <script>
+        const form = document.getElementById('ignform');
+        console.log(form)
+        function load_stats(e){
+            e.preventDefault();
+            text = document.getElementById('ign')
+            let ign = text.value;
+            let uid = ''
+            fetch('https://api.mojang.com/users/profiles/minecraft/' + ign + '?at=')
+                .then(result => {
+                    return result.json()
+                })
+
+                .then(({
+                    id
+                }) => {
+                    uid = id;
+                    fetch("https://api.hypixel.net/player?key=3aadacc6-2c7d-485e-8b8d-801109c40c46&uuid=" +
+                            uid)
+                        .then(result => result.json())
+                        .then(({
+                            player
+                        }) => {})
+        })
+            }
+        form.addEventListener('submit', load_stats)
+    </script>
+    
+</body>
+</html>

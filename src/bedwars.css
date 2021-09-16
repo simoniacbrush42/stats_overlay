@@ -27,6 +27,7 @@
 .table_body tr{
     margin-left: 5%;
     padding-top: 10px;
+    padding-bottom: 10px;
 }
 
 .table_body tr td{
