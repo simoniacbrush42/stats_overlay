@@ -62,6 +62,7 @@
             document.getElementById("sidebar").classList.toggle('active');
         }
     </script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
     <script>
         const form = document.getElementById('ignform');
         console.log(form)
@@ -85,8 +86,9 @@
                         .then(({
                             player
                         }) => { 
-                            console.log(player)
-
+                            sessionStorage.setItem('stats', JSON.stringify(player)) // https://lage.us/Javascript-Pass-Variables-to-Another-Page.html
+                            window.location.href = "searched_stats.html";
+                            
 
                         })
                 })
