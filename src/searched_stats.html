@@ -21,7 +21,8 @@
             <div class = "generic_info">
                 <section>
                     <h3>Network</h3>
-                    <ul>
+                    <img id = "network_image" src="https://crafatar.com/renders/head/d946cf0d-c0b1-4c91-bee5-21aac2956f19">
+                    <ul id = "generic">
                         <li></li>
                         <li></li>
                         <li></li>
@@ -31,7 +32,7 @@
             <div class = "sections">
                 <section>
                     <h3>Bedwars</h3>
-                    <ul>
+                    <ul id = "bedwars">
                         <li></li>
                         <li></li>
                         <li></li>
@@ -39,7 +40,7 @@
                 </section>
                 <section>
                     <h3>SkyWars</h3>
-                    <ul>
+                    <ul id = "skywars">
                         <li></li>
                         <li></li>
                         <li></li>
@@ -47,7 +48,7 @@
                 </section>
                 <section>
                     <h3>Duels</h3>
-                    <ul>
+                    <ul id = "duels">
                         <li></li>
                         <li></li>
                         <li></li>
@@ -100,13 +101,20 @@
     <script>
         window.addEventListener('DOMContentLoaded', function() {
             var string_stats = sessionStorage.getItem("stats")
-            var player = JSON.parse(string_stats)
+            var player = JSON.parse(string_stats)  
             //console.log(player)
 
             //image area
 
             let name = player.displayname
-            let last_login = player.lastLogin
+            const rank = player.rank
+            let last_login = player.lastLogin //https://coderrocketfuel.com/article/convert-a-unix-timestamp-to-a-date-in-vanilla-javascript
+            console.log(last_login)
+            const dateObject = new Date(last_login)
+            const humanDateFormat = dateObject.toLocaleString() //2019-12-9 10:30:15
+
+
+            let networkLevel = ((Math.sqrt((2 * player.networkExp) + 30625) / 50) - 2.5).toFixed(2)
 
             //bedwars area
 
@@ -115,14 +123,16 @@
             let finals = player.stats.Bedwars.final_kills_bedwars
             let final_deaths = player.stats.Bedwars.final_deaths_bedwars
             let fkdr;
-            if (!final_deaths) {
+            if (finals && final_deaths){
+                fkdr = (finals/final_deaths).toFixed(2)
+            }else if (finals && !final_deaths){
                 fkdr = finals
-            } else {
-                fkdr = (finals / final_deaths).toFixed(2)
+            }else{
+                fkdr = 0
             }
 
             //sw area
-            let sw_lvl = sw_xp_to_lvl(player.stats.SkyWars.skywars_experience)
+            let sw_lvl = sw_xp_to_lvl(player.stats.SkyWars.skywars_experience).toFixed(2)
             let sw_winstreak = player.stats.SkyWars.win_streak
             let wins = player.stats.SkyWars.wins
             let losses = player.stats.SkyWars.losses
@@ -152,6 +162,55 @@
             }else{
                 duels_wlr = 0
             }
+            //generic stats
+            generic_list = document.getElementById('generic')
+            im = document.getElementById('network_image')
+            im.src = 'https://crafatar.com/renders/head/'+ player.uuid
+            ign = document.createElement('li')
+            ign.innerHTML = player.displayname
+            generic_list.appendChild(ign)  
+            nw = document.createElement('li')
+            nw.innerHTML = "Network Level: " + networkLevel
+            generic_list.appendChild(nw) 
+            last_login = document.createElement('li')
+            last_login.innerHTML = "Latest Login: " + humanDateFormat 
+            generic_list.appendChild(last_login)
+
+            //bw stats
+            bedwars_list = document.getElementById('bedwars')
+            bedwars_star = document.createElement('li') 
+            bedwars_star.innerHTML = star + '✩'
+            bedwars_list.appendChild(bedwars_star)
+            bedwars_ws = document.createElement('li') 
+            bedwars_ws.innerHTML = "Winstreak: " + bw_ws
+            bedwars_list.appendChild(bedwars_ws)
+            bedwars_fkdr = document.createElement('li') 
+            bedwars_fkdr.innerHTML = "FKDR: " + fkdr
+            bedwars_list.appendChild(bedwars_fkdr)
+
+            //sw stats
+            skywars_list = document.getElementById('skywars')
+            skywars_lvl = document.createElement('li') 
+            skywars_lvl.innerHTML = sw_lvl + '✩'
+            skywars_list.appendChild(skywars_lvl)
+            skywars_ws = document.createElement('li') 
+            skywars_ws.innerHTML = "Winstreak: " + sw_winstreak
+            skywars_list.appendChild(skywars_ws)
+            skywars_wlr = document.createElement('li') 
+            skywars_wlr.innerHTML = "WLR: " + sw_wlr
+            skywars_list.appendChild(skywars_wlr)
+
+            //duels stats
+            duels_list = document.getElementById('duels')
+            d_wins = document.createElement('li') 
+            d_wins.innerHTML = "Wins: " + duels_wins
+            duels_list.appendChild(d_wins)
+            d_ws = document.createElement('li') 
+            d_ws.innerHTML = "Winstreak: " + duels_ws
+            duels_list.appendChild(d_ws)
+            d_wlr = document.createElement('li')
+            d_wlr.innerHTML = "WLR: " + duels_wlr
+            duels_list.appendChild(d_wlr)
         })
 
         function sw_xp_to_lvl(xp) {
