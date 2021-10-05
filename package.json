@@ -50,6 +50,7 @@
     "electron-window-position": "^1.0.1",
     "fs": "0.0.1-security",
     "hypixie": "^1.0.0",
+    "log-timestamp": "^0.3.0",
     "md5": "^2.3.0",
     "node-fetch": "^2.6.1",
     "node-watch": "^0.7.1",

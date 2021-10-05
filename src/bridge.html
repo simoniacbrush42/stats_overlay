@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="UTF-8">
+  <title>Stats Overlay</title>
+  <link rel="stylesheet" href="index.css">
+</head>
+
+<body>
+  <div id="sidebar">
+    <div class="toggle-btn" onclick="show()">
+      <span></span>
+      <span></span>
+      <span></span>
+    </div>
+    <ul>
+      <li>
+        <form action="bedwars.html">
+          <button>Bedwars</button>
+        </form>
+      </li>
+      <li>
+        <form action="bridge.html">
+          <button>Bridge</button>
+        </form>
+      </li>
+      <li>
+        <form action="search.html">
+          <button>Search</button>
+        </form>
+      </li>
+      <li>
+        <form action="settings.html">
+          <button>Settings</button>
+        </form>
+
+      </li>
+    </ul>
+  </div>
+  <div class = 'sections'>
+
+  </div>
+  <script>
+    function show() {
+      document.getElementById("sidebar").classList.toggle('active');
+    }
+  </script>
+  <script>
+    console.log("running")
+        const electron = require('electron');
+        const readLastLines = require('read-last-lines');
+        var fs = require('fs');
+        const path = require('path');
+        const log_timestamp = require('log-timestamp');
+
+        const buttonPressesLogFile = '../../../../../../Users/simon/.lunarclient/offline/1.8/logs/latest.log';
+
+        //console.log(`Watching for file changes on ${buttonPressesLogFile}`);
+
+        fs.watchFile(buttonPressesLogFile, { interval: 1}, (curr, prev) => {
+          //console.log(`${buttonPressesLogFile} file Changed`);
+          readLastLines.read('../../../../../../Users/simon/.lunarclient/offline/1.8/logs/latest.log', 2)
+                .then((lines) => {
+                  console.log("f")
+                  let line_list = lines.split('\n')
+                  for (ind in line_list){
+                    let line = line_list[ind]
+                    //console.log(ind)
+                    console.log(line)
+                    let line_parts = line.split(' ')
+                    console.log(line_parts)
+                    if (line_parts[4] == "Team") {
+                        let stats = []
+                        let name = line_parts[7].replace('[]\r', "")
+                        console.log(name)
+
+                        /*
+                        names = line_parts.slice(5);
+                        //console.log(names)
+                        const table_body = document.querySelector('tbody');
+                        //console.log("poo");
+                        table_body.innerHTML = "";
+                        for (ind in names) {
+                            let name = names[ind].replace(",", "");
+                            getData(name);
+                            //console.log(arr)
+                            //stats.push(arr)
+                        }
+                        */
+                    }
+                  }
+                  
+                })
+                   
+        });
+  </script>
+</body>
+
+</html>

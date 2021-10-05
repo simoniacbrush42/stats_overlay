@@ -68,12 +68,45 @@
         }
     </script>
     <script>
-        /*
+        
         console.log("running")
         const electron = require('electron');
         const readLastLines = require('read-last-lines');
         var fs = require('fs');
         const path = require('path');
+        const log_timestamp = require('log-timestamp');
+
+        const buttonPressesLogFile = '../../../../../../Users/simon/.lunarclient/offline/1.8/logs/latest.log';
+
+        console.log(`Watching for file changes on ${buttonPressesLogFile}`);
+
+        fs.watchFile(buttonPressesLogFile, { interval: 1}, (curr, prev) => {
+          console.log(`${buttonPressesLogFile} file Changed`);
+          readLastLines.read('../../../../../../Users/simon/.lunarclient/offline/1.8/logs/latest.log', 1)
+                .then((lines) => {
+                    console.log("bo")
+                    line_parts = lines.split(' ')
+                    if (line_parts[4] == "ONLINE:") {
+                        stats = []
+                        names = line_parts.slice(5);
+                        //console.log(names)
+                        const table_body = document.querySelector('tbody');
+                        //console.log("poo");
+                        table_body.innerHTML = "";
+                        for (ind in names) {
+                            let name = names[ind].replace(",", "");
+                            getData(name);
+                            //console.log(arr)
+                            //stats.push(arr)
+                        }
+                        //console.log(stats)
+
+                        //FINALLYt
+                    }
+                })
+        });
+
+        /*
         var options = {
             logFile: '../../../../../../Users/simon/.lunarclient/offline/1.8/logs/latest.log',
             endOfLineChar: require('os').EOL
@@ -133,7 +166,6 @@
                     //console.log(names)
                     const table_body = document.querySelector('tbody');
                     //console.log("poo");
-                    names = ["lowof,", "bunnyhead,", "dragondoodler222,", "wemmbu,", "tqrtle"]
                     table_body.innerHTML = "";
                     for (ind in names) {
                         let name = names[ind].replace(",", "");
@@ -147,15 +179,18 @@
                 }
             });
         }
-        */
+        /*
         names = ["lowof,", "bunnyhead,", "dragondoodler222,", "wemmbu,", "tqrtle,", "lowof,", "lowof,", "lowof,", "lowof,", "lowof,", "lowof,", "lowof,", "lowof,", "lowof,", "lowof,", "lowof,"]
+        */
         //table_body.innerHTML = "";
+        /*
         for (ind in names) {
             let name = names[ind].replace(",", "");
             getData(name);
             //console.log(arr)
             //stats.push(arr)
         }
+        */
         function getData(name) {
             console.log(name)
             let uid = ''
