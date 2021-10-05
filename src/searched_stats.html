@@ -4,60 +4,56 @@
 <head>
     <meta charset="UTF-8">
     <title>Stats Overlay</title>
-    <link rel="stylesheet" href="index.css">
     <link rel="stylesheet" href="searched_stats.css">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
         integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
     <link rel="stylesheet" href="http://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.3.0/css/font-awesome.css"
         type='text/css'>
+    <link rel="stylesheet" href="index.css">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/js/bootstrap.min.js"
         integrity="sha384-skAcpIdS7UcVUC05LJ9Dxay8AXcDYfBJqt1CJ85S/CFujBsIzCIv+l9liuYLaMQ/"
         crossorigin="anonymous"></script>
 </head>
 
 <body>
-    <div class = "background">
-        <div class = "container">
-            <div class = "generic_info">
-                <section>
-                    <h3>Network</h3>
-                    <img id = "network_image" src="https://crafatar.com/renders/head/d946cf0d-c0b1-4c91-bee5-21aac2956f19">
-                    <ul id = "generic">
-                        <li></li>
-                        <li></li>
-                        <li></li>
-                    </ul>
-                </section>
-            </div>
-            <div class = "sections">
-                <section>
-                    <h3>Bedwars</h3>
-                    <ul id = "bedwars">
-                        <li></li>
-                        <li></li>
-                        <li></li>
-                    </ul>
-                </section>
-                <section>
-                    <h3>SkyWars</h3>
-                    <ul id = "skywars">
-                        <li></li>
-                        <li></li>
-                        <li></li>
-                    </ul>
-                </section>
-                <section>
-                    <h3>Duels</h3>
-                    <ul id = "duels">
-                        <li></li>
-                        <li></li>
-                        <li></li>
-                    </ul>
-                </section>
-            </div>
-            
-            
-            
+    
+    <div class = "container">
+        <div class = "generic_info">
+            <section>
+                <h3>Network</h3>
+                <img id = "network_image" src="https://crafatar.com/renders/head/d946cf0d-c0b1-4c91-bee5-21aac2956f19">
+                <ul id = "generic">
+                    <li></li>
+                    <li></li>
+                    <li></li>
+                </ul>
+            </section>
+        </div>
+        <div class = "sections">
+            <section>
+                <h3>Bedwars</h3>
+                <ul id = "bedwars">
+                    <li></li>
+                    <li></li>
+                    <li></li>
+                </ul>
+            </section>
+            <section>
+                <h3>SkyWars</h3>
+                <ul id = "skywars">
+                    <li></li>
+                    <li></li>
+                    <li></li>
+                </ul>
+            </section>
+            <section>
+                <h3>Duels</h3>
+                <ul id = "duels">
+                    <li></li>
+                    <li></li>
+                    <li></li>
+                </ul>
+            </section>
         </div>
     </div>
     <div id="sidebar">
@@ -90,7 +86,6 @@
             </li>
         </ul>
     </div>
-    
 
     <script>
         function show() {
@@ -105,11 +100,124 @@
             //console.log(player)
 
             //image area
+            /*
+            rank to get Staff Ranks and special ones like YouTube.
+            
+            monthlyPackageRank to get the current monthly rank of the player like MVP++ (currently SUPERSTAR or NONE). 
 
+            You can see which monthly rank was the last purchased using mostRecentMonthlyPackageRank.
+            
+            newPackageRank which is the permanent rank after the EULA Update in 2016.
+            
+            packageRank which is the permanent rank before the EULA Update.
+            */
+            let rank;
+            let rank_color;
             let name = player.displayname
-            const rank = player.rank
+            if (player.rank){
+                rank = player.rank;
+                if (rank == "YOUTUBER"){
+                    rank = "[YOUTUBE]"
+                    rank_color = "#FF5555"
+
+                }else if (rank == "ADMIN"){
+                    rank = "[ADMIN]"
+                }
+            } else {
+                if (player.monthlyPackageRank){
+                    rank = player.monthlyPackageRank
+                    if (player.monthlyPackageRank == "SUPERSTAR"){
+                        rank = "[MVP++]"
+                        rank_color = player.monthlyRankColor
+                        if (rank_color == "GOLD"){
+                            rank_color = "rgb(255,170,0)"
+                        } else {
+                            rank_color = "rgb(85,255,255)"
+                        }
+                    } else{
+                        new_pckg = player.newPackageRank
+                        if (new_pckg){
+                            console.log("bo")
+                            rank = new_pckg
+                            console.log(rank)
+                            if (rank == "MVP_PLUS"){
+                                rank = "[MVP+]"
+                                rank_color = "rgb(85,255,255)"
+                            } else if (rank == "MVP"){
+                                rank = "[MVP]"
+                                rank_color = "rgb(85,255,255)"
+                            } else if (rank == "VIP_PLUS"){
+                                rank = "[VIP+]"
+                                rank_color = "rgb(85,255,85)"
+                            } else if (rank == "VIP"){
+                                console.log("vip")
+                                rank = "[VIP]"
+                                rank_color = "rgb(85,255,85)"
+                            }
+                        } else{
+                            rank = ""
+                        }
+                        
+                    }
+                } else if (player.newPackageRank){
+                        new_pckg = player.newPackageRank
+                        if (new_pckg){
+                            console.log("new")
+                            rank = new_pckg
+                            if (rank == "MVP_PLUS"){
+                                console.log('smell')
+                                rank = "[MVP+]"
+                                rank_color = "rgb(85,255,255)"
+                            } else if (rank == "MVP"){
+                                rank = "[MVP]"
+                                rank_color = "rgb(85,255,255)"
+                            } else if (rank == "VIP_PLUS"){
+                                rank = "[VIP+]"
+                                rank_color = "rgb(85,255,85)"
+                            } else if (rank == "VIP"){
+                                rank = "[VIP]"
+                                rank_color = "rgb(85,255,85)"
+                            }
+                        } else{
+                            rank = ""
+                        }
+                } else{
+                    console.log('test')
+                    new_pckg = player.packageRank
+                    console.log(new_pckg)
+                    if (new_pckg){
+                        rank = new_pckg
+                        console.log(rank)
+                        if (rank == "MVP_PLUS"){
+                            console.log('smell')
+                            rank = "[MVP+]"
+                        } else if (rank == "MVP"){
+                            rank = "[MVP]"
+                        } else if (rank == "VIP_PLUS"){
+                            rank = "[VIP+]"
+                        } else if (rank == "VIP"){
+                            console.log("vip")
+                            rank = "[VIP]"
+                        }
+                    } else{
+                        rank = ""
+                    }
+                        
+                }
+            }
+            
+            let plusColor;
+
+            if (player.rankPlusColor){
+                plusColor = player.rankPlusColor
+            } else{
+                plusColor = ""
+            }
+            //console.log(rank)
+            
+            console.log(name)
             let last_login = player.lastLogin //https://coderrocketfuel.com/article/convert-a-unix-timestamp-to-a-date-in-vanilla-javascript
-            console.log(last_login)
+            //console.log(last_login)
             const dateObject = new Date(last_login)
             const humanDateFormat = dateObject.toLocaleString() //2019-12-9 10:30:15
 
@@ -132,7 +240,13 @@
             }
 
             //sw area
-            let sw_lvl = sw_xp_to_lvl(player.stats.SkyWars.skywars_experience).toFixed(2)
+            let sw_exp = player.stats.SkyWars.skywars_experience
+            let sw_lvl;
+            if (sw_exp){
+                sw_lvl = sw_xp_to_lvl(sw_exp).toFixed(0)
+            } else {
+                sw_lvl = 1
+            }
             let sw_winstreak = player.stats.SkyWars.win_streak
             let wins = player.stats.SkyWars.wins
             let losses = player.stats.SkyWars.losses
@@ -163,11 +277,68 @@
                 duels_wlr = 0
             }
             //generic stats
+            //<li>[MVP <span style="color: red">++</span>]</li>
             generic_list = document.getElementById('generic')
             im = document.getElementById('network_image')
             im.src = 'https://crafatar.com/renders/head/'+ player.uuid
             ign = document.createElement('li')
-            ign.innerHTML = player.displayname
+            let plus;
+            let p1;
+            let p2;
+            let plusFound = false;
+             if (rank != "NONE"){
+                name = rank + " " + name
+            } else {
+                rank_color = "#AAAAAA"
+            }
+            if (rank == "[YOUTUBE]"){
+                console.log("youtuber")
+                p1 = name.substring(0,1)
+                plus = name.substring(1,8)
+                p2 = name.substring(8)  
+            } else {
+                console.log("normal")
+                for (var i = 0; i < name.length; i++){
+                    if (name[i] == "+"){
+                        plusFound = true;
+                        p1 = name.substring(0,i)
+                        if (name[i+1] == "+"){
+                            plus = name.substring(i,i+2)
+                            p2 = name.substring((i+2));
+                        
+                        } else {
+                            plus = name.substring(i,i+1)
+                            p2 = name.substring(i+1);
+                        }
+                        {break;}
+                    }
+                }
+            }
+
+            if (!plusFound && rank != "[YOUTUBE]"){
+                p1 = name.substring(0,5)
+                p2 = name.substring(5)
+            }
+           
+            let span = document.createElement("span");
+
+            span.textContent = plus
+            if (rank == "[YOUTUBE]"){
+                plusc = "#E0E0E0"
+            } else {
+                plusc = plus_to_color(plusColor)
+            }
+            
+            console.log(plusc)
+            span.style.color = plusc
+            //span.style.color = "rgb("+plusc+")";
+            console.log(p1,p2)
+            ign.appendChild(document.createTextNode(p1));
+            ign.appendChild(span)
+            ign.appendChild(document.createTextNode(p2));
+            //ign.innerHTML = name
+            //#E0E0E0 white   #FF5555 red
+            ign.style.color = rank_color
             generic_list.appendChild(ign)  
             nw = document.createElement('li')
             nw.innerHTML = "Network Level: " + networkLevel
@@ -178,8 +349,11 @@
 
             //bw stats
             bedwars_list = document.getElementById('bedwars')
-            bedwars_star = document.createElement('li') 
-            bedwars_star.innerHTML = star + '✩'
+            bedwars_star = document.createElement('li')
+            star_elem =  getPrestigeItems(star)
+            console.log(star_elem)
+            bedwars_star.appendChild(star_elem)
+            //bedwars_star.innerHTML = star + '✩'
             bedwars_list.appendChild(bedwars_star)
             bedwars_ws = document.createElement('li') 
             bedwars_ws.innerHTML = "Winstreak: " + bw_ws
@@ -225,7 +399,62 @@
                 }
             }
         }
+
+        function plus_to_color(plusColor){
+            if (plusColor == "BLACK"){
+                return "rgb(0,0,0)"
+            }
+            else if (plusColor == "DARK_BLUE"){
+                return "rgb(0,0,170)"
+            }
+            else if (plusColor == "DARK_GREEN"){
+                return "rgb(0,170,0)"
+            }
+            else if (plusColor == "DARK_AQUA"){
+                return "rgb(0,170,170)"
+            }
+            else if (plusColor == "DARK_RED"){
+                return "rgb(170,0,0)"
+            }
+            else if (plusColor == "DARK_PURPLE"){
+                return "rgb(170,0,170)"
+            }
+            else if (plusColor == "GOLD"){
+                return "rgb(255,170,0)"
+            }
+            else if (plusColor == "GRAY"){
+                return "rgb(170,170,170)"
+            }
+            else if (plusColor == "DARK_GRAY"){
+                return "rgb(85,85,85)"
+            }
+            else if (plusColor == "BLUE"){
+                return "rgb(85,85,255)"
+            }
+            else if (plusColor == "GREEN"){
+                return "rgb(85,255,85)"
+            }
+            else if (plusColor == "AQUA"){
+                return "rgb(85,255,255)"
+            }
+            else if (plusColor == "RED"){
+                return "rgb(255,85,85)"
+            }
+            else if (plusColor == "LIGHT_PURPLE"){
+                return "rgb(225,85,255)"
+            }
+            else if (plusColor == "YELLOW"){
+                return "rgb(255,255,85)"
+            }
+            else if (plusColor == "WHITE"){
+                return "rgb(255,255,255)"
+            }
+            else{
+                return "rgb(0,0,0)"
+            }
+        }
     </script>
+    <script type="text/javascript" src = "prestigeToColor.js"></script>
     
 
 </body>

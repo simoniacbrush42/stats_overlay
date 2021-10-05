@@ -42,7 +42,7 @@
     <div class="stats">
         <table>
             <thead class="titles">
-                <th style="padding-right: 60px;">Player</th>
+                <th style="padding-right: 130px;">Player</th>
                 <th>WS</th>
                 <th>FKDR</th>
                 <th style="padding-right: 30px; padding-left: 30px;">Finals</th>
@@ -68,6 +68,7 @@
         }
     </script>
     <script>
+        /*
         console.log("running")
         const electron = require('electron');
         const readLastLines = require('read-last-lines');
@@ -117,6 +118,7 @@
         function stop() {
             fs.unwatchFile(options.logFile);
         };
+
         var stats = [];
 
         function parseBuffer(buffer) {
@@ -131,6 +133,7 @@
                     //console.log(names)
                     const table_body = document.querySelector('tbody');
                     //console.log("poo");
+                    names = ["lowof,", "bunnyhead,", "dragondoodler222,", "wemmbu,", "tqrtle"]
                     table_body.innerHTML = "";
                     for (ind in names) {
                         let name = names[ind].replace(",", "");
@@ -144,7 +147,15 @@
                 }
             });
         }
-
+        */
+        names = ["lowof,", "bunnyhead,", "dragondoodler222,", "wemmbu,", "tqrtle,", "lowof,", "lowof,", "lowof,", "lowof,", "lowof,", "lowof,", "lowof,", "lowof,", "lowof,", "lowof,", "lowof,"]
+        //table_body.innerHTML = "";
+        for (ind in names) {
+            let name = names[ind].replace(",", "");
+            getData(name);
+            //console.log(arr)
+            //stats.push(arr)
+        }
         function getData(name) {
             console.log(name)
             let uid = ''
@@ -198,7 +209,7 @@
                             }
                             let index = ((fkdr ** 2) * star).toFixed(0)
                             name = "https://crafatar.com/avatars/" + uid +
-                                "?size=15&default=MHF_Steve&overlay" + " [" + star.toString() + "]" + " " +
+                                "?size=15&default=MHF_Steve&overlay" + " [" + star + "]" + " " +
                                 name;
                             time = new Date(Date.now());
                             console.log(time)
@@ -206,7 +217,7 @@
                             console.log(login)
                             const diffInMins = Math.floor(Math.abs(time - login) / 60) % 60;
                             console.log(diffInMins)
-                            stats.push(name, star, fkdr, finals, index, bbl, wlr,
+                            stats.push(name, ws, fkdr, finals, index, bbl, wlr,
                                 diffInMins
                             )
                             const table_body = document.querySelector('tbody');

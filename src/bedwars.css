@@ -4,13 +4,14 @@
     display: block;
     list-style: none;
     max-width: none;
-    font-size: 15px;
+    font-size: 30px;
     margin-top: 1%;
 }
 
 .titles tr th{
-    padding-left: 25px;
-    padding-right: 25px;
+    padding-left: 20px;
+    padding-right: 20px;
+    font-size: 40%;
 }
 
 .titles tr{
@@ -31,6 +32,6 @@
 }
 
 .table_body tr td{
-    padding-left: 30px;
-    padding-right: 30px;
+    padding-left: 20px;
+    padding-right: 20px;
 }
