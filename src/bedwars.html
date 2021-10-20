@@ -200,7 +200,7 @@
         }
         */
         function getData(name) {
-            console.log(name)
+            //console.log(name)
             let uid = ''
             fetch('https://api.mojang.com/users/profiles/minecraft/' + name + '?at=')
                 .then(result => {
@@ -221,7 +221,7 @@
                             player
                         }) => {
                             stats = []
-                            console.log(player)
+                            //console.log(player)
                             // Log the player's username
                             let name = player.displayname
                             let last_login = player.lastLogin
@@ -252,21 +252,181 @@
                                 wlr = (wins / losses).toFixed(2)
                             }
                             let index = ((fkdr ** 2) * star).toFixed(0)
-                            name = "https://crafatar.com/avatars/" + uid +
-                                "?size=15&default=MHF_Steve&overlay" + " [" + star + "]" + " " +
-                                name;
                             time = new Date(Date.now());
-                            console.log(time)
+                            //console.log(time)
                             var login = new Date(last_login);
-                            console.log(login)
+                            //console.log(login)
                             const diffInMins = Math.floor(Math.abs(time - login) / 60) % 60;
-                            console.log(diffInMins)
+                            //console.log(diffInMins)
                             stats.push(name, ws, fkdr, finals, index, bbl, wlr,
                                 diffInMins
                             )
                             const table_body = document.querySelector('tbody');
+                            let rank;
+                            let rank_color;
+                            if (player.rank){
+                                rank = player.rank;
+                                if (rank == "YOUTUBER"){
+                                    rank = "[YOUTUBE]"
+                                    rank_color = "#FF5555"
+
+                                }else if (rank == "ADMIN"){
+                                    rank = "[ADMIN]"
+                                }
+                            } else {
+                                if (player.monthlyPackageRank){
+                                    rank = player.monthlyPackageRank
+                                    if (player.monthlyPackageRank == "SUPERSTAR"){
+                                        rank = "[MVP++]"
+                                        rank_color = player.monthlyRankColor
+                                        if (rank_color == "GOLD"){
+                                            rank_color = "rgb(255,170,0)"
+                                        } else {
+                                            rank_color = "rgb(85,255,255)"
+                                        }
+                                    } else{
+                                        new_pckg = player.newPackageRank
+                                        if (new_pckg){
+                                            //console.log("bo")
+                                            //rank = new_pckg
+                                            console.log(rank)
+                                            if (rank == "MVP_PLUS"){
+                                                rank = "[MVP+]"
+                                                rank_color = "rgb(85,255,255)"
+                                            } else if (rank == "MVP"){
+                                                rank = "[MVP]"
+                                                rank_color = "rgb(85,255,255)"
+                                            } else if (rank == "VIP_PLUS"){
+                                                rank = "[VIP+]"
+                                                rank_color = "rgb(85,255,85)"
+                                            } else if (rank == "VIP"){
+                                                console.log("vip")
+                                                rank = "[VIP]"
+                                                rank_color = "rgb(85,255,85)"
+                                            }
+                                        } else{
+                                            rank = ""
+                                        }
+                                        
+                                    }
+                                } else if (player.newPackageRank){
+                                        new_pckg = player.newPackageRank
+                                        if (new_pckg){
+                                            //console.log("new")
+                                            rank = new_pckg
+                                            if (rank == "MVP_PLUS"){
+                                                //console.log('smell')
+                                                rank = "[MVP+]"
+                                                rank_color = "rgb(85,255,255)"
+                                            } else if (rank == "MVP"){
+                                                rank = "[MVP]"
+                                                rank_color = "rgb(85,255,255)"
+                                            } else if (rank == "VIP_PLUS"){
+                                                rank = "[VIP+]"
+                                                rank_color = "rgb(85,255,85)"
+                                            } else if (rank == "VIP"){
+                                                rank = "[VIP]"
+                                                rank_color = "rgb(85,255,85)"
+                                            }
+                                        } else{
+                                            rank = ""
+                                        }
+                                } else{
+                                    //console.log('test')
+                                    new_pckg = player.packageRank
+                                    //console.log(new_pckg)
+                                    if (new_pckg){
+                                        rank = new_pckg
+                                        console.log(rank)
+                                        if (rank == "MVP_PLUS"){
+                                            //console.log('smell')
+                                            rank = "[MVP+]"
+                                        } else if (rank == "MVP"){
+                                            rank = "[MVP]"
+                                        } else if (rank == "VIP_PLUS"){
+                                            rank = "[VIP+]"
+                                        } else if (rank == "VIP"){
+                                            console.log("vip")
+                                            rank = "[VIP]"
+                                        }
+                                    } else{
+                                        rank = ""
+                                    }
+                                        
+                                }
+                            }
+                            
+                            let plusColor;
+
+                            if (player.rankPlusColor){
+                                plusColor = player.rankPlusColor
+                            } else{
+                                plusColor = ""
+                            }
+                            ign = document.createElement('li')
+                            let plus;
+                            let p1;
+                            let p2;
+                            let plusFound = false;
+                            console.log(rank)
+                             if (rank != "NONE"){
+                                name = rank + " " + name
+                            } else {
+                                rank_color = "#AAAAAA"
+                            }
+                            if (rank == "[YOUTUBE]"){
+                                console.log("youtuber")
+                                p1 = name.substring(0,1)
+                                plus = name.substring(1,8)
+                                p2 = name.substring(8)  
+                            } else {
+                                console.log("normal")
+                                for (var i = 0; i < name.length; i++){
+                                    if (name[i] == "+"){
+                                        plusFound = true;
+                                        p1 = name.substring(0,i)
+                                        if (name[i+1] == "+"){
+                                            plus = name.substring(i,i+2)
+                                            p2 = name.substring((i+2));
+                                        
+                                        } else {
+                                            plus = name.substring(i,i+1)
+                                            p2 = name.substring(i+1);
+                                        }
+                                        {break;}
+                                    }
+                                }
+                            }
+                            if (!plusFound && rank != "[YOUTUBE]"){
+                                p1 = name.substring(0,5)
+                                p2 = name.substring(5)
+                            }
+                           
+                            let span = document.createElement("span");
+
+                            span.textContent = plus
+                            if (rank == "[YOUTUBE]"){
+                                plusc = "#E0E0E0"
+                            } else {
+                                plusc = plus_to_color(plusColor)
+                            }
+                            let im_span = document.createElement("span")
+                            let im = document.createElement("img")
+                            im.src = "https://crafatar.com/avatars/" + uid +
+                                "?size=15&default=MHF_Steve&overlay"
+                            im_span.appendChild(im)
+                            console.log(plusc, name)
+                            span.style.color = plusc
+                            ign.appendChild(im_span)
+                            ign.appendChild(document.createTextNode(p1))
+                            ign.appendChild(span)
+                            ign.appendChild(document.createTextNode(p2))
+
+
                             const tr = document.createElement("tr");
                             tr.style.paddingBottom = "100px"
+                            tr.appendChild(ign)
+                            /*
                             for (i in stats) {
                                 //console.log(i)
                                 //console.log(stats[i])
@@ -294,7 +454,7 @@
                                 }
                                 tr.appendChild(data)
                             }
-
+                            */
                             table_body.appendChild(tr)
 
 
@@ -319,6 +479,7 @@
 
         }
     </script>
+    <script type="text/javascript" src="plusColor.js"></script>
 
 
 
