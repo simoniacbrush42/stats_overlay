@@ -74,6 +74,7 @@
         const readLastLines = require('read-last-lines');
         var fs = require('fs');
         const path = require('path');
+        /*
         const log_timestamp = require('log-timestamp');
 
         const buttonPressesLogFile = '../../../../../../Users/simon/.lunarclient/offline/1.8/logs/latest.log';
@@ -105,6 +106,13 @@
                     }
                 })
         });
+        */
+        names = ["lowof", "deansiie", "wemmbu", "dragondoodler222"]
+        for (ind in names) {
+            getData(names[ind]);
+            //console.log(arr)
+            //stats.push(arr)
+        }       
 
         /*
         var options = {
@@ -196,6 +204,7 @@
             let uid = ''
             fetch('https://api.mojang.com/users/profiles/minecraft/' + name + '?at=')
                 .then(result => {
+                    //console.log(result.json())
                     return result.json()
                 })
 
@@ -212,7 +221,7 @@
                             player
                         }) => {
                             stats = []
-                            //console.log(player)
+                            console.log(player)
                             // Log the player's username
                             let name = player.displayname
                             let last_login = player.lastLogin
@@ -294,13 +303,14 @@
                 })
                 .catch((error) => {
                     //console.log('err')
-                    stats.push(name, 'NICKED', 'NICKED', 'NICKED', 'NICKED', "NICKED",
+                    /*stats.push(name, 'NICKED', 'NICKED', 'NICKED', 'NICKED', "NICKED",
                         'NICKED', 'NICKED', 'NICKED'
                     )
+                    */
                 })
                 .finally(() => {
                     //console.log(stats)
-                    return stats
+                    return
                 });
 
 
