@@ -48,7 +48,7 @@
     "chokidar": "^3.5.2",
     "electron-squirrel-startup": "^1.0.0",
     "electron-window-position": "^1.0.1",
-    "fs": "0.0.1-security",
+    "fs": "^0.0.1-security",
     "hypixie": "^1.0.0",
     "log-timestamp": "^0.3.0",
     "md5": "^2.3.0",

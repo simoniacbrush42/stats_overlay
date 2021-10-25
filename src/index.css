@@ -5,7 +5,7 @@
 body {
   font-family: Minecraftia, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
   margin: auto;
-  background: rgba(255, 255, 255, 0.1);
+  background: rgba(0, 0, 0, 0.1);
 }
 
 
@@ -24,6 +24,8 @@ body {
   background: black;
   left: -150px;
   transition: .4s;
+  margin: 0;
+  padding: 0;
 }
 
 #sidebar.active{

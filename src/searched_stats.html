@@ -113,108 +113,111 @@
             */
             let rank;
             let rank_color;
-            let name = player.displayname
-            if (player.rank){
+            if (player.rank) {
                 rank = player.rank;
-                if (rank == "YOUTUBER"){
+                if (rank == "YOUTUBER") {
                     rank = "[YOUTUBE]"
                     rank_color = "#FF5555"
 
-                }else if (rank == "ADMIN"){
+                } else if (rank == "ADMIN") {
                     rank = "[ADMIN]"
                 }
             } else {
-                if (player.monthlyPackageRank){
+                if (player.monthlyPackageRank) {
                     rank = player.monthlyPackageRank
-                    if (player.monthlyPackageRank == "SUPERSTAR"){
+                    if (player.monthlyPackageRank == "SUPERSTAR") {
                         rank = "[MVP++]"
                         rank_color = player.monthlyRankColor
-                        if (rank_color == "GOLD"){
+                        if (rank_color == "GOLD") {
                             rank_color = "rgb(255,170,0)"
                         } else {
                             rank_color = "rgb(85,255,255)"
                         }
-                    } else{
+                    } else {
                         new_pckg = player.newPackageRank
-                        if (new_pckg){
+                        if (new_pckg) {
                             //console.log("bo")
-                            //rank = new_pckg
-                            console.log(rank)
-                            if (rank == "MVP_PLUS"){
-                                rank = "[MVP+]"
-                                rank_color = "rgb(85,255,255)"
-                            } else if (rank == "MVP"){
-                                rank = "[MVP]"
-                                rank_color = "rgb(85,255,255)"
-                            } else if (rank == "VIP_PLUS"){
-                                rank = "[VIP+]"
-                                rank_color = "rgb(85,255,85)"
-                            } else if (rank == "VIP"){
-                                console.log("vip")
-                                rank = "[VIP]"
-                                rank_color = "rgb(85,255,85)"
-                            }
-                        } else{
-                            rank = ""
-                        }
-                        
-                    }
-                } else if (player.newPackageRank){
-                        new_pckg = player.newPackageRank
-                        if (new_pckg){
-                            //console.log("new")
                             rank = new_pckg
-                            if (rank == "MVP_PLUS"){
-                                //console.log('smell')
+                            //console.log(rank)
+                            if (rank == "MVP_PLUS") {
                                 rank = "[MVP+]"
                                 rank_color = "rgb(85,255,255)"
-                            } else if (rank == "MVP"){
+                            } else if (rank == "MVP") {
                                 rank = "[MVP]"
                                 rank_color = "rgb(85,255,255)"
-                            } else if (rank == "VIP_PLUS"){
+                            } else if (rank == "VIP_PLUS") {
                                 rank = "[VIP+]"
                                 rank_color = "rgb(85,255,85)"
-                            } else if (rank == "VIP"){
+
+                            } else if (rank == "VIP") {
+                                //console.log("vip")
                                 rank = "[VIP]"
                                 rank_color = "rgb(85,255,85)"
                             }
-                        } else{
-                            rank = ""
+                        } else {
+                            rank = "NONE"
                         }
-                } else{
+
+                    }
+                } else if (player.newPackageRank) {
+                    new_pckg = player.newPackageRank
+                    if (new_pckg) {
+                        //console.log("new")
+                        rank = new_pckg
+                        if (rank == "MVP_PLUS") {
+                            //console.log('smell')
+                            rank = "[MVP+]"
+                            rank_color = "rgb(85,255,255)"
+                        } else if (rank == "MVP") {
+                            rank = "[MVP]"
+                            rank_color = "rgb(85,255,255)"
+                        } else if (rank == "VIP_PLUS") {
+                            rank = "[VIP+]"
+                            rank_color = "rgb(85,255,85)"
+                        } else if (rank == "VIP") {
+                            rank = "[VIP]"
+                            rank_color = "rgb(85,255,85)"
+                        }
+                    } else {
+                        rank = "NONE"
+                    }
+                } else {
                     //console.log('test')
                     new_pckg = player.packageRank
                     //console.log(new_pckg)
-                    if (new_pckg){
+                    if (new_pckg) {
                         rank = new_pckg
-                        console.log(rank)
-                        if (rank == "MVP_PLUS"){
-                            //console.log('smell')
+                        //console.log(rank)
+                        if (rank == "MVP_PLUS") {
+                            console.log('smell')
                             rank = "[MVP+]"
-                        } else if (rank == "MVP"){
+                        } else if (rank == "MVP") {
                             rank = "[MVP]"
-                        } else if (rank == "VIP_PLUS"){
+                        } else if (rank == "VIP_PLUS") {
                             rank = "[VIP+]"
-                        } else if (rank == "VIP"){
-                            console.log("vip")
+                        } else if (rank == "VIP") {
+                            //console.log("vip")
                             rank = "[VIP]"
                         }
-                    } else{
-                        rank = ""
+                    } else {
+                        rank = "NONE"
                     }
-                        
+
                 }
             }
-            
+
             let plusColor;
 
-            if (player.rankPlusColor){
+            if (player.rankPlusColor) {
                 plusColor = player.rankPlusColor
-            } else{
+            } else {
                 plusColor = ""
             }
-            //console.log(rank)
+
+
             
+            //console.log(rank)
+            name = player.displayname
             console.log(name)
             let last_login = player.lastLogin //https://coderrocketfuel.com/article/convert-a-unix-timestamp-to-a-date-in-vanilla-javascript
             //console.log(last_login)
@@ -286,53 +289,64 @@
             let p1;
             let p2;
             let plusFound = false;
-            if (rank != "NONE"){
+            //console.log(rank)
+            if (rank != "NONE") {
                 name = rank + " " + name
             } else {
+                console.log(name, "non")
                 rank_color = "#AAAAAA"
             }
-            if (rank == "[YOUTUBE]"){
-                console.log("youtuber")
-                p1 = name.substring(0,1)
-                plus = name.substring(1,8)
-                p2 = name.substring(8)  
+            if (rank == "[YOUTUBE]") {
+                //console.log("youtuber")
+                p1 = name.substring(0, 1)
+                plus = name.substring(1, 8)
+                p2 = name.substring(8)
             } else {
-                console.log("normal")
-                for (var i = 0; i < name.length; i++){
-                    if (name[i] == "+"){
+                //console.log("normal")
+                for (var i = 0; i < name.length; i++) {
+                    if (name[i] == "+") {
                         plusFound = true;
-                        p1 = name.substring(0,i)
-                        if (name[i+1] == "+"){
-                            plus = name.substring(i,i+2)
-                            p2 = name.substring((i+2));
-                        
+                        p1 = name.substring(0, i)
+                        if (name[i + 1] == "+") {
+                            plus = name.substring(i, i + 2)
+                            p2 = name.substring((i + 2));
+
                         } else {
-                            plus = name.substring(i,i+1)
-                            p2 = name.substring(i+1);
+                            plus = name.substring(i, i + 1)
+                            p2 = name.substring(i + 1);
                         }
-                        {break;}
+                        { break; }
                     }
                 }
             }
 
-            if (!plusFound && rank != "[YOUTUBE]"){
-                p1 = name.substring(0,5)
+            if (!plusFound && rank != "[YOUTUBE]") {
+                p1 = name.substring(0, 5)
                 p2 = name.substring(5)
             }
-           
-            let span = document.createElement("span");
 
-            span.textContent = plus
-            if (rank == "[YOUTUBE]"){
+            //let span = document.createElement("span");
+
+            //span.textContent = plus
+            if (rank == "[YOUTUBE]") {
                 plusc = "#E0E0E0"
-            } else {
-                plusc = plus_to_color(plusColor)
+            } else if(rank == "[VIP+]"){
+                plusc = "#FFAA00"
+            } else if(rank != ""){
+                if (plusColor != ""){
+                    plusc = plus_to_color(plusColor)
+                }else{
+                   plusc = "#FF5555" 
+                }
+                
             }
             
-            console.log(plusc)
+            //console.log(plusc)
+            span = document.createElement("span")
+            span.textContent = plus
             span.style.color = plusc
             //span.style.color = "rgb("+plusc+")";
-            console.log(p1,p2)
+            console.log(p2)
             ign.appendChild(document.createTextNode(p1));
             ign.appendChild(span)
             ign.appendChild(document.createTextNode(p2));
@@ -351,7 +365,7 @@
             bedwars_list = document.getElementById('bedwars')
             bedwars_star = document.createElement('li')
             star_elem =  getPrestigeItems(star)
-            console.log(star_elem)
+            //console.log(star_elem)
             bedwars_star.appendChild(star_elem)
             //bedwars_star.innerHTML = star + '✩'
             bedwars_list.appendChild(bedwars_star)
@@ -376,6 +390,9 @@
 
             //duels stats
             duels_list = document.getElementById('duels')
+            c = getTitle(duels_wins)
+            console.log(c)
+            duels_list.style.color = c[1]  // have to change this to overall wins not just modes
             d_wins = document.createElement('li') 
             d_wins.innerHTML = "Wins: " + duels_wins
             duels_list.appendChild(d_wins)
@@ -402,6 +419,7 @@
     </script>
     <script type="text/javascript" src = "plusColor.js"></script>
     <script type="text/javascript" src = "prestigeToColor.js"></script>
+    <script type="text/javascript" src = "duelsTitle.js"></script>
     
 
 </body>

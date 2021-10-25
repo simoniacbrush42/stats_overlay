@@ -86,237 +86,309 @@ White §f #FFFFFF
 
 function getPrestigeItems(star){
 	let icon = document.createElement("span");
+	let startBracket = document.createElement("span");
+	let endBracket = document.createElement("span");
+	startBracket.textContent = "["
+	endBracket.textContent = "]"
 	if (star < 1100){
 		icon.textContent = "✫"
 	} else if (star >= 1100 && star < 2100){
 		icon.textContent = "✪"
 	} else if (star >= 2100 && star < 3100){
-		icon.textContent = "⚝"
+		icon.textContent = "✫"
 	}
+	let c0;
 	let c1;
 	let c2;
 	let c3;
 	let c4;
 	let c5;
+	let c6;
 	if (star < 100) {
+		c0 = "rgb(170, 170, 170)"
 		c1 = "rgb(170, 170, 170)"
 		c2 = "rgb(170, 170, 170)"
 		c3 = "rgb(170, 170, 170)"
 		c4 = "rgb(170, 170, 170)"
 		c5 = "rgb(170, 170, 170)"
+		c6 = "rgb(170, 170, 170)"
 	}else if (star < 200) {
+		c0 = "rgb(239, 239, 239)"
 		c1 = "rgb(239, 239, 239)"
 		c2 = "rgb(239, 239, 239)"
 		c3 = "rgb(239, 239, 239)"
 		c4 = "rgb(239, 239, 239)"
 		c5 = "rgb(239, 239, 239)"
+		c6 = "rgb(239, 239, 239)"
 	}else if (star < 300) {
+		c0 = "rgb(255, 170, 0)"
 		c1 = "rgb(255, 170, 0)"
 		c2 = "rgb(255, 170, 0)"
 		c3 = "rgb(255, 170, 0)"
 		c4 = "rgb(255, 170, 0)"
 		c5 = "rgb(255, 170, 0)"
+		c6 = "rgb(255, 170, 0)"
 	}else if (star < 400) {
+		c0 = "rgb(0, 255, 255)"
 		c1 = "rgb(0, 255, 255)"
 		c2 = "rgb(0, 255, 255)"
 		c3 = "rgb(0, 255, 255)"
 		c4 = "rgb(0, 255, 255)"
 		c5 = "rgb(0, 255, 255)"
+		c6 = "rgb(0, 255, 255)"
 	}else if (star < 500) {
+		c0 = "rgb(0, 170, 0)"
 		c1 = "rgb(0, 170, 0)"
 		c2 = "rgb(0, 170, 0)"
 		c3 = "rgb(0, 170, 0)"
 		c4 = "rgb(0, 170, 0)"
 		c5 = "rgb(0, 170, 0)"
+		c6 = "rgb(0, 170, 0)"
 	}else if (star < 600) {
+		c0 = "rgb(0, 170, 170)"
 		c1 = "rgb(0, 170, 170)"
 		c2 = "rgb(0, 170, 170)"
 		c3 = "rgb(0, 170, 170)"
 		c4 = "rgb(0, 170, 170)"
 		c5 = "rgb(0, 170, 170)"
+		c6 = "rgb(0, 170, 170)"
 	}else if (star < 700) {
-		let c = "rgb(170, 0, 0)"
+		c0 = "rgb(170, 0, 0)"
 		c1 = "rgb(170, 0, 0)"
 		c2 = "rgb(170, 0, 0)"
 		c3 = "rgb(170, 0, 0)"
 		c4 = "rgb(170, 0, 0)"
 		c5 = "rgb(170, 0, 0)"
+		c6 = "rgb(170, 0, 0)"
 	}else if (star < 800) {
+		c0 = "rgb(255, 85, 255)"
 		c1 = "rgb(255, 85, 255)"
 		c2 = "rgb(255, 85, 255)"
 		c3 = "rgb(255, 85, 255)"
 		c4 = "rgb(255, 85, 255)"
 		c5 = "rgb(255, 85, 255)"
+		c6 = "rgb(255, 85, 255)"
 	}else if (star < 900) {
+		c0 = "rgb(85, 85, 255)"
 		c1 = "rgb(85, 85, 255)"
 		c2 = "rgb(85, 85, 255)"
 		c3 = "rgb(85, 85, 255)"
 		c4 = "rgb(85, 85, 255)"
 		c5 = "rgb(85, 85, 255)"
+		c6 = "rgb(85, 85, 255)"
 	}else if (star < 1000) {
+		c0 = "rgb(170, 0, 170)"
 		c1 = "rgb(170, 0, 170)"
 		c2 = "rgb(170, 0, 170)"
 		c3 = "rgb(170, 0, 170)"
 		c4 = "rgb(170, 0, 170)"
 		c5 = "rgb(170, 0, 170)"
-		
-
-		/*
-		n4 = document.createElement("span")
-		b1.textContent = strStar[3]
-		b1.style.color = c
-		*/
+		c6 = "rgb(170, 0, 170)"
 	}else if (star < 1100) {
+		c0 = "rgb(255,85,85"
 		c1 = "rgb(255, 170, 0)"
 		c2 = "rgb(255, 255, 85)"
 		c3 = "rgb(85, 255, 85)"
 		c4 = "rgb(85, 255, 255)"
 		c5 = "rgb(255, 85, 255)"
+		c6 = "rgb(170,0,170)"
 	}else if (star < 1200) {
+		c0 = "rgb(170,170,170)"
 		c1 = "rgb(239, 239, 239)"
 		c2 = "rgb(239, 239, 239)"
 		c3 = "rgb(239, 239, 239)"
 		c4 = "rgb(239, 239, 239)"
 		c5 = "rgb(170, 170, 170)"
+		c6 = "rgb(170,170,170)"
 	}else if (star < 1300) {
+		c0 = "rgb(170,170,170)"
 		c1 = "rgb(255, 255, 85)"
 		c2 = "rgb(255, 255, 85)"
 		c3 = "rgb(255, 255, 85)"
 		c4 = "rgb(255, 255, 85)"
 		c5 = "rgb(255, 170, 0)"
+		c6 = "rgb(170,170,170)"
 	}else if (star < 1400) {
+		c0 = "rgb(170,170,170)"
 		c1 = "rgb(85, 255, 255)"
 		c2 = "rgb(85, 255, 255)"
 		c3 = "rgb(85, 255, 255)"
 		c4 = "rgb(85, 255, 255)"
 		c5 = "rgb(0, 170, 170)"
+		c6 = "rgb(170,170,170)"
 	}else if (star < 1500) {
+		c0 = "rgb(170,170,170)"
 		c1 = "rgb(85, 255, 85)"
 		c2 = "rgb(85, 255, 85)"
 		c3 = "rgb(85, 255, 85)"
 		c4 = "rgb(85, 255, 85)"
 		c5 = "rgb(0, 170, 0)"
-		
+		c6 = "rgb(170,170,170)"	
 	}else if (star < 1600) {
+		c0 = "rgb(170,170,170)"
 		c1 = "rgb(0, 170, 170)"
 		c2 = "rgb(0, 170, 170)"
 		c3 = "rgb(0, 170, 170)"
 		c4 = "rgb(0, 170, 170)"
 		c5 = "rgb(85, 85, 255)"
+		c6 = "rgb(170,170,170)"
 	}else if (star < 1700) {
+		c0 = "rgb(170,170,170)"
 		c1 = "rgb(255, 85, 85)"
 		c2 = "rgb(255, 85, 85)"
 		c3 = "rgb(255, 85, 85)"
 		c4 = "rgb(255, 85, 85)"
 		c5 = "rgb(255, 0, 0)"
+		c6 = "rgb(170,170,170)"
 	}else if (star < 1800) {
+		c0 = "rgb(170,170,170)"
 		c1 = "rgb(255, 85, 255)"
 		c2 = "rgb(255, 85, 255)"
 		c3 = "rgb(255, 85, 255)"
 		c4 = "rgb(255, 85, 255)"
 		c5 = "rgb(170, 0, 170)"
+		c6 = "rgb(170,170,170)"
 	}else if (star < 1900) {
+		c0 = "rgb(170,170,170)"
 		c1 = "rgb(85, 85, 255)"
 		c2 = "rgb(85, 85, 255)"
 		c3 = "rgb(85, 85, 255)"
 		c4 = "rgb(85, 85, 255)"
 		c5 = "rgb(0, 0, 170)"
+		c6 = "rgb(170,170,170)"
 	}else if (star < 2000) {
+		c0 = "rgb(170,170,170)"
 		c1 = "rgb(170, 0, 170)"
 		c2 = "rgb(170, 0, 170)"
 		c3 = "rgb(170, 0, 170)"
 		c4 = "rgb(170, 0, 170)"
 		c5 = "rgb(85, 85, 85)"
-	}else if (star < 2100) {
+		c6 = "rgb(170,170,170)"
+	}else if (star < 2100){
+		c0 = "rgb(85,85,85)"
 		c1 = "rgb(170, 170, 170)"
 		c2 = "rgb(239, 239, 239)"
 		c3 = "rgb(239, 239, 239)"
 		c4 = "rgb(170, 170, 170)"
 		c5 = "rgb(85, 85, 85)"
+		c6 = "rgb(85,85,85)"
 	}else if (star < 2200) {
+		c0 = "rgb(239, 239, 239)"
 		c1 = "rgb(239, 239, 239)"
 		c2 = "rgb(255, 255, 85)"
 		c3 = "rgb(255, 255, 85)"
 		c4 = "rgb(255, 170, 170)"
 		c5 = "rgb(255, 170, 170)"
+		c6 = "rgb(239, 239, 239)"
 	}else if (star < 2300) {
+		c0 = "rgb(255, 170, 0)"
 		c1 = "rgb(255, 170, 0)"
 		c2 = "rgb(239, 239, 239)"
 		c3 = "rgb(239, 239, 239)"
 		c4 = "rgb(85, 255, 255)"
 		c5 = "rgb(0, 170, 170)"
+		c6 = "rgb(255, 170, 0)"
 	}else if (star < 2400) {
+		c0 = "rgb(170, 0, 170)"
 		c1 = "rgb(170, 0, 170)"
 		c2 = "rgb(255, 85, 255)"
 		c3 = "rgb(255, 85, 255)"
 		c4 = "rgb(255, 170, 0)"
 		c5 = "rgb(255, 255, 85)"
+		c6 = "rgb(170, 0, 170)"
 	}else if (star < 2500) {
+		c0 = "rgb(85, 255, 255)"
 		c1 = "rgb(85, 255, 255)"
 		c2 = "rgb(239, 239, 239)"
 		c3 = "rgb(239, 239, 239)"
 		c4 = "rgb(170, 170, 170)"
 		c5 = "rgb(170, 170, 170)"
+		c6 = "rgb(85, 85, 85)"
 	}else if (star < 2600) {
+		c0 = "rgb(239, 239, 239)"
 		c1 = "rgb(239, 239, 239)"
 		c2 = "rgb(85, 255, 85)"
 		c3 = "rgb(85, 255, 85)"
 		c4 = "rgb(0, 170, 0)"
 		c5 = "rgb(0, 170, 0)"
+		c6 = "rgb(239, 239, 239)"
 	}else if (star < 2700) {
+		c0 = "rgb(170, 0, 0)" 
 		c1 = "rgb(170, 0, 0)"
 		c2 = "rgb(255, 85, 85)"
 		c3 = "rgb(255, 85, 85)"
 		c4 = "rgb(255, 85, 255)"
 		c5 = "rgb(255, 85, 255)"
+		c6 = "rgb(170, 0, 170)"
 	}else if (star < 2800) {
+		c0 = "rgb(255, 255, 85)"
 		c1 = "rgb(255, 255, 85)"
 		c2 = "rgb(239, 239, 239)"
 		c3 = "rgb(239, 239, 239)"
 		c4 = "rgb(85, 85, 85)"
 		c5 = "rgb(85, 85, 85)"
+		c6 = "rgb(85, 85, 85)"
 	}else if (star < 2900) {
+		c0 = "rgb(85, 255, 85)"
 		c1 = "rgb(85, 255, 85)"
 		c2 = "rgb(0, 170, 0)"
 		c3 = "rgb(0, 170, 0)"
 		c4 = "rgb(255, 170, 0)"
 		c5 = "rgb(255, 170, 0)"
+		c6 = "rgb(255, 255, 85)"
 	}else if (star < 3000) {
 		c1 = "rgb(85, 255, 255)"
 		c2 = "rgb(0, 170, 170)"
 		c3 = "rgb(0, 170, 170)"
 		c4 = "rgb(85, 85, 255)"
 		c5 = "rgb(85, 85, 255)"
+		c6 = "rgb(0,0,170)"
 	}else if (star < 3100) {
 		c1 = "rgb(255, 255, 85)"
 		c2 = "rgb(255, 170, 0)"
 		c3 = "rgb(255, 170, 0)"
 		c4 = "rgb(255, 85, 85)"
 		c5 = "rgb(255, 85, 85)"
+		c6 = "rgb(170,0,0)"
 	}
 	
 
 	icon.style.color = c5
 	let strStar = star.toString()
-	let div = document.createElement("div")
+	let div = document.createElement("span")
+	startBracket.style.color = c0
+	div.appendChild(startBracket)
 	let n1 = document.createElement("span")
 	n1.textContent = strStar[0]
 	n1.style.color = c1
 	div.appendChild(n1)
-	let n2 = document.createElement("span")
-	n2.textContent = strStar[1]
-	n2.style.color = c2
-	div.appendChild(n2)
-	let n3 = document.createElement("span")
-	n3.textContent = strStar[2]
-	n3.style.color = c3
-	div.appendChild(n3)
-	n4 = document.createElement("span")
-	n4.textContent = strStar[3]
-	n4.style.color = c4
-	div.appendChild(n4)
+
+	if (strStar[1]){
+		let n2 = document.createElement("span")
+		n2.textContent = strStar[1]
+		n2.style.color = c2
+		div.appendChild(n2)
+	}
+	
+	if (strStar[2]){
+		let n3 = document.createElement("span")
+		n3.textContent = strStar[2]
+		n3.style.color = c3
+		div.appendChild(n3)
+	}
+	
+	if (strStar[3]){
+		n4 = document.createElement("span")
+		n4.textContent = strStar[3] 
+		n4.style.color = c4
+		div.appendChild(n4)
+	}
+	
 	div.appendChild(icon)
-	console.log("dumb")
+	endBracket.style.color = c6
+	div.appendChild(endBracket)
+	div.style.paddingRight = "5px"
+	//console.log("dumb")
 	return div
 
 }
