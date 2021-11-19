@@ -183,3 +183,42 @@ function getTitle(wins){
     }
     return [title, color]
 }
+
+
+function getOverallTitle(wins){
+    let title;
+    let color;
+    if (wins >= 20000){
+        title = "Godlike"
+        color = "rgb(147, 101, 184)"
+    }
+    else if (wins >= 10000){
+        title = "Grandmaster"
+        color = "rgb(247, 218, 100)"
+    }
+    else if (wins >= 4000){
+        title = "Legend"
+        color = "rgb(184, 49, 47)"
+    }
+    else if (wins >= 2000){
+        title = "Master"
+        color = "rgb(65, 168, 95)"
+    }
+    else if (wins >= 1000){
+        title = "Diamond"
+        color = "rgb(84, 172, 210)"
+    }
+    else if (wins >= 500){
+        title = "Gold"
+        color = "rgb(251, 160, 38)"
+    }
+    else if (wins >= 200){
+        title = "Iron"
+        color = "rgb(204, 204, 204)"
+    }
+    else{
+        title = "Rookie"
+        color = "rgb(128, 128, 128)"
+    }
+    return [title, color]
+}

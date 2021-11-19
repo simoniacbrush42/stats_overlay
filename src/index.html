@@ -8,7 +8,30 @@
 </head>
 
 <body>
-  <div id="sidebar">
+  <div style="text-align: center; padding-top: 20px; color: white;">
+    <h1>Welcome to _________</h1>
+    <h2>Please select which client you are using</h2>
+  </div>
+  
+  <div class = "sections">
+    <section>
+      <img src = "images/lunarLogo.png" height="200" width="200" onclick="setClientLunar();">
+      <h3>Lunar Client</h3>
+    </section>
+
+    <section>
+      <img src = "images/badlionLogo.png" height="180" width="180" style="padding-top: 20px; padding-right: 20px; padding-left: 20px" onclick="setClientBadlion();">
+      <h3>Badlion Client</h3>
+    </section>
+
+    <section>
+      <img src = "images/forgeLogo.png" height="160" width="160" style="padding-top: 30px; padding-right: 20px; padding-left: 20px" onclick="setClientForge();">
+      <h3>Forge</h3>
+    </section>
+  </div>
+
+
+  <!-- <div id="sidebar">
     <div class="toggle-btn" onclick="show()">
       <span></span>
       <span></span>
@@ -26,6 +49,11 @@
         </form>
       </li>
       <li>
+        <form action="skywars.html">
+            <button>Skywars</button>
+        </form>
+      </li>
+      <li>
         <form action="search.html">
           <button>Search</button>
         </form>
@@ -37,12 +65,61 @@
 
       </li>
     </ul>
-  </div>
+  </div> -->
   <script>
     function show() {
       document.getElementById("sidebar").classList.toggle('active');
     }
+    function setClientLunar(){
+      const os = require("os");
+
+      // check the available memory
+      const userHomeDir = os.homedir();
+      console.log(userHomeDir)
+      var isWin = process.platform === "win32";
+      if(isWin){
+
+      }else{
+        fs.access(userHomeDir+"/.lunarclient/offline/1.8/logs", function(error) {
+          if (error) {
+            console.log("Directory does not exist.")
+          } else {
+            console.log("Directory exists.")
+            window.location.href = "bedwars.html";
+
+          }
+        })
+      }
+      
+    }
+
+    function setClientBadlion(){
+      
+    }
+
+    function setClientForge(){
+      const os = require("os");
+
+      // check the available memory
+      const userHomeDir = os.homedir();
+      console.log(userHomeDir)
+      var isWin = process.platform === "win32";
+      if(isWin){
+
+      }else{
+        fs.access(userHomeDir+"/Library/Application Support/minecraft/logs", function(error) {
+          if (error) {
+            console.log("Directory does not exist.")
+          } else {
+            console.log("Directory exists.")
+            window.location.href = "bedwars.html";
+
+          }
+        })
+      }
+    }
   </script>
+  <script type="text/javascript" src = "index.js"></script>
 </body>
 
 </html>

@@ -185,7 +185,7 @@ function getPrestigeItems(star){
 		c5 = "rgb(170, 0, 170)"
 		c6 = "rgb(170, 0, 170)"
 	}else if (star < 1100) {
-		c0 = "rgb(255,85,85"
+		c0 = "rgb(255,85,85)"
 		c1 = "rgb(255, 170, 0)"
 		c2 = "rgb(255, 255, 85)"
 		c3 = "rgb(85, 255, 85)"
@@ -392,3 +392,171 @@ function getPrestigeItems(star){
 	return div
 
 }
+
+/*
+0-5
+5-9: Iron Prestige (White)
+10-14: Gold Prestige (Gold)
+15-19: Diamond Prestige (Aqua)
+20-24: Emerald Prestige (Green)
+25-29: Sapphire Prestige (Dark Aqua)
+30-34: Ruby Prestige (Dark Red)
+35-39: Crystal Prestige (Light Purple)
+40-44: Opal Prestige (Blue)
+45-49: Amethyst Prestige (Dark Purple)
+50-59: Rainbow Prestige (Rainbow)
+60: Mythic Prestige (Obfuscated Brackets)
+*/
+function getSkyWarsPrestigeItems(star){
+	let icon = document.createElement("span");
+	let c0;
+	let c1;
+	let c2;
+	let c3;
+	let c4;
+	let c5;
+	let c6;
+	let c7;
+	let iconColor;
+	let startBracket = document.createElement("span");
+	let endBracket = document.createElement("span");
+	startBracket.textContent = "["
+	endBracket.textContent = "]"
+	if (star < 5) {
+		c0 = "rgb(128, 128, 128)"
+		c1 = "rgb(128, 128, 128)"
+		c2 = "rgb(128, 128, 128)"
+		icon.textContent = "\u22c6"
+		icon.style.color = "rgb(128, 128, 128)"
+	}else if (star < 10) {
+		c0 = "rgb(209, 213, 216)" 
+		c1 = "rgb(209, 213, 216)"
+		c2 = "rgb(209, 213, 216)"
+		icon.textContent = "\u2719"
+		icon.style.color = "rgb(209, 213, 216)"
+	}else if (star < 15) {
+		c0 = "rgb(251, 160, 38)"
+		c1 = "rgb(251, 160, 38)"
+		c2 = "rgb(251, 160, 38)"
+		c3 = "rgb(251, 160, 38)"
+		icon.textContent = "\u2764"
+		icon.style.color = "rgb(251, 160, 38)"
+	}else if (star < 20) {
+		c0 = "rgb(0, 236, 255)"
+		c1 = "rgb(0, 236, 255)"
+		c2 = "rgb(0, 236, 255)"
+		c3 = "rgb(0, 236, 255)"
+		icon.textContent = "\u2620"
+		icon.style.color = "rgb(0, 236, 255)"
+	}else if (star < 25) {
+		c0 = "rgb(30, 161, 0)"
+		c1 = "rgb(30, 161, 0)"
+		c2 = "rgb(30, 161, 0)"
+		c3 = "rgb(30, 161, 0)"
+		icon.textContent = "\u2726"
+		icon.style.color = "rgb(30, 161, 0)"
+	}else if (star < 30) {
+		c0 = "rgb(0, 163, 167)"
+		c1 = "rgb(0, 163, 167)"
+		c2 = "rgb(0, 163, 167)"
+		c3 = "rgb(0, 163, 167)"
+		icon.style.color = "transparent"
+		icon.textContent = "\u270c"
+		icon.style.textShadow = "0 0 0 rgb(0, 163, 167)"
+	}else if (star < 35) {
+		c0 = "rgb(184, 49, 47)"
+		c1 = "rgb(184, 49, 47)"
+		c2 = "rgb(184, 49, 47)"
+		c3 = "rgb(184, 49, 47)"
+		icon.textContent = "\u2766"
+		icon.style.color = "rgb(184, 49, 47)"
+	}else if (star < 40) {
+		c0 = "rgb(236, 84, 255)"
+		c1 = "rgb(236, 84, 255)"
+		c2 = "rgb(236, 84, 255)"
+		c3 = "rgb(236, 84, 255)"
+		icon.textContent = "\u2735"
+		icon.style.color = "rgb(236, 84, 255)"
+	}else if (star < 45) {
+		c0 = "rgb(84, 113, 255)"
+		c1 = "rgb(84, 113, 255)"
+		c2 = "rgb(84, 113, 255)"
+		c3 = "rgb(84, 113, 255)"
+		icon.textContent = "\u2763"
+		icon.style.color = "rgb(84, 113, 255)"
+	}else if (star < 50) {
+		c0 = "rgb(88, 0, 201)"
+		c1 = "rgb(88, 0, 201)"
+		c2 = "rgb(88, 0, 201)"
+		c3 = "rgb(88, 0, 201)"
+		icon.textContent = "\u262f"
+		icon.style.color = "rgb(88, 0, 201)"
+	}else if (star < 60) {
+		c0 = "rgb(226, 80, 65)"
+		c1 = "rgb(255, 129, 0)"
+		c2 = "rgb(250, 197, 28)"
+		c3 = "rgb(0, 255, 236)"
+		icon.textContent = "\u273a"
+		icon.style.color = "rgb(113, 255, 99)"
+	}else{
+		c0 = "rgb(209, 72, 65)"
+		c1 = "rgb(255, 129, 0)"
+		c2 = "rgb(250, 197, 28)"
+		c3 = "rgb(100, 0, 156)"
+		let p1 = document.createElement("span")
+		p1.textContent = "\u0ca0"
+		p1.style.color = "rgb(159, 255, 110)"
+		let p2 = document.createElement("span")
+		p2.textContent = "_"
+		p2.style.color = "rgb(0, 223, 255)"
+		let p3 = document.createElement("span")
+		p3.textContent = "\u0ca0"
+		p3.style.color = "rgb(253, 0, 255)"
+		icon.appendChild(p1)
+		icon.appendChild(p2)
+		icon.appendChild(p3)
+	}
+	let strStar = star.toString()
+	let div = document.createElement("span")
+	startBracket.style.color = c0
+	div.appendChild(startBracket)
+	let n1 = document.createElement("span")
+	n1.textContent = strStar[0]
+	n1.style.color = c1
+	div.appendChild(n1)
+
+	if (strStar[1]){
+		let n2 = document.createElement("span")
+		n2.textContent = strStar[1]
+		n2.style.color = c2
+		div.appendChild(n2)
+	}
+	
+	if (strStar[2]){
+		let n3 = document.createElement("span")
+		n3.textContent = strStar[2]
+		n3.style.color = c3
+		div.appendChild(n3)
+	}
+	
+	if (strStar[3]){
+		n4 = document.createElement("span")
+		n4.textContent = strStar[3] 
+		n4.style.color = c4
+		div.appendChild(n4)
+	}
+	
+	div.appendChild(icon)
+	if (star < 10){
+		endBracket.style.color = c2
+	}else{
+		endBracket.style.color = c3
+	}
+	div.appendChild(endBracket)
+	div.style.paddingRight = "5px"
+	//console.log("dumb")
+	return div
+
+}
+
+

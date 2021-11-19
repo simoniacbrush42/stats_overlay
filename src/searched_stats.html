@@ -74,6 +74,11 @@
                 </form>
             </li>
             <li>
+                <form action="skywars.html">
+                    <button>Skywars</button>
+                </form>
+            </li>
+            <li>
                 <form action="search.html">
                     <button>Search</button>
                 </form>
@@ -231,6 +236,9 @@
 
             let star = player.achievements.bedwars_level
             let bw_ws = player.stats.Bedwars.winstreak
+            if (!bw_ws){
+                bw_ws = 0
+            }
             let finals = player.stats.Bedwars.final_kills_bedwars
             let final_deaths = player.stats.Bedwars.final_deaths_bedwars
             let fkdr;
@@ -241,7 +249,7 @@
             }else{
                 fkdr = 0
             }
-
+            let index = ((fkdr ** 2) * star).toFixed(0)
             //sw area
             let sw_exp = player.stats.SkyWars.skywars_experience
             let sw_lvl;
@@ -362,7 +370,22 @@
             generic_list.appendChild(last_login)
 
             //bw stats
+            
+            if (index < 1000) {
+                c = "rgb(102,255,102)"
+            }
+            else if (index < 5000) {
+                c = "orange"
+            }
+            else if (index < 10000) {
+                c = "#EF6C6C"
+            }
+            else {
+                c = "red"
+            }
+            
             bedwars_list = document.getElementById('bedwars')
+            bedwars_list.style.color = c
             bedwars_star = document.createElement('li')
             star_elem =  getPrestigeItems(star)
             //console.log(star_elem)
@@ -378,8 +401,19 @@
 
             //sw stats
             skywars_list = document.getElementById('skywars')
+            let sw_c;
+            if (sw_wlr < 0.1){
+                sw_c = "rgb(102,255,102)"
+            }else if (sw_wlr < 0.2){
+                sw_c = "orange"
+            }else if (sw_wlr < 0.5){
+                sw_c = "#EF6C6C"
+            }else{
+                sw_c = "red"
+            }
+            skywars_list.style.color = sw_c
             skywars_lvl = document.createElement('li') 
-            skywars_lvl.innerHTML = sw_lvl + '✩'
+            skywars_lvl.appendChild(getSkyWarsPrestigeItems(sw_lvl))
             skywars_list.appendChild(skywars_lvl)
             skywars_ws = document.createElement('li') 
             skywars_ws.innerHTML = "Winstreak: " + sw_winstreak
@@ -390,7 +424,7 @@
 
             //duels stats
             duels_list = document.getElementById('duels')
-            c = getTitle(duels_wins)
+            c = getOverallTitle(duels_wins)
             console.log(c)
             duels_list.style.color = c[1]  // have to change this to overall wins not just modes
             d_wins = document.createElement('li') 

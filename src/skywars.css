@@ -1,0 +1,56 @@
+.titles{
+    padding: 0;
+    margin-left: 5%;
+    display: block;
+    list-style: none;
+    max-width: none;
+    font-size: 30px;
+    margin-top: 1%;
+    margin-bottom: 2%;
+}
+
+.titles tr th{
+    padding-left: 39px;
+    padding-right: 39px;
+    font-size: 40%;
+    color: white;
+    
+}
+
+.titles tr{
+    margin-left: 15%;
+}
+
+.table_body{
+    display: block;
+    margin: 0%;
+    /*padding-top: 40px;*/
+    font-size: 11px;
+}
+
+.table_body tr{
+    margin-left: 5%;
+    padding-top: 10px;
+    padding-bottom: 20px;
+    text-align: center;
+}
+
+.table_body tr td{
+    padding-left: 15px;
+    padding-right: 15px;
+}
+
+.stats_table{
+    /*align-content: center;*/
+
+}
+
+.names{
+    padding-left: 0px;
+    padding-bottom: 4px;
+    text-align: left;
+}
+
+.ws{
+    padding-left: 0px;
+}

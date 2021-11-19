@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <title>Stats Overlay</title>
     <link rel="stylesheet" href="index.css">
-    <link rel="stylesheet" href="bedwars.css">
+    <link rel="stylesheet" href="skywars.css">
 </head>
 
 <body>
@@ -47,22 +47,23 @@
     <div class="stats">
         <table class = "stats_table table-sortable" id = "statsTable">
             <thead class="titles">
-                <th style="padding-right: 150px;">Player</th>
-                <th>WS</th>
-                <th style="padding-right: 10px;">FKDR</th>
-                <th style="padding-right: 25px; padding-left: 25px;">Finals</th>
-                <th style="padding-right: 27px">Index</th>
-                <th>BBL</th>
-                <th style="padding-right: 10px;">WLR</th>
-                <th style="padding-right: 0;">Joined Time</th>
-            </thead>
-            <!-- <th style="position: absolute; left: 50px; top: 10px;">Player</th>
+                <!-- <th style="padding-right: 150px; padding-left: 20px">Player</th> -->
 
-                <th style="position: absolute; left: 263px; top: 10px;">WS</th>
-                <th style="position: absolute; left: 323px; top: 10px;">FKDR</th>
-                <th style="position: absolute; left: 390px; top: 10px;">Finals</th>
-                <th style="position: absolute; left: 490px; top: 10px;">Index</th>
-                <th style="position: absolute; left: 250px; top: 20px;">BBL</th> -->
+                <!-- ws wlr kdr
+                kills?
+                lvl -->
+                <!-- <th>WS</th>
+                <th style="padding-right: 10px;">KDR</th>
+                <th style="padding-right: 25px; padding-left: 25px;">Kills</th> -->
+                <th style="padding-right: 110px;">Player</th>
+                <th>WS</th>
+                <th>Kills</th>
+                <th>KDR</th>
+                <th>WLR</th>
+                <th>Joined Time</th>
+                
+            </thead>
+            
             <tbody class="table_body" id="tbody">
 
             </tbody>
@@ -96,52 +97,71 @@
         fs.watchFile(buttonPressesLogFile, { interval: 1}, (curr, prev) => {
           console.log(`${buttonPressesLogFile} file Changed`);
 
-          readLastLines.read('/Users/aldeneberts/.lunarclient/offline/1.8/logs/latest.log', 1)
+          readLastLines.read('/Users/aldeneberts/.lunarclient/offline/1.8/logs/latest.log', 20)
                 .then((lines) => {
-                    //console.log("bo")
-                    line_parts = lines.split(' ')
+                    let team_lines;
+                    loop_lines = lines.split("\n")
+                    //console.log(lines.split("\n"))
+                    for (var i = loop_lines.length - 1; i >= 0; i--){
+                        let line_parts = loop_lines[i].split(' ')
+                        //console.log(line_parts[4])
+                        if (line_parts[4] == "Mode:"){
+                            console.log("FOUND")
+                            let testingDate = new Date();
+                            let hours = line_parts[0].substring(1,3)
+                            let minutes = line_parts[0].substring(4,6)
+                            let seconds = line_parts[0].substring(7,9)
+                            //console.log(hours, minutes, seconds)
+                            testingDate.setHours(hours)
+                            testingDate.setMinutes(minutes)
+                            testingDate.setSeconds(seconds)
+                            let time = new Date(Date.now());
+                            var dif = time - testingDate
+                            if ((dif/1000) < 5){
+                                console.log("bob")
+                                let team_lines = loop_lines.slice(i+1);
+                                console.log(team_lines)
+                                fromTeamLines(team_lines)
+                            }
+                        }
+                    }
+
+                    /*
                     
-                    if (line_parts[4] == "ONLINE:") {
+                    */
+                })
+
+        });
+        console.log("dumb")
+
+        function fromTeamLines(team_lines){
+            const table_body = document.querySelector('tbody');
+            //console.log("poo");
+            let names_list = []
+            table_body.innerHTML = "";
+            for (ind in team_lines){
+                line_parts = team_lines[ind].split(' ')
+                if (line_parts[4]){
+                    console.log(line_parts)
+                    console.log(line_parts[4]+line_parts[5])
+                    
+                    if ((line_parts[4]+line_parts[5]).includes("Team#")) {
                         stats = []
-                        names = line_parts.slice(5);
-                        //console.log(names)
-                        const table_body = document.querySelector('tbody');
-                        //console.log("poo");
-                        table_body.innerHTML = "";
+                        names = line_parts.slice(6);
                         for (ind in names) {
                             let name = names[ind].replace(",", "");
-                            getData(name);
-                            console.log("checking" + name)
-                            //console.log(arr)
-                            //stats.push(arr)
+                            names_list.push(name)
                         }
-                        //getData("dragondoodler222")
-                        //console.log(stats)
+                    } 
+                }
+                
+            }
+            
+            for (ind in names_list){
+                getData(names_list[ind])
+            }
+        }
 
-                        //FINALLYt
-                    }
-                    if (line_parts[9]){
-                        if((line_parts[7]+line_parts[8]+line_parts[9][0]) == "intothel"){
-                            console.log("bob")
-                            const table_body = document.querySelector('tbody');
-                            table_body.innerHTML = "";
-                        }
-                    }
-                    if (line_parts[7]){
-                       if((line_parts[5]+line_parts[6]+line_parts[7][0]) == "hasjoined("){
-                            getData(line_parts[4])
-                        }
-                    }
-                    if (line_parts[6]){
-                        if ((line_parts[5]+line_parts[6]) == "hasquit!"){
-                            removePlayer(line_parts[4])
-                        }
-                    }
-                    
-                    
-                })
-        });
-        /*
         // totalStats = []
         // names = ["icydelta", "deansiie", "wemmbu", "bunnyhead", "manhal_iq_", "b0mbies", "lowof", "hyydro", "dragondoodler222", "frogggirl", "oflqwless", "gamerboy80", "46e", "kysiek1234", "nosdaemon", "defenderrush"]
         // //names = ["bunnyhead"]
@@ -225,19 +245,19 @@
                 }
             });
         }
-        */
+        /*
         names = ["lowof,", "bunnyhead,", "dragondoodler222,", "wemmbu,", "tqrtle,", "lowof,", "lowof,", "lowof,", "lowof,", "lowof,", "lowof,", "lowof,", "lowof,", "lowof,", "lowof,", "lowof,"]
-        
+        */
         //table_body.innerHTML = "";
-        
+        /*
         for (ind in names) {
             let name = names[ind].replace(",", "");
             getData(name);
             //console.log(arr)
             //stats.push(arr)
         }
-        
-        function getData(name, totalStats) {
+        */
+        function getData(name) {
             //console.log(name)
             let uid = ''
             fetch('https://api.mojang.com/users/profiles/minecraft/' + name + '?at=')
@@ -261,58 +281,51 @@
                             stats = []
                             //console.log(player)
                             // Log the player's username
+                            /*
+                            ws wlr kdr
+                            kills?
+                            lvl
+                            */
                             let name = player.displayname
                             console.log(name)
 
                             let last_login = player.lastLogin
-                            let star = player.achievements.bedwars_level
-                            let ws = player.stats.Bedwars.winstreak
+                            let sw_exp = player.stats.SkyWars.skywars_experience
+                            let sw_lvl;
+                            if (sw_exp){
+                                sw_lvl = sw_xp_to_lvl(sw_exp).toFixed(0)
+                            } else {
+                                sw_lvl = 1
+                            }
+                            let ws = player.stats.SkyWars.win_streak
+                            let wins = player.stats.SkyWars.wins
+                            let losses = player.stats.SkyWars.losses
+                            let wlr;
+
+                            if (wins && losses){
+                                wlr = (wins/losses).toFixed(2)
+                            }else if (wins && !losses){
+                                wlr = wins
+                            }else{
+                                wlr = 0
+                            }
                             if (!ws){
                                 ws = 0
                             }
-                            let finals = player.stats.Bedwars.final_kills_bedwars
-                            if (!finals){
-                                finals = 0
+                            
+                            let kills = player.stats.SkyWars.kills
+                            if (!kills){
+                                kills = 0
                             }
-                            let final_deaths = player.stats.Bedwars.final_deaths_bedwars
-                            if (!final_deaths){
-                                final_deaths = 0
+                            let deaths = player.stats.SkyWars.deaths
+                            let kdr;
+                            if (kills && deaths){
+                                kdr = (kills/deaths).toFixed(2)
+                            }else if (kills && !deaths){
+                                kdr = kills
+                            }else{
+                                kdr = 0
                             }
-                            let fkdr;
-                            if (final_deaths == 0) {
-                                fkdr = finals
-                            } else {
-                                fkdr = (finals / final_deaths).toFixed(2)
-                            }
-                            let beds = player.stats.Bedwars.beds_broken_bedwars
-                            if (!beds){
-                                beds = 0
-                            }
-                            let beds_lost = player.stats.Bedwars.beds_lost_bedwars
-                            if (!beds_lost){
-                                beds_lost = 0
-                            }
-                            let bbl;
-                            if (beds_lost == 0) {
-                                bbl = beds
-                            } else {
-                                bbl = (beds / beds_lost).toFixed(2)
-                            }
-                            let wins = player.stats.Bedwars.wins_bedwars
-                            if (!wins){
-                                wins = 0
-                            }
-                            let losses = player.stats.Bedwars.losses_bedwars
-                            if (!losses){
-                                losses = 0
-                            }
-                            let wlr;
-                            if (losses == 0) {
-                                wlr = wins
-                            } else {
-                                wlr = (wins / losses).toFixed(2)
-                            }
-                            let index = ((fkdr ** 2) * star).toFixed(0)
                             time = new Date(Date.now());
                             //console.log(time)
                             //console.log(last_login)
@@ -323,11 +336,6 @@
                             if (!diffInMins){
                                 diffInMins = "X"
                             }
-                            //console.log(diffInMins, name)
-                            // stats.push(name, ws, fkdr, finals, index, bbl, wlr,
-                            //     diffInMins
-                            // )
-                            // totalStats.push(stats)
                             const table_body = document.querySelector('tbody');
                             let rank;
                             let rank_color;
@@ -489,22 +497,6 @@
                                 
                             }
 
-                            //28 = 15
-                            let paddingNum;
-                            let paddingConversion = 0;
-                            paddingConversion += name.length + 4   // 5 includes spaces and brackets/symbols
-                            //console.log(name, paddingConversion, name.length)
-                            if (star < 100){
-                                paddingConversion += 2
-                            } else if (star < 1000){
-                                paddingConversion += 3
-                            } else{
-                                paddingConversion += 4
-                            }
-                            let conversionNum = (paddingConversion * 15)/28
-                            paddingNum = 15 + (15-conversionNum) 
-                            //console.log(name, paddingNum, conversionNum, paddingConversion)
-                            //[1558✪][YOUTUBE] gamerboy80
                             let ign = document.createElement("td")
                             //ign.style.objectPosition = "center top"
                             ign.classList.add("names");
@@ -518,7 +510,7 @@
                             span.style.color = plusc
                             ign.style.color = rank_color
                             star_span = document.createElement("span")
-                            star_span.appendChild(getPrestigeItems(star))
+                            star_span.appendChild(getSkyWarsPrestigeItems(sw_lvl))
                             ign.appendChild(im_span)
                             ign.appendChild(star_span)
                             ign.appendChild(document.createTextNode(p1))
@@ -533,16 +525,14 @@
 
                             
                 
-                            if (index < 1000) {
+                           
+                            if (wlr < 0.1){
                                 c = "rgb(102,255,102)"
-                            }
-                            else if (index < 5000) {
+                            }else if (wlr < 0.2){
                                 c = "orange"
-                            }
-                            else if (index < 10000) {
+                            }else if (wlr < 0.5){
                                 c = "#EF6C6C"
-                            }
-                            else {
+                            }else{
                                 c = "red"
                             }
                             
@@ -551,7 +541,7 @@
 
                             ws_elem = document.createElement("td");
                             ws_elem.style.position = "absolute";
-                            ws_elem.style.left = '272px';
+                            ws_elem.style.left = '271px';
                             ws_elem.classList.add("ws")
                             ws_elem.style.color = c
                             if (!ws && ws != 0){
@@ -560,44 +550,30 @@
                             ws_elem.innerHTML = ws
                             tr.appendChild(ws_elem)
 
-                            fkdr_elem = document.createElement("td");
-                            fkdr_elem.style.position = "absolute";
-                            fkdr_elem.style.left = '330px';
-                            fkdr_elem.style.color = c
-                            fkdr_elem.innerHTML = fkdr
-                            tr.appendChild(fkdr_elem)
+                            kills_elem = document.createElement("td");
+                            kills_elem.style.position = "absolute";
+                            kills_elem.style.left = '361px';
+                            kills_elem.style.color = c
+                            kills_elem.innerHTML = kills
+                            tr.appendChild(kills_elem)
 
-                            finals_elem = document.createElement("td");
-                            finals_elem.style.position = "absolute";
-                            finals_elem.style.left = '400px';
-                            finals_elem.style.color = c
-                            finals_elem.innerHTML = finals
-                            tr.appendChild(finals_elem)
-
-                            index_elem = document.createElement("td");
-                            index_elem.style.position = "absolute";
-                            index_elem.style.left = '491px';
-                            index_elem.style.color = c
-                            index_elem.innerHTML = index
-                            tr.appendChild(index_elem)
-
-                            bbl_elem = document.createElement("td");
-                            bbl_elem.style.position = "absolute";
-                            bbl_elem.style.left = '582px';
-                            bbl_elem.style.color = c
-                            bbl_elem.innerHTML = bbl
-                            tr.appendChild(bbl_elem)
+                            kdr_elem = document.createElement("td");
+                            kdr_elem.style.position = "absolute";
+                            kdr_elem.style.left = '474px';
+                            kdr_elem.style.color = c
+                            kdr_elem.innerHTML = kdr
+                            tr.appendChild(kdr_elem)
 
                             wlr_elem = document.createElement("td");
                             wlr_elem.style.position = "absolute";
-                            wlr_elem.style.left = '650px';
+                            wlr_elem.style.left = '582px';
                             wlr_elem.style.color = c
                             wlr_elem.innerHTML = wlr
                             tr.appendChild(wlr_elem)
 
                             diffInMins_elem = document.createElement("td");
                             diffInMins_elem.style.position = "absolute";
-                            diffInMins_elem.style.left = '720px';
+                            diffInMins_elem.style.left = '707px';
                             diffInMins_elem.paddingLeft = "35px"
                             diffInMins_elem.style.color = c
                             if (!last_login){
@@ -684,9 +660,17 @@
         }
 
 
-        function removePlayer(){
-            console.log("hi")
-            
+        function sw_xp_to_lvl(xp) {
+            var xps = [0, 20, 70, 150, 250, 500, 1000, 2000, 3500, 6000, 10000, 15000];
+            if(xp >= 15000) {
+                return (xp - 15000) / 10000 + 12;
+            } else {
+                for(i = 0; i < xps.length; i++) {
+                    if(xp < xps[i]) {
+                        return i + (xp - xps[i-1]) / (xps[i] - xps[i-1]);
+                    }
+                }
+            }
         }
     </script>
     <script type="text/javascript" src="plusColor.js"></script>
