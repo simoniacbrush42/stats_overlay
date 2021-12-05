@@ -40,7 +40,11 @@
                 <form action="settings.html">
                     <button>Settings</button>
                 </form>
-
+            </li>
+            <li>
+                <form action="index.html">
+                    <button>Select Client</button>
+                </form>
             </li>
         </ul>
     </div>
@@ -249,16 +253,17 @@
         names = ["lowof,", "bunnyhead,", "dragondoodler222,", "wemmbu,", "tqrtle,", "lowof,", "lowof,", "lowof,", "lowof,", "lowof,", "lowof,", "lowof,", "lowof,", "lowof,", "lowof,", "lowof,"]
         */
         //table_body.innerHTML = "";
-        /*
+        names = ["icydelta,", "deansiie,", "wemmbu,", "bunnyhead,", "manhal_iq_,", "b0mbies,", "lowof,", "hyydro,", "dragondoodler222,", "frogggirl,", "oflqwless,", "gamerboy80,", "46e,", "kysiek1234,", "nosdaemon,", "defenderrush"]
         for (ind in names) {
             let name = names[ind].replace(",", "");
             getData(name);
             //console.log(arr)
             //stats.push(arr)
         }
-        */
+        
         function getData(name) {
             //console.log(name)
+            var key = localStorage.getItem("api_key");
             let uid = ''
             fetch('https://api.mojang.com/users/profiles/minecraft/' + name + '?at=')
                 .then(result => {
@@ -272,7 +277,7 @@
                     //console.log(id)
                     // Log the player's username
                     uid = id;
-                    fetch("https://api.hypixel.net/player?key=3aadacc6-2c7d-485e-8b8d-801109c40c46&uuid=" +
+                    fetch("https://api.hypixel.net/player?key="+key+"&uuid=" +
                         uid)
                         .then(result => result.json())
                         .then(({

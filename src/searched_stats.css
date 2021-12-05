@@ -49,6 +49,8 @@
    flex-wrap: wrap;
    flex-flow: row wrap;
    justify-content: space-evenly;
+   padding-top: 0;
+   margin-top: 0;
 }
 
 .sections section{
@@ -62,7 +64,7 @@
    background: rgb(59,22,199);
    background: linear-gradient(180deg, rgba(59,22,199,0.3) 0%, rgba(67,37,120,0.5) 100%);
    */
-   margin-top: 10%; 
+   margin-top: 0%; 
    text-align: center;
    /*border: 2px solid rgba(0,0,0,0.3);*/
    border-radius: 20px;

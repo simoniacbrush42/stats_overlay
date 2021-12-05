@@ -42,6 +42,11 @@
                 </form>
 
             </li>
+            <li>
+                <form action="index.html">
+                    <button>Select Client</button>
+                </form>
+            </li>
         </ul>
     </div>
     <div class="stats">
@@ -80,6 +85,7 @@
         }
     </script>
     <script>
+        
 
         console.log("running")
         const electron = require('electron');
@@ -100,7 +106,18 @@
                 .then((lines) => {
                     //console.log("bo")
                     line_parts = lines.split(' ')
+                    //[12:08:04] [Client thread/INFO]: [CHAT] Your new API key is 23375d4a-288e-4fad-8941-c8513bc0924d
+                    if (line_parts[6]){
+                        console.log(line_parts[4]+line_parts[5]+line_parts[6])
+                        if (line_parts[4]+line_parts[5]+line_parts[6] == "YournewAPI"){
+                            //set api key
+                            console.log("API")
+
+                            setAPIKey(line_parts[9].replace(/\n/g, ''))
+                        } 
+                    }
                     
+
                     if (line_parts[4] == "ONLINE:") {
                         stats = []
                         names = line_parts.slice(5);
@@ -141,6 +158,20 @@
                     
                 })
         });
+        
+        function setAPIKey(key){
+            console.log(key);
+            var path = require("path")
+            const filename = path.resolve(__dirname, "data.json");
+            var file_content = fs.readFileSync(filename);
+            var content = JSON.parse(file_content);
+            console.log(content)
+            content.api_key = key
+
+            fs.writeFile(filename, JSON.stringify(content), function writeJSON(err) {
+              if (err) return console.log(err);
+            });
+        }
         /*
         // totalStats = []
         // names = ["icydelta", "deansiie", "wemmbu", "bunnyhead", "manhal_iq_", "b0mbies", "lowof", "hyydro", "dragondoodler222", "frogggirl", "oflqwless", "gamerboy80", "46e", "kysiek1234", "nosdaemon", "defenderrush"]
@@ -226,7 +257,7 @@
             });
         }
         */
-        names = ["lowof,", "bunnyhead,", "dragondoodler222,", "wemmbu,", "tqrtle,", "lowof,", "lowof,", "lowof,", "lowof,", "lowof,", "lowof,", "lowof,", "lowof,", "lowof,", "lowof,", "lowof,"]
+        names = ["icydelta,", "deansiie,", "wemmbu,", "bunnyhead,", "manhal_iq_,", "b0mbies,", "lowof,", "hyydro,", "dragondoodler222,", "frogggirl,", "oflqwless,", "gamerboy80,", "46e,", "kysiek1234,", "nosdaemon,", "defenderrush"]
         
         //table_body.innerHTML = "";
         
@@ -239,6 +270,7 @@
         
         function getData(name, totalStats) {
             //console.log(name)
+            var key = localStorage.getItem("api_key");
             let uid = ''
             fetch('https://api.mojang.com/users/profiles/minecraft/' + name + '?at=')
                 .then(result => {
@@ -252,7 +284,7 @@
                     //console.log(id)
                     // Log the player's username
                     uid = id;
-                    fetch("https://api.hypixel.net/player?key=3aadacc6-2c7d-485e-8b8d-801109c40c46&uuid=" +
+                    fetch("https://api.hypixel.net/player?key="+key+"&uuid=" +
                         uid)
                         .then(result => result.json())
                         .then(({

@@ -34,6 +34,11 @@
                 </form>
             </li>
             <li>
+                <form action="skywars.html">
+                    <button>Skywars</button>
+                </form>
+            </li>
+            <li>
                 <form action="search.html">
                     <button>Search</button>
                 </form>
@@ -43,6 +48,11 @@
                     <button>Settings</button>
                 </form>
 
+            </li>
+            <li>
+                <form action="index.html">
+                    <button>Select Client</button>
+                </form>
             </li>
         </ul>
     </div>
@@ -65,6 +75,7 @@
         const form = document.getElementById('ignform');
         console.log(form)
         function load_stats(e) {
+            var key = localStorage.getItem("api_key");
             e.preventDefault();
             text = document.getElementById('ign')
             let ign = text.value;
@@ -78,7 +89,7 @@
                     id
                 }) => {
                     uid = id;
-                    fetch("https://api.hypixel.net/player?key=3aadacc6-2c7d-485e-8b8d-801109c40c46&uuid=" +
+                    fetch("https://api.hypixel.net/player?key="+key+"&uuid=" +
                         uid)
                         .then(result => result.json())
                         .then(({

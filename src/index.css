@@ -76,7 +76,7 @@ body {
     margin-top: 20px;
 }
 
-.sections section{
+.logos section{
 	color: white;
 	background-color: rgba(255,255,255,0.3);
     flex-grow: 0;
@@ -88,7 +88,7 @@ body {
    	padding: 10px;
 }
 
-.sections section:hover{
+.clients:hover{
 	color: white;
 	background-color: rgba(0,0,0,0.5);
     flex-grow: 0;

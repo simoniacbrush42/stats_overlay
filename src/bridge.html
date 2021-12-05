@@ -42,6 +42,11 @@
         </form>
 
       </li>
+      <li>
+          <form action="index.html">
+              <button>Select Client</button>
+          </form>
+      </li>
     </ul>
   </div>
   <div class='sections'>
@@ -86,6 +91,7 @@
 
   <script type="text/javascript">
     function getData(name) {
+      var key = localStorage.getItem("api_key");
       console.log(name)
       let uid = ''
       let stats = []
@@ -100,8 +106,8 @@
           //console.log(id)
           // Log the player's username
           uid = id;
-          fetch("https://api.hypixel.net/player?key=3aadacc6-2c7d-485e-8b8d-801109c40c46&uuid=" +
-            uid)
+          fetch("https://api.hypixel.net/player?key="+key+"&uuid=" +
+                        uid)
             .then(result => result.json())
             .then(({
               player
