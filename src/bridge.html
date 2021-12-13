@@ -489,14 +489,14 @@
     var fs = require('fs');
     const path = require('path');
     //const log_timestamp = require('log-timestamp');
-    /*
-    const buttonPressesLogFile = '../../../../../../Users/simon/.lunarclient/offline/1.8/logs/latest.log';
+    
+    const buttonPressesLogFile = localStorage.getItem('log_path');
 
     //console.log(`Watching for file changes on ${buttonPressesLogFile}`);
 
     fs.watchFile(buttonPressesLogFile, { interval: 1}, (curr, prev) => {
       //console.log(`${buttonPressesLogFile} file Changed`);
-      readLastLines.read('../../../../../../Users/simon/.lunarclient/offline/1.8/logs/latest.log', 2)
+      readLastLines.read(localStorage.getItem('log_path'), 2)
             .then((lines) => {
               console.log("f")
               let line_list = lines.split('\n') 
@@ -530,7 +530,7 @@
             })
                
     });
-    */
+    
 
     names = ["Dragondoodler222", "lowof"]
     for (name in names) {
