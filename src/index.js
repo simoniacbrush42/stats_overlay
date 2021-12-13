@@ -12,12 +12,16 @@ if (require('electron-squirrel-startup')) { // eslint-disable-line global-requir
 
 const createWindow = () => {
   // Create the browser window.
+  //https://gist.github.com/thedoapps/50019afade672fa132e8
   const mainWindow = new BrowserWindow({
     width: 800,
     height: 500,
     x:0,
     y:0,
     transparent:true,
+    frame: false,
+    movable: true,
+    backgroundColor: '#59000000',
     webPreferences: {
       nodeIntegration: true,
       contextIsolation: false,

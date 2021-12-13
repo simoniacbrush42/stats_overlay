@@ -95,14 +95,14 @@
         
         //const log_timestamp = require('log-timestamp');
 
-        const buttonPressesLogFile = '/Users/aldeneberts/.lunarclient/offline/1.8/logs/latest.log';
+        const buttonPressesLogFile = localStorage.getItem('log_path');
 
         console.log(`Watching for file changes on ${buttonPressesLogFile}`);
 
         fs.watchFile(buttonPressesLogFile, { interval: 1}, (curr, prev) => {
           console.log(`${buttonPressesLogFile} file Changed`);
 
-          readLastLines.read('/Users/aldeneberts/.lunarclient/offline/1.8/logs/latest.log', 1)
+          readLastLines.read(localStorage.getItem('log_path'), 1)
                 .then((lines) => {
                     //console.log("bo")
                     line_parts = lines.split(' ')

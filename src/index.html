@@ -87,15 +87,23 @@
       console.log(userHomeDir)
       var isWin = process.platform === "win32";
       if(isWin){
-
+        fs.access(userHomeDir+"/.lunarclient/offline/1.8/logs", function(error) {
+          if (error) {
+            console.log("Directory does not exist.")
+          } else {
+            console.log("Directory exists.")
+            localStorage.setItem("log_path", userHomeDir+"/.lunarclient/offline/1.8/logs/latest.log");
+            window.location.href = "bedwars.html";
+          }
+        });
       }else{
         fs.access(userHomeDir+"/.lunarclient/offline/1.8/logs", function(error) {
           if (error) {
             console.log("Directory does not exist.")
           } else {
             console.log("Directory exists.")
+            localStorage.setItem("log_path", userHomeDir+"/.lunarclient/offline/1.8/logs/latest.log");
             window.location.href = "bedwars.html";
-
           }
         })
       }
@@ -110,13 +118,22 @@
       console.log(userHomeDir)
       var isWin = process.platform === "win32";
       if(isWin){
-
+        fs.access(userHomeDir+"/AppData/Roaming/.minecraft/logs", function(error) {
+          if (error) {
+            console.log("Directory does not exist.")
+          } else {
+            console.log("Directory exists.")
+            localStorage.setItem("log_path", userHomeDir+"/AppData/Roaming/.minecraft/logs/latest.log");
+            window.location.href = "bedwars.html";
+          }
+        });
       }else{
         fs.access(userHomeDir+"/Library/Application Support/minecraft/logs", function(error) {
           if (error) {
             console.log("Directory does not exist.")
           } else {
             console.log("Directory exists.")
+            localStorage.setItem("log_path", userHomeDir+"/Library/Application Support/minecraft/logs/latest.log");
             window.location.href = "bedwars.html";
 
           }
@@ -132,19 +149,29 @@
       console.log(userHomeDir)
       var isWin = process.platform === "win32";
       if(isWin){
-
+        fs.access(userHomeDir+"/AppData/Roaming/.minecraft/logs", function(error) {
+          if (error) {
+            console.log("Directory does not exist.")
+          } else {
+            console.log("Directory exists.")
+            localStorage.setItem("log_path", userHomeDir+"/AppData/Roaming/.minecraft/logs/latest.log");
+            window.location.href = "bedwars.html";
+          }
+        });
       }else{
         fs.access(userHomeDir+"/Library/Application Support/minecraft/logs", function(error) {
           if (error) {
             console.log("Directory does not exist.")
           } else {
             console.log("Directory exists.")
+            localStorage.setItem("log_path", userHomeDir+"/Library/Application Support/minecraft/logs/latest.log");
             window.location.href = "bedwars.html";
 
           }
         })
       }
     }
+
   </script>
   <script type="text/javascript" src = "index.js"></script>
 </body>
