@@ -49,6 +49,30 @@
       </li>
     </ul>
   </div>
+  <div class="stats">
+    <table class = "stats_table table-sortable" id = "statsTable">
+        <thead class="titles">
+            <th style="padding-right: 150px;">Player</th>
+            <th>WS</th>
+            <th style="padding-right: 10px;">FKDR</th>
+            <th style="padding-right: 25px; padding-left: 25px;">Finals</th>
+            <th style="padding-right: 27px">Index</th>
+            <th>BBL</th>
+            <th style="padding-right: 10px;">WLR</th>
+            <th style="padding-right: 0;">Joined Time</th>
+        </thead>
+        <!-- <th style="position: absolute; left: 50px; top: 10px;">Player</th>
+
+            <th style="position: absolute; left: 263px; top: 10px;">WS</th>
+            <th style="position: absolute; left: 323px; top: 10px;">FKDR</th>
+            <th style="position: absolute; left: 390px; top: 10px;">Finals</th>
+            <th style="position: absolute; left: 490px; top: 10px;">Index</th>
+            <th style="position: absolute; left: 250px; top: 20px;">BBL</th> -->
+        <tbody class="table_body" id="tbody">
+
+        </tbody>
+    </table>
+  </div>
   <div class='sections'>
 
     <!-- <section>
@@ -508,7 +532,7 @@
                 console.log(line_parts)
                 if (line_parts[4] == "Team") {
                     let stats = []
-                    let name = line_parts[7].replace('[]\r', "")
+                    let name = line_parts[7].replace(/[\[\]']+/g,'')
                     console.log(name)
 
                     
@@ -516,18 +540,19 @@
                     //console.log(names)
                     const table_body = document.querySelector('tbody');
                     //console.log("poo");
-                    table_body.innerHTML = "";
-                    for (ind in names) {
-                        let name = names[ind].replace(",", "");
-                        getData(name);
+                    //table_body.innerHTML = "";
+                    
                         //console.log(arr)
                         //stats.push(arr)
                     }
-                    
-                }
+              }
+              for (ind in names) {
+                  let name = names[ind].replace(",", "");
+                  getData(name);
               }
               
-            })
+            });
+
                
     });
     
