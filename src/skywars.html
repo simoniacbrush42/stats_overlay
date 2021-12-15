@@ -101,7 +101,7 @@
         fs.watchFile(buttonPressesLogFile, { interval: 1}, (curr, prev) => {
           console.log(`${buttonPressesLogFile} file Changed`);
 
-          readLastLines.read(localStorage.getItem('log_path');, 20)
+          readLastLines.read(localStorage.getItem('log_path'), 20)
                 .then((lines) => {
                     let team_lines;
                     loop_lines = lines.split("\n")

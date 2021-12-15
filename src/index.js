@@ -19,9 +19,9 @@ const createWindow = () => {
     x:0,
     y:10,
     transparent:true,
-    frame: false,
+    frame: true,
     movable: true,
-    backgroundColor: '#59000000',
+    //backgroundColor: '#59000000',
     webPreferences: {
       nodeIntegration: true,
       contextIsolation: false,
