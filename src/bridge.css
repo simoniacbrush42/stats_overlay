@@ -39,6 +39,18 @@
     padding-right: 15px;
 }
 
+/*.names{
+    padding-left: 15px;
+    padding-right: 15px;
+    text-align: center;
+}*/
+
+.table_body tr td{
+    padding-left: 15px;
+    padding-right: 15px;
+   /* text-align: center;*/
+}
+
 .stats_table{
     /*align-content: center;*/
 

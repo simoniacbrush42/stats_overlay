@@ -53,9 +53,9 @@
     <table class = "stats_table table-sortable" id = "statsTable">
         <thead class="titles">
             <th style="padding-right: 150px;">Player</th>
-            <th>Title</th>
-            <th style="padding-right: 10px;">WS</th>
-            <th style="padding-right: 25px; padding-left: 25px;">Wins</th>
+            <th style="padding-right: 60px;">Title</th>
+            <th style="padding-right: 30px;">WS</th>
+            <th style="padding-right: 45px; padding-left: 45px;">Wins</th>
             <th style="padding-right: 27px">WLR</th>
             <th style="padding-right: 0;">Joined Time</th>
         </thead>
@@ -71,7 +71,7 @@
         </tbody>
     </table>
   </div>
-  <div class='sections'>
+  <div class='sections' id = "sections">
 
     <!-- <section>
         <img src = "images/1.png" width = "200px" height="200px">
@@ -103,7 +103,7 @@
     </section> -->
 
 
-
+  <!-- ADD WORLD ELITE AND WORLDS BEST -->
   </div>
   <script>
     function show() {
@@ -114,7 +114,7 @@
   <script type="text/javascript">
     function getData(name) {
       var key = localStorage.getItem("api_key");
-      console.log(name)
+      //console.log(name)
       let uid = ''
       let stats = []
       fetch('https://api.mojang.com/users/profiles/minecraft/' + name + '?at=')
@@ -147,7 +147,7 @@
               let twos_losses = player.stats.Duels.bridge_2v2v2v2_losses
               let threes_losses = player.stats.Duels.bridge_3v3v3v3_losses
               let fours_losses = player.stats.Duels.bridge_four_losses
-              console.log(solo_losses, doubles_losses, twos_losses, threes_losses, fours_losses)
+              //console.log(solo_losses, doubles_losses, twos_losses, threes_losses, fours_losses)
               if (!solo_losses) {
                 solo_losses = 0
               }
@@ -172,12 +172,12 @@
               }
               img_src = "https://crafatar.com/avatars/" + uid +
                 "?size=200&default=MHF_Steve&overlay"
-              time = new Date(Date.now());
-              //console.log(time)
-              var login = new Date(last_login);
-              //console.log(login)
-              const diffInMins = Math.floor(Math.abs(time - login) / 60) % 60;
-              //console.log(diffInMins)
+              // time = new Date(Date.now());
+              // //console.log(time)
+              // var login = new Date(last_login);
+              // //console.log(login)
+              // const diffInMins = Math.floor(Math.abs(time - login) / 60) % 60;
+              // //console.log(diffInMins)
 
 
               let rank;
@@ -218,7 +218,7 @@
                         rank = "[VIP+]"
                         rank_color = "rgb(85,255,85)"
                       } else if (rank == "VIP") {
-                        console.log("vip")
+                        //console.log("vip")
                         rank = "[VIP]"
                         rank_color = "rgb(85,255,85)"
                       }
@@ -230,7 +230,7 @@
                 } else if (player.newPackageRank) {
                   new_pckg = player.newPackageRank
                   if (new_pckg) {
-                    console.log("new")
+                    //console.log("new")
                     rank = new_pckg
                     if (rank == "MVP_PLUS") {
                       console.log('smell')
@@ -250,21 +250,21 @@
                     rank = ""
                   }
                 } else {
-                  console.log('test')
+                  //console.log('test')
                   new_pckg = player.packageRank
-                  console.log(new_pckg)
+                  //console.log(new_pckg)
                   if (new_pckg) {
                     rank = new_pckg
-                    console.log(rank)
+                    //console.log(rank)
                     if (rank == "MVP_PLUS") {
-                      console.log('smell')
+                      //console.log('smell')
                       rank = "[MVP+]"
                     } else if (rank == "MVP") {
                       rank = "[MVP]"
                     } else if (rank == "VIP_PLUS") {
                       rank = "[VIP+]"
                     } else if (rank == "VIP") {
-                      console.log("vip")
+                      //console.log("vip")
                       rank = "[VIP]"
                     }
                   } else {
@@ -293,7 +293,7 @@
                 rank_color = "#AAAAAA"
               }
               if (rank == "[YOUTUBE]") {
-                console.log("youtuber")
+                //console.log("youtuber")
                 p1 = name.substring(0, 1)
                 plus = name.substring(1, 8)
                 p2 = name.substring(8)
@@ -320,60 +320,45 @@
                 p1 = name.substring(0, 5)
                 p2 = name.substring(5)
               }
-              /*
-              let section = document.createElement("section");
+              let span = document.createElement("span");
 
-              let ign = document.createElement("div");
-              let rank_span = document.createElement("span");
-              let title_span = document.createElement("span")
               span.textContent = plus
-              if (rank == "[YOUTUBE]"){
-                  plusc = "#E0E0E0"
-              } else {
-                  plusc = plus_to_color(plusColor)
-              }
-
-              let title;
-              let titleColor;
-              lst = getTitle(wins)
-              title = lst[0]
-              titleColor = lst[1]
-              console.log(title, titleColor)
-              console.log(plusc)
-              rank_span.style.color = plusc
-              console.log(p1,p2)
-              title_span.style.color = titleColor
-              title_span.innerHTML = title
-              ign.appendChild(title_span)
-              ign.appendChild(document.createTextNode(p1));
-              ign.appendChild(span)
-              ign.appendChild(document.createTextNode(p2));
-              //ign.innerHTML = name
-              //#E0E0E0 white   #FF5555 red
-              */
-
-
-              /*
-              ign.style.color = rank_color
-              <img src = "images/1.png" width = "200px" height="200px">
-              <div style="color: rgb(85,255,255); padding-top: 20px;">
-                  [MVP<span style="color: rgb(170,0,0);">+</span>] lowof 
-              </div>
-              <span style="color: rgb(65, 168, 95);">Master III</span>
-              <div class = "stats">
-                  <h4>Wins: 1620</h4 >
-                  <h4>Winstreak: 109</h4>
-                  <h4>WLR: 15.5</h4>
-                  <h4>Joined Time: 5 mins</h4>
-              </div>
-              */
               if (rank == "[YOUTUBE]") {
-                plusc = "#E0E0E0"
-              } else {
-                plusc = plus_to_color(plusColor)
+                  plusc = "#E0E0E0"
+              } else if(rank == "[VIP+]"){
+                  plusc = "#FFAA00"
+              } else if(rank != ""){
+                  if (plusColor != ""){
+                      plusc = plus_to_color(plusColor)
+                  }else{
+                     plusc = "#FF5555" 
+                  }
+                  
               }
-              let titleColor;
-              let c;
+
+              let ign = document.createElement("td")
+              //ign.style.objectPosition = "center top"
+              ign.classList.add("names");
+              let im_span = document.createElement("span")
+              im_span.style.paddingRight = "5px"
+              let im = document.createElement("img")
+              im.src = "https://crafatar.com/avatars/" + uid +
+                  "?size=15&default=MHF_Steve&overlay"
+              im_span.appendChild(im)
+              span.style.float = "none"
+              span.style.color = plusc
+              ign.style.color = rank_color
+              ign.appendChild(im_span)
+              ign.appendChild(document.createTextNode(p1))
+              ign.appendChild(span)
+              ign.appendChild(document.createTextNode(p2))
+
+
+              const tr = document.createElement("tr");
+              tr.style.paddingBottom = "100px"
+              //ign.style.textAlign = 'left';
+              tr.appendChild(ign)
+
               if (wlr < 1) {
                 c = "white"
               }
@@ -389,57 +374,167 @@
               else {
                 c = "red"
               }
-
+              
+  
+              // if (index < 1000) {
+              //     c = "rgb(102,255,102)"
+              // }
+              // else if (index < 5000) {
+              //     c = "orange"
+              // }
+              // else if (index < 10000) {
+              //     c = "#EF6C6C"
+              // }
+              // else {
+              //     c = "red"
+              // }
+              title_elem = document.createElement("td")
+              title_elem.style.position = "absolute";
+              title_elem.style.left = '257px';
               lst = getTitle(wins)
               title = lst[0]
               titleColor = lst[1]
-              let section_div = document.getElementsByClassName("sections")[0];
-              let sec = document.createElement("section")
-              let im = document.createElement("img")
-              im.style.paddingTop = "25px"
-              im.src = img_src
-              sec.appendChild(im)
-              let nameDiv = document.createElement("div")
-              nameDiv.style.color = rank_color
-              if (p1) {
-                nameDiv.appendChild(document.createTextNode(p1))
-              }
-
-              let rank_span = document.createElement("span")
-              rank_span.style.color = plusc
-              if (plus) {
-                rank_span.innerHTML = plus
-              }
-
-              nameDiv.appendChild(rank_span)
-              if (p2) {
-                nameDiv.appendChild(document.createTextNode(p2))
-              }
-              console.log(p1, p2, plus)
-              sec.appendChild(nameDiv)
               let title_span = document.createElement("span")
               title_span.style.color = titleColor
               title_span.innerHTML = title
-              sec.appendChild(title_span)
-              let stats_div = document.createElement("div")
-              stats_div.style.color = c
-              stats_div.style.paddingBottom = "25px"
-              let wins_elem = document.createElement("h4")
-              wins_elem.innerHTML = "Wins: " + wins
-              let winstreak_elem = document.createElement("h4")
-              winstreak_elem.innerHTML = "Winstreak: " + ws
-              let wlr_elem = document.createElement("h4")
-              wlr_elem.innerHTML = "WLR: " + wlr
-              let join_elem = document.createElement("h4")
-              join_elem.innerHTML = "Joined Time: 5 mins"
-              stats_div.classList.add('stats')
-              stats_div.appendChild(wins_elem)
-              stats_div.appendChild(winstreak_elem)
-              stats_div.appendChild(wlr_elem)
-              stats_div.appendChild(join_elem)
-              sec.appendChild(stats_div)
-              console.log(section_div, sec)
-              section_div.appendChild(sec)
+              title_elem.appendChild(title_span)
+              tr.appendChild(title_elem)
+
+
+              ws_elem = document.createElement("td");
+              ws_elem.style.position = "absolute";
+              ws_elem.style.left = '402px';
+              ws_elem.classList.add("ws")
+              ws_elem.style.color = c
+              if (!ws && ws != 0){
+                  ws = "X"
+              }
+              ws_elem.innerHTML = ws
+              tr.appendChild(ws_elem)
+
+              wins_elem = document.createElement("td");
+              wins_elem.style.position = "absolute";
+              wins_elem.style.left = '487px';
+              wins_elem.style.color = c
+              wins_elem.innerHTML = wins
+              tr.appendChild(wins_elem)
+
+              wlr_elem = document.createElement("td");
+              wlr_elem.style.position = "absolute";
+              wlr_elem.style.left = '590px';
+              wlr_elem.style.color = c
+              wlr_elem.innerHTML = wlr
+              tr.appendChild(wlr_elem)
+
+              let time = new Date(Date.now());
+              var login = new Date(last_login);
+              const diffTime = Math.abs(time - login);
+              var diffInMins = (diffTime/60000).toFixed(0);
+              //console.log(login)
+              if (!diffInMins){
+                  diffInMins = "X"
+              }
+              diffInMins_elem = document.createElement("td");
+              diffInMins_elem.style.position = "absolute";
+              diffInMins_elem.style.left = '688px';
+              diffInMins_elem.paddingLeft = "35px"
+              diffInMins_elem.style.color = c
+              if (!last_login){
+                diffInMins = "X"
+              }
+              diffInMins_elem.innerHTML = diffInMins
+              tr.appendChild(diffInMins_elem)
+              let tbody = document.getElementById("tbody")
+              tbody.appendChild(tr);
+              
+              // if (rank == "[YOUTUBE]") {
+              //   plusc = "#E0E0E0"
+              // } else {
+              //   plusc = plus_to_color(plusColor)
+              // }
+              // let titleColor;
+              // let c;
+              // if (wlr < 1) {
+              //   c = "white"
+              // }
+              // else if (wlr < 2) {
+              //   c = "green"
+              // }
+              // else if (wlr < 5) {
+              //   c = "orange"
+              // }
+              // else if (wlr < 7) {
+              //   c = "#EF6C6C"
+              // }
+              // else {
+              //   c = "red"
+              // }
+              // let tr = document.createElement("tr")
+              // let ign = document.createElement("td")
+              // ign.classLiss.add("names");
+              // let im_span = document.createElement("span")
+              // im_span.style.paddingRight = "5px"
+              // let im = document.createElement("img")
+              // im.src = "https://crafatar.com/avatars/" + uid +
+              //     "?size=15&default=MHF_Steve&overlay"
+              // im_span.appendChild(im)
+              // span.style.float = "none"
+              // span.style.color = plusc
+              // ign.style.color = rank_color
+
+
+              // lst = getTitle(wins)
+              // title = lst[0]
+              // titleColor = lst[1]
+              // let section_div = document.getElementsByClassName("sections")[0];
+              // let sec = document.createElement("section")
+              // let im = document.createElement("img")
+              // im.style.paddingTop = "25px"
+              // im.src = img_src
+              // sec.appendChild(im)
+              // let nameDiv = document.createElement("div")
+              // nameDiv.style.color = rank_color
+              // if (p1) {
+              //   nameDiv.appendChild(document.createTextNode(p1))
+              // }
+
+              // let rank_span = document.createElement("span")
+              // rank_span.style.color = plusc
+              // if (plus) {
+              //   rank_span.innerHTML = plus
+              // }
+
+              // nameDiv.appendChild(rank_span)
+              // if (p2) {
+              //   nameDiv.appendChild(document.createTextNode(p2))
+              // }
+              // //console.log(p1, p2, plus)
+              // sec.appendChild(nameDiv)
+              // let title_data = document.createElement("td")
+              // let title_span = document.createElement("span")
+              // title_span.style.color = titleColor
+              // title_span.innerHTML = title
+              // sec.appendChild(title_span)
+              // let stats_div = document.createElement("div")
+              // stats_div.style.color = c
+              // stats_div.style.paddingBottom = "25px"
+              // let wins_elem = document.createElement("h4")
+              // wins_elem.innerHTML = "Wins: " + wins
+              // let winstreak_elem = document.createElement("h4")
+              // winstreak_elem.innerHTML = "Winstreak: " + ws
+              // let wlr_elem = document.createElement("h4")
+              // wlr_elem.innerHTML = "WLR: " + wlr
+              // let join_elem = document.createElement("h4")
+              // join_elem.innerHTML = "Joined Time: 5 mins"
+              // stats_div.classList.add('stats')
+              // stats_div.appendChild(wins_elem)
+              // stats_div.appendChild(winstreak_elem)
+              // stats_div.appendChild(wlr_elem)
+              // stats_div.appendChild(join_elem)
+              // sec.appendChild(stats_div)
+              // //console.log(section_div, sec)
+              // section_div.appendChild(sec)
+
 
 
 
@@ -515,12 +610,14 @@
     const buttonPressesLogFile = localStorage.getItem('log_path');
 
     //console.log(`Watching for file changes on ${buttonPressesLogFile}`);
-
+    let previousNames = [];
     fs.watchFile(buttonPressesLogFile, { interval: 1}, (curr, prev) => {
       //console.log(`${buttonPressesLogFile} file Changed`);
       readLastLines.read(localStorage.getItem('log_path'), 2)
             .then((lines) => {
-              console.log("f")
+              let names = [];
+              let teams = [];
+              //console.log("f")
               let line_list = lines.split('\n') 
               for (ind in line_list){
                 let line = line_list[ind]
@@ -529,12 +626,17 @@
                 let line_parts = line.split(' ')
                 console.log(line_parts)
                 if (line_parts[4] == "Team") {
-                    let stats = []
+                    console.log(line_parts[5])
+                    teams.push(line_parts[5]);
                     let name = line_parts[7].replace(/[\[\]']+/g,'')
                     console.log(name)
+                    if (!(names.includes(name))){
+                      names.push(name)
+                    }
+                    
 
                     
-                    names = line_parts.slice(5);
+                    //names = line_parts.slice(5);
                     //console.log(names)
                     const table_body = document.querySelector('tbody');
                     //console.log("poo");
@@ -544,10 +646,31 @@
                         //stats.push(arr)
                     }
               }
-              for (ind in names) {
-                  let name = names[ind].replace(",", "");
-                  getData(name);
+              console.log(previousNames)
+              console.log(names)
+              if (previousNames){
+                if (!(names == previousNames) && (teams.includes("#1"))){
+                  let stats = document.getElementById("sections")
+                  stats.innerHTML = ""
+                  for (ind in names) {
+                      let name = names[ind].replace(",", "");
+                      getData(name);
+                  }
+                }
+              }else{
+                if (teams.includes("#1")){
+                  let stats = document.getElementById("sections")
+                  stats.innerHTML = ""
+                  for (ind in names) {
+                    let name = names[ind].replace(",", "");
+                    getData(name);
+                  }
+                }
               }
+              
+              previousNames = names
+
+              
               
             });
 
@@ -555,7 +678,7 @@
     });
     
 
-    names = ["Dragondoodler222", "lowof"]
+    names = ["Dragondoodler222", "lowof", "wemmbu", "BuckyBarrTV"]
     for (name in names) {
       getData(names[name])
     }
