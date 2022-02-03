@@ -446,6 +446,26 @@
               tr.appendChild(diffInMins_elem)
               let tbody = document.getElementById("tbody")
               tbody.appendChild(tr);
+
+              const table = document.getElementById("statsTable")
+              let tableArray = table_to_array("statsTable")
+              const tBody = table.tBodies[0]
+              tableArray.sort( function( a, b )
+              {
+                if ( parseFloat(a[4]) == parseFloat(b[4]) ) return 0;
+                return parseFloat(a[4]) > parseFloat(b[4]) ? -1 : 1;
+              });
+              let trArr = Array.from(tBody.querySelectorAll("tr"))
+              tbody.innerHTML = ""
+              for (i = 0; i < tableArray.length; i++){
+                  for (j = 0; j < trArr.length; j++){
+                      //console.log(tableArray[i][0], typeof trArr[j].innerText, "bob")
+                      if ((trArr[j].innerText).includes(tableArray[i][0])){
+                          //console.log("mathc")
+                          tbody.appendChild(trArr[j])
+                      }
+                  }
+              }
               
               // if (rank == "[YOUTUBE]") {
               //   plusc = "#E0E0E0"
@@ -597,6 +617,38 @@
         });
 
     }
+    function removePlayer(ign){
+      const table = document.getElementById("statsTable")
+      const tBody = table.tBodies[0]
+      let trArr = Array.from(tBody.querySelectorAll("tr"))
+      console.log(trArr)
+      for (j = 0; j < trArr.length; j++){
+          console.log(trArr[j])
+          if ((trArr[j].innerText).includes(ign)){
+              trArr[j].remove()
+          }
+      }   
+    }
+  </script>
+  <script type="text/javascript">
+    function table_to_array(table_id) {
+        myData = document.getElementById(table_id).rows
+        //console.log(myData)
+        my_liste = []
+        for (var i = 0; i < myData.length; i++) {
+                if (i != 0){
+                    el = myData[i].children
+                    my_el = []
+                    for (var j = 0; j < el.length; j++) {
+                            my_el.push(el[j].innerText);
+                    }
+                    my_liste.push(my_el)
+                }
+                
+
+        }
+        return my_liste
+    }
   </script>
   <script>
 
@@ -625,6 +677,15 @@
                 console.log(line)
                 let line_parts = line.split(' ')
                 console.log(line_parts)
+                if (line_parts[6]){
+                  console.log(line_parts[4]+line_parts[5]+line_parts[6])
+                  if (line_parts[4]+line_parts[5]+line_parts[6] == "YournewAPI"){
+                      //set api key
+                      console.log("API")
+
+                      setAPIKey(line_parts[9].replace(/\n/g, ''))
+                  } 
+                }
                 if (line_parts[4] == "Team") {
                     console.log(line_parts[5])
                     teams.push(line_parts[5]);
@@ -644,7 +705,27 @@
                     
                         //console.log(arr)
                         //stats.push(arr)
+                }
+                if (line_parts[8]){
+                  if((line_parts[7]+line_parts[8][0]) == "thel"){
+                      //console.log("bob")
+                      const table_body = document.querySelector('tbody');
+                      table_body.innerHTML = "";
+                  }
+                }
+                console.log((line_parts[5]+line_parts[6]))
+                if (line_parts[7]){
+                   if((line_parts[5]+line_parts[6]+line_parts[7][0]) == "hasjoined("){
+                        getData(line_parts[4])
                     }
+                }
+                // console.log((line_parts[5]+line_parts[6]) == "hasquit!")
+                // console.log((line_parts[5]+line_parts[6]))
+                if (line_parts[6]){
+                    if ((line_parts[5]+line_parts[6][0]) == "hasq"){
+                        removePlayer(line_parts[4])
+                    }
+                }
               }
               console.log(previousNames)
               console.log(names)
@@ -676,12 +757,28 @@
 
                
     });
+    function setAPIKey(key){
+      console.log(key);
+      var path = require("path")
+      const filename = path.resolve(__dirname, "data.json");
+      var file_content = fs.readFileSync(filename);
+      var content = JSON.parse(file_content);
+      console.log(content)
+      content.api_key = key
+
+      fs.writeFile(filename, JSON.stringify(content), function writeJSON(err) {
+        if (err) return console.log(err);
+      });
+    }
     
 
-    names = ["Dragondoodler222", "lowof", "wemmbu", "BuckyBarrTV"]
-    for (name in names) {
-      getData(names[name])
-    }
+    // names = ["Dragondoodler222", "lowof", "wemmbu", "BuckyBarrTV"]
+    // for (name in names) {
+    //   getData(names[name])
+    // }
+    // setTimeout(function () {
+    //     removePlayer("lowof")
+    // }, 5000);
   </script>
   <script src="duelsTitle.js"></script>
   <script src="plusColor.js"></script>

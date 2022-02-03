@@ -100,20 +100,19 @@
         console.log(`Watching for file changes on ${buttonPressesLogFile}`);
 
         fs.watchFile(buttonPressesLogFile, { interval: 1}, (curr, prev) => {
-          console.log(`${buttonPressesLogFile} file Changed`);
+          //console.log(`${buttonPressesLogFile} file Changed`);
 
           readLastLines.read(localStorage.getItem('log_path'), 1)
                 .then((lines) => {
-                    //console.log("bo")
+                    console.log("bo")
                     line_parts = lines.split(' ')
                     //[12:08:04] [Client thread/INFO]: [CHAT] Your new API key is 23375d4a-288e-4fad-8941-c8513bc0924d
                     if (line_parts[6]){
-                        console.log(line_parts[4]+line_parts[5]+line_parts[6])
+                        //console.log(line_parts[4]+line_parts[5]+line_parts[6])
                         if (line_parts[4]+line_parts[5]+line_parts[6] == "YournewAPI"){
                             //set api key
                             console.log("API")
-
-                            setAPIKey(line_parts[9].replace(/\n/g, ''))
+                            setAPIKey(line_parts[9].replace(/\n/g,''))
                         } 
                     }
                     
@@ -137,9 +136,10 @@
 
                         //FINALLYt
                     }
-                    if (line_parts[9]){
-                        if((line_parts[7]+line_parts[8]+line_parts[9][0]) == "intothel"){
-                            console.log("bob")
+
+                    if (line_parts[8]){
+                        if((line_parts[7]+line_parts[8][0]) == "thel"){
+                            //console.log("bob")
                             const table_body = document.querySelector('tbody');
                             table_body.innerHTML = "";
                         }
@@ -149,8 +149,10 @@
                             getData(line_parts[4])
                         }
                     }
+                    // console.log((line_parts[5]+line_parts[6]) == "hasquit!")
+                    // console.log((line_parts[5]+line_parts[6]))
                     if (line_parts[6]){
-                        if ((line_parts[5]+line_parts[6]) == "hasquit!"){
+                        if ((line_parts[5]+line_parts[6][0]) == "hasq"){
                             removePlayer(line_parts[4])
                         }
                     }
@@ -261,12 +263,15 @@
         
         //table_body.innerHTML = "";
         
-        for (ind in names) {
-            let name = names[ind].replace(",", "");
-            getData(name);
-            //console.log(arr)
-            //stats.push(arr)
-        }
+        // for (ind in names) {
+        //     let name = names[ind].replace(",", "");
+        //     getData(name);
+        //     //console.log(arr)
+        //     //stats.push(arr)
+        // }
+        // setTimeout(function () {
+        //     removePlayer("lowof")
+        // }, 5000);
         
         function getData(name, totalStats) {
             //console.log(name)
@@ -681,9 +686,9 @@
                             table_body.innerHTML = ""
                             for (i = 0; i < tableArray.length; i++){
                                 for (j = 0; j < trArr.length; j++){
-                                    console.log(tableArray[i][0], typeof trArr[j].innerText, "bob")
+                                    //console.log(tableArray[i][0], typeof trArr[j].innerText, "bob")
                                     if ((trArr[j].innerText).includes(tableArray[i][0])){
-                                        console.log("mathc")
+                                        //console.log("mathc")
                                         table_body.appendChild(trArr[j])
                                     }
                                 }
@@ -716,8 +721,18 @@
         }
 
 
-        function removePlayer(){
-            console.log("hi")
+        function removePlayer(ign){
+            const table = document.getElementById("statsTable")
+            const tBody = table.tBodies[0]
+            let trArr = Array.from(tBody.querySelectorAll("tr"))
+            console.log(trArr)
+            for (j = 0; j < trArr.length; j++){
+                console.log(trArr[j])
+                if ((trArr[j].innerText).includes(ign)){
+                    trArr[j].remove()
+                }
+            }
+            
             
         }
     </script>

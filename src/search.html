@@ -105,6 +105,57 @@
         form.addEventListener('submit', load_stats)
     </script>
 
+    <script type="text/javascript">
+        console.log("running")
+        const electron = require('electron');
+        const readLastLines = require('read-last-lines');
+        var fs = require('fs');
+        const path = require('path');
+        
+        //const log_timestamp = require('log-timestamp');
+
+        const buttonPressesLogFile = localStorage.getItem('log_path');
+
+        console.log(`Watching for file changes on ${buttonPressesLogFile}`);
+
+        fs.watchFile(buttonPressesLogFile, { interval: 1}, (curr, prev) => {
+          console.log(`${buttonPressesLogFile} file Changed`);
+
+          readLastLines.read(localStorage.getItem('log_path'), 20)
+                .then((lines) => {
+                    let team_lines;
+                    loop_lines = lines.split("\n")
+                    //console.log(lines.split("\n"))
+                    for (var i = loop_lines.length - 1; i >= 0; i--){
+                      let line_parts = loop_lines[i].split(' ')
+                      //console.log(line_parts[4])
+                      if (line_parts[6]){
+                        console.log(line_parts[4]+line_parts[5]+line_parts[6])
+                        if (line_parts[4]+line_parts[5]+line_parts[6] == "YournewAPI"){
+                            //set api key
+                            console.log("API")
+
+                            setAPIKey(line_parts[9].replace(/\n/g, ''))
+                        } 
+                      }
+                    }
+                })
+          })
+        function setAPIKey(key){
+          console.log(key);
+          var path = require("path")
+          const filename = path.resolve(__dirname, "data.json");
+          var file_content = fs.readFileSync(filename);
+          var content = JSON.parse(file_content);
+          console.log(content)
+          content.api_key = key
+
+          fs.writeFile(filename, JSON.stringify(content), function writeJSON(err) {
+            if (err) return console.log(err);
+          });
+        }
+  </script>
+
 </body>
 
 </html>
