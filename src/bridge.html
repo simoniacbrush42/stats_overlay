@@ -683,7 +683,7 @@
                       //set api key
                       console.log("API")
 
-                      setAPIKey(line_parts[9].replace(/\n/g, ''))
+                      setAPIKey(line_parts[9].slice(0, -2))
                   } 
                 }
                 if (line_parts[4] == "Team") {
@@ -769,6 +769,7 @@
       fs.writeFile(filename, JSON.stringify(content), function writeJSON(err) {
         if (err) return console.log(err);
       });
+      localStorage.setItem("api_key", key)
     }
     
 

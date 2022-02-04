@@ -135,7 +135,7 @@
                                 //set api key
                                 console.log("API")
 
-                                setAPIKey(line_parts[9].replace(/\n/g, ''))
+                                setAPIKey(line_parts[9].slice(0, -2))
                             } 
                         }
                     }
@@ -153,6 +153,7 @@
           fs.writeFile(filename, JSON.stringify(content), function writeJSON(err) {
             if (err) return console.log(err);
           });
+          localStorage.setItem("api_key", key)
         }
 
     </script>
@@ -425,7 +426,12 @@
             nw.innerHTML = "Network Level: " + networkLevel
             generic_list.appendChild(nw) 
             last_login = document.createElement('li')
-            last_login.innerHTML = "Latest Login: " + humanDateFormat 
+            if (humanDateFormat == "Invalid Date"){
+                last_login.innerHTML = "Latest Login: Not Enabled"
+            }else{
+                last_login.innerHTML = "Latest Login: " + humanDateFormat
+            }
+             
             generic_list.appendChild(last_login)
 
             //bw stats
@@ -489,8 +495,13 @@
             d_wins = document.createElement('li') 
             d_wins.innerHTML = "Wins: " + duels_wins
             duels_list.appendChild(d_wins)
-            d_ws = document.createElement('li') 
-            d_ws.innerHTML = "Winstreak: " + duels_ws
+            d_ws = document.createElement('li')
+            if (duels_ws){
+               d_ws.innerHTML = "Winstreak: " + duels_ws 
+           }else{
+                d_ws.innerHTML = "Winstreak: 0" 
+           } 
+            
             duels_list.appendChild(d_ws)
             d_wlr = document.createElement('li')
             d_wlr.innerHTML = "WLR: " + duels_wlr

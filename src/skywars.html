@@ -101,42 +101,52 @@
         fs.watchFile(buttonPressesLogFile, { interval: 1}, (curr, prev) => {
           console.log(`${buttonPressesLogFile} file Changed`);
 
-          readLastLines.read(localStorage.getItem('log_path'), 20)
+          readLastLines.read(localStorage.getItem('log_path'), 1)
                 .then((lines) => {
-                    let team_lines;
+                    
                     loop_lines = lines.split("\n")
                     //console.log(lines.split("\n"))
                     for (var i = loop_lines.length - 1; i >= 0; i--){
                         let line_parts = loop_lines[i].split(' ')
+                        if (line_parts[6]){
+                            if ((line_parts[3]+line_parts[4]+line_parts[5][0])=="[CHAT]Team#"){
+                                //console.log(line_parts[5].slice(1,-1))
+                                
+                                 readLastLines.read(localStorage.getItem('log_path'), parseInt(line_parts[5].slice(1,-1), 10))
+                                    .then((lines) => {
+                                        console.log("BOB")
+                                        let team_lines;
+                                        loop_lines = lines.split("\n")
+                                        //console.log(lines.split("\n"))
+                                        for (var i = loop_lines.length - 1; i >= 0; i--){
+                                            let line_parts = loop_lines[i].split(' ')
+                                            //console.log(line_parts)
+                                            //console.log(line_parts[4])
+                                            if (line_parts[4] == "Team"){
+                                                //console.log("FOUND")
+                                                    //console.log("bob")
+                                                team_lines = loop_lines.slice(i);
+                                                //console.log(team_lines)
+                                                
+                                                
+                                            }
+                                        }
+                                        fromTeamLines(team_lines)
+                                    })
+                                
+                            }
+                        }
                         //console.log(line_parts[4])
                         if (line_parts[6]){
-                            console.log(line_parts[4]+line_parts[5]+line_parts[6])
+                            //console.log(line_parts[4]+line_parts[5]+line_parts[6])
                             if (line_parts[4]+line_parts[5]+line_parts[6] == "YournewAPI"){
                                 //set api key
                                 console.log("API")
 
-                                setAPIKey(line_parts[9].replace(/\n/g, ''))
+                                setAPIKey(line_parts[9].slice(0, -2))
                             } 
                         }
-                        if (line_parts[4] == "Mode:"){
-                            console.log("FOUND")
-                            let testingDate = new Date();
-                            let hours = line_parts[0].substring(1,3)
-                            let minutes = line_parts[0].substring(4,6)
-                            let seconds = line_parts[0].substring(7,9)
-                            //console.log(hours, minutes, seconds)
-                            testingDate.setHours(hours)
-                            testingDate.setMinutes(minutes)
-                            testingDate.setSeconds(seconds)
-                            let time = new Date(Date.now());
-                            var dif = time - testingDate
-                            if ((dif/1000) < 5){
-                                console.log("bob")
-                                let team_lines = loop_lines.slice(i+1);
-                                console.log(team_lines)
-                                fromTeamLines(team_lines)
-                            }
-                        }
+                        
                         if (line_parts[8]){
                             if((line_parts[7]+line_parts[8][0]) == "thel"){
                                 //console.log("bob")
@@ -158,10 +168,10 @@
                         }
                     }
 
-                    /*
                     
-                    */
-                })
+                    
+                   
+            })
 
         });
         function setAPIKey(key){
@@ -176,12 +186,14 @@
           fs.writeFile(filename, JSON.stringify(content), function writeJSON(err) {
             if (err) return console.log(err);
           });
+          localStorage.setItem("api_key", key)
         }
         console.log("dumb")
 
         function fromTeamLines(team_lines){
             const table_body = document.querySelector('tbody');
-            //console.log("poo");
+            console.log("poo");
+            console.log(team_lines)
             let names_list = []
             table_body.innerHTML = "";
             for (ind in team_lines){
@@ -195,15 +207,11 @@
                         names = line_parts.slice(6);
                         for (ind in names) {
                             let name = names[ind].replace(",", "");
-                            names_list.push(name)
+                            getData(name)
                         }
                     } 
                 }
                 
-            }
-            
-            for (ind in names_list){
-                getData(names_list[ind])
             }
         }
 
@@ -332,365 +340,355 @@
                             kills?
                             lvl
                             */
-                            var inTable = false;
-                            const table1 = document.getElementById("statsTable")
-                            const tBody1 = table1.tBodies[0]
-                            let trArr1 = Array.from(tBody1.querySelectorAll("tr"))
-                            console.log(trArr1)
-                            for (j = 0; j < trArr1.length; j++){
-                                console.log(trArr1[j])
-                                if ((trArr1[j].innerText).includes(name)){
-                                    inTable = true
-                                }
+                            
+                            
+                            let name = player.displayname
+                            console.log(name)
+
+                            let last_login = player.lastLogin
+                            let sw_exp = player.stats.SkyWars.skywars_experience
+                            let sw_lvl;
+                            if (sw_exp){
+                                sw_lvl = sw_xp_to_lvl(sw_exp).toFixed(0)
+                            } else {
+                                sw_lvl = 1
                             }
-                            if (!inTable){
-                                let name = player.displayname
-                                console.log(name)
+                            let ws = player.stats.SkyWars.win_streak
+                            let wins = player.stats.SkyWars.wins
+                            let losses = player.stats.SkyWars.losses
+                            let wlr;
 
-                                let last_login = player.lastLogin
-                                let sw_exp = player.stats.SkyWars.skywars_experience
-                                let sw_lvl;
-                                if (sw_exp){
-                                    sw_lvl = sw_xp_to_lvl(sw_exp).toFixed(0)
-                                } else {
-                                    sw_lvl = 1
-                                }
-                                let ws = player.stats.SkyWars.win_streak
-                                let wins = player.stats.SkyWars.wins
-                                let losses = player.stats.SkyWars.losses
-                                let wlr;
+                            if (wins && losses){
+                                wlr = (wins/losses).toFixed(2)
+                            }else if (wins && !losses){
+                                wlr = wins
+                            }else{
+                                wlr = 0
+                            }
+                            if (!ws){
+                                ws = 0
+                            }
+                            
+                            let kills = player.stats.SkyWars.kills
+                            if (!kills){
+                                kills = 0
+                            }
+                            let deaths = player.stats.SkyWars.deaths
+                            let kdr;
+                            if (kills && deaths){
+                                kdr = (kills/deaths).toFixed(2)
+                            }else if (kills && !deaths){
+                                kdr = kills
+                            }else{
+                                kdr = 0
+                            }
+                            time = new Date(Date.now());
+                            //console.log(time)
+                            //console.log(last_login)
+                            var login = new Date(last_login);
+                            const diffTime = Math.abs(time - login);
+                            var diffInMins = (diffTime/60000).toFixed(0);
+                            //console.log(login)
+                            if (!diffInMins){
+                                diffInMins = "X"
+                            }
+                            const table_body = document.querySelector('tbody');
+                            let rank;
+                            let rank_color;
+                            if (player.rank) {
+                                rank = player.rank;
+                                if (rank == "YOUTUBER") {
+                                    rank = "[YOUTUBE]"
+                                    rank_color = "#FF5555"
 
-                                if (wins && losses){
-                                    wlr = (wins/losses).toFixed(2)
-                                }else if (wins && !losses){
-                                    wlr = wins
-                                }else{
-                                    wlr = 0
+                                } else if (rank == "ADMIN") {
+                                    rank = "[ADMIN]"
                                 }
-                                if (!ws){
-                                    ws = 0
-                                }
-                                
-                                let kills = player.stats.SkyWars.kills
-                                if (!kills){
-                                    kills = 0
-                                }
-                                let deaths = player.stats.SkyWars.deaths
-                                let kdr;
-                                if (kills && deaths){
-                                    kdr = (kills/deaths).toFixed(2)
-                                }else if (kills && !deaths){
-                                    kdr = kills
-                                }else{
-                                    kdr = 0
-                                }
-                                time = new Date(Date.now());
-                                //console.log(time)
-                                //console.log(last_login)
-                                var login = new Date(last_login);
-                                const diffTime = Math.abs(time - login);
-                                var diffInMins = (diffTime/60000).toFixed(0);
-                                //console.log(login)
-                                if (!diffInMins){
-                                    diffInMins = "X"
-                                }
-                                const table_body = document.querySelector('tbody');
-                                let rank;
-                                let rank_color;
-                                if (player.rank) {
-                                    rank = player.rank;
-                                    if (rank == "YOUTUBER") {
-                                        rank = "[YOUTUBE]"
-                                        rank_color = "#FF5555"
-
-                                    } else if (rank == "ADMIN") {
-                                        rank = "[ADMIN]"
-                                    }
-                                } else {
-                                    if (player.monthlyPackageRank) {
-                                        rank = player.monthlyPackageRank
-                                        if (player.monthlyPackageRank == "SUPERSTAR") {
-                                            rank = "[MVP++]"
-                                            rank_color = player.monthlyRankColor
-                                            if (rank_color == "GOLD") {
-                                                rank_color = "rgb(255,170,0)"
-                                            } else {
-                                                rank_color = "rgb(85,255,255)"
-                                            }
+                            } else {
+                                if (player.monthlyPackageRank) {
+                                    rank = player.monthlyPackageRank
+                                    if (player.monthlyPackageRank == "SUPERSTAR") {
+                                        rank = "[MVP++]"
+                                        rank_color = player.monthlyRankColor
+                                        if (rank_color == "GOLD") {
+                                            rank_color = "rgb(255,170,0)"
                                         } else {
-                                            new_pckg = player.newPackageRank
-                                            if (new_pckg) {
-                                                //console.log("bo")
-                                                rank = new_pckg
-                                                //console.log(rank)
-                                                if (rank == "MVP_PLUS") {
-                                                    rank = "[MVP+]"
-                                                    rank_color = "rgb(85,255,255)"
-                                                } else if (rank == "MVP") {
-                                                    rank = "[MVP]"
-                                                    rank_color = "rgb(85,255,255)"
-                                                } else if (rank == "VIP_PLUS") {
-                                                    rank = "[VIP+]"
-                                                    rank_color = "rgb(85,255,85)"
-
-                                                } else if (rank == "VIP") {
-                                                    //console.log("vip")
-                                                    rank = "[VIP]"
-                                                    rank_color = "rgb(85,255,85)"
-                                                }
-                                            } else {
-                                                rank = "NONE"
-                                            }
-
-                                        }
-                                    } else if (player.newPackageRank) {
-                                        new_pckg = player.newPackageRank
-                                        if (new_pckg) {
-                                            //console.log("new")
-                                            rank = new_pckg
-                                            if (rank == "MVP_PLUS") {
-                                                //console.log('smell')
-                                                rank = "[MVP+]"
-                                                rank_color = "rgb(85,255,255)"
-                                            } else if (rank == "MVP") {
-                                                rank = "[MVP]"
-                                                rank_color = "rgb(85,255,255)"
-                                            } else if (rank == "VIP_PLUS") {
-                                                rank = "[VIP+]"
-                                                rank_color = "rgb(85,255,85)"
-                                            } else if (rank == "VIP") {
-                                                rank = "[VIP]"
-                                                rank_color = "rgb(85,255,85)"
-                                            }
-                                        } else {
-                                            rank = "NONE"
+                                            rank_color = "rgb(85,255,255)"
                                         }
                                     } else {
-                                        //console.log('test')
-                                        new_pckg = player.packageRank
-                                        //console.log(new_pckg)
+                                        new_pckg = player.newPackageRank
                                         if (new_pckg) {
+                                            //console.log("bo")
                                             rank = new_pckg
                                             //console.log(rank)
                                             if (rank == "MVP_PLUS") {
-                                                console.log('smell')
                                                 rank = "[MVP+]"
+                                                rank_color = "rgb(85,255,255)"
                                             } else if (rank == "MVP") {
                                                 rank = "[MVP]"
+                                                rank_color = "rgb(85,255,255)"
                                             } else if (rank == "VIP_PLUS") {
                                                 rank = "[VIP+]"
+                                                rank_color = "rgb(85,255,85)"
+
                                             } else if (rank == "VIP") {
                                                 //console.log("vip")
                                                 rank = "[VIP]"
+                                                rank_color = "rgb(85,255,85)"
                                             }
                                         } else {
                                             rank = "NONE"
                                         }
 
                                     }
-                                }
-
-                                let plusColor;
-
-                                if (player.rankPlusColor) {
-                                    plusColor = player.rankPlusColor
-                                } else {
-                                    plusColor = ""
-                                }
-
-
-                                let plus;
-                                let p1;
-                                let p2;
-                                let plusFound = false;
-                                //console.log(rank)
-                                if (rank != "NONE") {
-                                    name = rank + " " + name
-                                } else {
-                                    console.log(name, "non")
-                                    rank_color = "#AAAAAA"
-                                }
-                                if (rank == "[YOUTUBE]") {
-                                    //console.log("youtuber")
-                                    p1 = name.substring(0, 1)
-                                    plus = name.substring(1, 8)
-                                    p2 = name.substring(8)
-                                } else {
-                                    //console.log("normal")
-                                    for (var i = 0; i < name.length; i++) {
-                                        if (name[i] == "+") {
-                                            plusFound = true;
-                                            p1 = name.substring(0, i)
-                                            if (name[i + 1] == "+") {
-                                                plus = name.substring(i, i + 2)
-                                                p2 = name.substring((i + 2));
-
-                                            } else {
-                                                plus = name.substring(i, i + 1)
-                                                p2 = name.substring(i + 1);
-                                            }
-                                            { break; }
+                                } else if (player.newPackageRank) {
+                                    new_pckg = player.newPackageRank
+                                    if (new_pckg) {
+                                        //console.log("new")
+                                        rank = new_pckg
+                                        if (rank == "MVP_PLUS") {
+                                            //console.log('smell')
+                                            rank = "[MVP+]"
+                                            rank_color = "rgb(85,255,255)"
+                                        } else if (rank == "MVP") {
+                                            rank = "[MVP]"
+                                            rank_color = "rgb(85,255,255)"
+                                        } else if (rank == "VIP_PLUS") {
+                                            rank = "[VIP+]"
+                                            rank_color = "rgb(85,255,85)"
+                                        } else if (rank == "VIP") {
+                                            rank = "[VIP]"
+                                            rank_color = "rgb(85,255,85)"
                                         }
+                                    } else {
+                                        rank = "NONE"
                                     }
-                                }
-
-                                if (!plusFound && rank != "[YOUTUBE]") {
-                                    p1 = name.substring(0, 5)
-                                    p2 = name.substring(5)
-                                }
-
-                                let span = document.createElement("span");
-
-                                span.textContent = plus
-                                if (rank == "[YOUTUBE]") {
-                                    plusc = "#E0E0E0"
-                                } else if(rank == "[VIP+]"){
-                                    plusc = "#FFAA00"
-                                } else if(rank != ""){
-                                    if (plusColor != ""){
-                                        plusc = plus_to_color(plusColor)
-                                    }else{
-                                       plusc = "#FF5555" 
-                                    }
-                                    
-                                }
-
-                                let ign = document.createElement("td")
-                                //ign.style.objectPosition = "center top"
-                                ign.classList.add("names");
-                                let im_span = document.createElement("span")
-                                im_span.style.paddingRight = "5px"
-                                let im = document.createElement("img")
-                                im.src = "https://crafatar.com/avatars/" + uid +
-                                    "?size=15&default=MHF_Steve&overlay"
-                                im_span.appendChild(im)
-                                span.style.float = "none"
-                                span.style.color = plusc
-                                ign.style.color = rank_color
-                                star_span = document.createElement("span")
-                                star_span.appendChild(getSkyWarsPrestigeItems(sw_lvl))
-                                ign.appendChild(im_span)
-                                ign.appendChild(star_span)
-                                ign.appendChild(document.createTextNode(p1))
-                                ign.appendChild(span)
-                                ign.appendChild(document.createTextNode(p2))
-
-
-                                const tr = document.createElement("tr");
-                                tr.style.paddingBottom = "100px"
-                                //ign.style.textAlign = 'left';
-                                tr.appendChild(ign)
-
-                                
-                    
-                               
-                                if (wlr < 0.1){
-                                    c = "rgb(102,255,102)"
-                                }else if (wlr < 0.2){
-                                    c = "orange"
-                                }else if (wlr < 0.5){
-                                    c = "#EF6C6C"
-                                }else{
-                                    c = "red"
-                                }
-                                
-                                
-
-
-                                ws_elem = document.createElement("td");
-                                ws_elem.style.position = "absolute";
-                                ws_elem.style.left = '271px';
-                                ws_elem.classList.add("ws")
-                                ws_elem.style.color = c
-                                if (!ws && ws != 0){
-                                    ws = "X"
-                                }
-                                ws_elem.innerHTML = ws
-                                tr.appendChild(ws_elem)
-
-                                kills_elem = document.createElement("td");
-                                kills_elem.style.position = "absolute";
-                                kills_elem.style.left = '361px';
-                                kills_elem.style.color = c
-                                kills_elem.innerHTML = kills
-                                tr.appendChild(kills_elem)
-
-                                kdr_elem = document.createElement("td");
-                                kdr_elem.style.position = "absolute";
-                                kdr_elem.style.left = '474px';
-                                kdr_elem.style.color = c
-                                kdr_elem.innerHTML = kdr
-                                tr.appendChild(kdr_elem)
-
-                                wlr_elem = document.createElement("td");
-                                wlr_elem.style.position = "absolute";
-                                wlr_elem.style.left = '582px';
-                                wlr_elem.style.color = c
-                                wlr_elem.innerHTML = wlr
-                                tr.appendChild(wlr_elem)
-
-                                diffInMins_elem = document.createElement("td");
-                                diffInMins_elem.style.position = "absolute";
-                                diffInMins_elem.style.left = '707px';
-                                diffInMins_elem.paddingLeft = "35px"
-                                diffInMins_elem.style.color = c
-                                if (!last_login){
-                                    diffInMins = "X"
-                                }
-                                diffInMins_elem.innerHTML = diffInMins
-                                tr.appendChild(diffInMins_elem)
-
-                                /*
-                                for (i in stats) {
-                                    //console.log(i)
-                                    //console.log(stats[i])
-                                    const data = document.createElement("td");
-
-                                    if (i == 0) {
-                                        const im = document.createElement("img")
-                                        const par = document.createElement("p")
-                                        parts = stats[i].split(" ")
-                                        im.src = parts[0]
-                                        im.style.paddingRight = "5px";
-                                        data.appendChild(im)
-                                        par.innerHTML = "  " + parts[1] + " " + parts[2];
-                                        data.style.paddingRight = "40px"
-                                        data.appendChild(par)
-                                        data.style.display = "flex";
-                                    } else if (i == 4) {
-                                        data.style.paddingRight = "30px"
-                                        data.style.paddingLeft = "30px"
-                                    } else if (i == 8) {
-                                        data.style.paddingRight = "0px"
-                                    }
-                                    if (i != 0) {
-                                        data.innerHTML = stats[i]
-                                    }
-                                    tr.appendChild(data)
-                                }
-                                */
-                                table_body.appendChild(tr)
-                                
-                                const table = document.getElementById("statsTable")
-                                let tableArray = table_to_array("statsTable")
-                                const tBody = table.tBodies[0]
-                                tableArray.sort( function( a, b )
-                                {
-                                  if ( parseFloat(a[4]) == parseFloat(b[4]) ) return 0;
-                                  return parseFloat(a[4]) > parseFloat(b[4]) ? -1 : 1;
-                                });
-                                let trArr = Array.from(tBody.querySelectorAll("tr"))
-                                table_body.innerHTML = ""
-                                for (i = 0; i < tableArray.length; i++){
-                                    for (j = 0; j < trArr.length; j++){
-                                        console.log(tableArray[i][0], typeof trArr[j].innerText, "bob")
-                                        if ((trArr[j].innerText).includes(tableArray[i][0])){
-                                            console.log("mathc")
-                                            table_body.appendChild(trArr[j])
+                                } else {
+                                    //console.log('test')
+                                    new_pckg = player.packageRank
+                                    //console.log(new_pckg)
+                                    if (new_pckg) {
+                                        rank = new_pckg
+                                        //console.log(rank)
+                                        if (rank == "MVP_PLUS") {
+                                            console.log('smell')
+                                            rank = "[MVP+]"
+                                        } else if (rank == "MVP") {
+                                            rank = "[MVP]"
+                                        } else if (rank == "VIP_PLUS") {
+                                            rank = "[VIP+]"
+                                        } else if (rank == "VIP") {
+                                            //console.log("vip")
+                                            rank = "[VIP]"
                                         }
+                                    } else {
+                                        rank = "NONE"
+                                    }
+
+                                }
+                            }
+
+                            let plusColor;
+
+                            if (player.rankPlusColor) {
+                                plusColor = player.rankPlusColor
+                            } else {
+                                plusColor = ""
+                            }
+
+
+                            let plus;
+                            let p1;
+                            let p2;
+                            let plusFound = false;
+                            //console.log(rank)
+                            if (rank != "NONE") {
+                                name = rank + " " + name
+                            } else {
+                                console.log(name, "non")
+                                rank_color = "#AAAAAA"
+                            }
+                            if (rank == "[YOUTUBE]") {
+                                //console.log("youtuber")
+                                p1 = name.substring(0, 1)
+                                plus = name.substring(1, 8)
+                                p2 = name.substring(8)
+                            } else {
+                                //console.log("normal")
+                                for (var i = 0; i < name.length; i++) {
+                                    if (name[i] == "+") {
+                                        plusFound = true;
+                                        p1 = name.substring(0, i)
+                                        if (name[i + 1] == "+") {
+                                            plus = name.substring(i, i + 2)
+                                            p2 = name.substring((i + 2));
+
+                                        } else {
+                                            plus = name.substring(i, i + 1)
+                                            p2 = name.substring(i + 1);
+                                        }
+                                        { break; }
                                     }
                                 }
                             }
+
+                            if (!plusFound && rank != "[YOUTUBE]") {
+                                p1 = name.substring(0, 5)
+                                p2 = name.substring(5)
+                            }
+
+                            let span = document.createElement("span");
+
+                            span.textContent = plus
+                            if (rank == "[YOUTUBE]") {
+                                plusc = "#E0E0E0"
+                            } else if(rank == "[VIP+]"){
+                                plusc = "#FFAA00"
+                            } else if(rank != ""){
+                                if (plusColor != ""){
+                                    plusc = plus_to_color(plusColor)
+                                }else{
+                                   plusc = "#FF5555" 
+                                }
+                                
+                            }
+
+                            let ign = document.createElement("td")
+                            //ign.style.objectPosition = "center top"
+                            ign.classList.add("names");
+                            let im_span = document.createElement("span")
+                            im_span.style.paddingRight = "5px"
+                            let im = document.createElement("img")
+                            im.src = "https://crafatar.com/avatars/" + uid +
+                                "?size=15&default=MHF_Steve&overlay"
+                            im_span.appendChild(im)
+                            span.style.float = "none"
+                            span.style.color = plusc
+                            ign.style.color = rank_color
+                            star_span = document.createElement("span")
+                            star_span.appendChild(getSkyWarsPrestigeItems(sw_lvl))
+                            ign.appendChild(im_span)
+                            ign.appendChild(star_span)
+                            ign.appendChild(document.createTextNode(p1))
+                            ign.appendChild(span)
+                            ign.appendChild(document.createTextNode(p2))
+
+
+                            const tr = document.createElement("tr");
+                            tr.style.paddingBottom = "100px"
+                            //ign.style.textAlign = 'left';
+                            tr.appendChild(ign)
+
+                            
+                
+                           
+                            if (wlr < 0.1){
+                                c = "rgb(102,255,102)"
+                            }else if (wlr < 0.2){
+                                c = "orange"
+                            }else if (wlr < 0.5){
+                                c = "#EF6C6C"
+                            }else{
+                                c = "red"
+                            }
+                            
+                            
+
+
+                            ws_elem = document.createElement("td");
+                            ws_elem.style.position = "absolute";
+                            ws_elem.style.left = '271px';
+                            ws_elem.classList.add("ws")
+                            ws_elem.style.color = c
+                            if (!ws && ws != 0){
+                                ws = "X"
+                            }
+                            ws_elem.innerHTML = ws
+                            tr.appendChild(ws_elem)
+
+                            kills_elem = document.createElement("td");
+                            kills_elem.style.position = "absolute";
+                            kills_elem.style.left = '361px';
+                            kills_elem.style.color = c
+                            kills_elem.innerHTML = kills
+                            tr.appendChild(kills_elem)
+
+                            kdr_elem = document.createElement("td");
+                            kdr_elem.style.position = "absolute";
+                            kdr_elem.style.left = '474px';
+                            kdr_elem.style.color = c
+                            kdr_elem.innerHTML = kdr
+                            tr.appendChild(kdr_elem)
+
+                            wlr_elem = document.createElement("td");
+                            wlr_elem.style.position = "absolute";
+                            wlr_elem.style.left = '582px';
+                            wlr_elem.style.color = c
+                            wlr_elem.innerHTML = wlr
+                            tr.appendChild(wlr_elem)
+
+                            diffInMins_elem = document.createElement("td");
+                            diffInMins_elem.style.position = "absolute";
+                            diffInMins_elem.style.left = '707px';
+                            diffInMins_elem.paddingLeft = "35px"
+                            diffInMins_elem.style.color = c
+                            if (!last_login){
+                                diffInMins = "X"
+                            }
+                            diffInMins_elem.innerHTML = diffInMins
+                            tr.appendChild(diffInMins_elem)
+
+                            /*
+                            for (i in stats) {
+                                //console.log(i)
+                                //console.log(stats[i])
+                                const data = document.createElement("td");
+
+                                if (i == 0) {
+                                    const im = document.createElement("img")
+                                    const par = document.createElement("p")
+                                    parts = stats[i].split(" ")
+                                    im.src = parts[0]
+                                    im.style.paddingRight = "5px";
+                                    data.appendChild(im)
+                                    par.innerHTML = "  " + parts[1] + " " + parts[2];
+                                    data.style.paddingRight = "40px"
+                                    data.appendChild(par)
+                                    data.style.display = "flex";
+                                } else if (i == 4) {
+                                    data.style.paddingRight = "30px"
+                                    data.style.paddingLeft = "30px"
+                                } else if (i == 8) {
+                                    data.style.paddingRight = "0px"
+                                }
+                                if (i != 0) {
+                                    data.innerHTML = stats[i]
+                                }
+                                tr.appendChild(data)
+                            }
+                            */
+                            table_body.appendChild(tr)
+                            
+                            const table = document.getElementById("statsTable")
+                            let tableArray = table_to_array("statsTable")
+                            const tBody = table.tBodies[0]
+                            tableArray.sort( function( a, b )
+                            {
+                              if ( parseFloat(a[4]) == parseFloat(b[4]) ) return 0;
+                              return parseFloat(a[4]) > parseFloat(b[4]) ? -1 : 1;
+                            });
+                            let trArr = Array.from(tBody.querySelectorAll("tr"))
+                            table_body.innerHTML = ""
+                            for (i = 0; i < tableArray.length; i++){
+                                for (j = 0; j < trArr.length; j++){
+                                    console.log(tableArray[i][0], typeof trArr[j].innerText, "bob")
+                                    if ((trArr[j].innerText).includes(tableArray[i][0])){
+                                        console.log("mathc")
+                                        table_body.appendChild(trArr[j])
+                                    }
+                                }
+                            }
+                            
                             //console.log(trArr[0].innerText)
 
                             

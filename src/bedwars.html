@@ -112,7 +112,7 @@
                         if (line_parts[4]+line_parts[5]+line_parts[6] == "YournewAPI"){
                             //set api key
                             console.log("API")
-                            setAPIKey(line_parts[9].replace(/\n/g,''))
+                            setAPIKey(line_parts[9].slice(0, -2))
                         } 
                     }
                     
@@ -173,6 +173,7 @@
             fs.writeFile(filename, JSON.stringify(content), function writeJSON(err) {
               if (err) return console.log(err);
             });
+            localStorage.setItem("api_key", key)
         }
         /*
         // totalStats = []

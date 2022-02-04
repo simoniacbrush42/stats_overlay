@@ -194,7 +194,7 @@
         fs.watchFile(buttonPressesLogFile, { interval: 1}, (curr, prev) => {
           console.log(`${buttonPressesLogFile} file Changed`);
 
-          readLastLines.read(localStorage.getItem('log_path'), 20)
+          readLastLines.read(localStorage.getItem('log_path'), 1)
                 .then((lines) => {
                     let team_lines;
                     loop_lines = lines.split("\n")
@@ -203,19 +203,19 @@
                       let line_parts = loop_lines[i].split(' ')
                       //console.log(line_parts[4])
                       if (line_parts[6]){
-                        console.log(line_parts[4]+line_parts[5]+line_parts[6])
+                        //console.log(line_parts[4]+line_parts[5]+line_parts[6])
                         if (line_parts[4]+line_parts[5]+line_parts[6] == "YournewAPI"){
                             //set api key
-                            console.log("API")
+                            //console.log("API")
 
-                            setAPIKey(line_parts[9].replace(/\n/g, ''))
+                            setAPIKey(line_parts[9].slice(0, -2))
                         } 
                       }
                     }
                 })
           })
         function setAPIKey(key){
-          console.log(key);
+          //console.log(key);
           var path = require("path")
           const filename = path.resolve(__dirname, "data.json");
           var file_content = fs.readFileSync(filename);
@@ -226,6 +226,7 @@
           fs.writeFile(filename, JSON.stringify(content), function writeJSON(err) {
             if (err) return console.log(err);
           });
+          localStorage.setItem("api_key", key)
         }
   </script>
 
