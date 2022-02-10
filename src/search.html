@@ -60,8 +60,11 @@
     <div class="searchbar">
         <form class="form-inline md-form mr-auto mb-4" id="ignform">
             <input class="form-control mr-sm-2" type="text" placeholder="username" aria-label="Search" id="ign">
-            <button class="btn btn-primary" type="submit">Search</button>
+            <button class="btn btn-primary" type="submit">Search</button>  
         </form>
+        <div id="nick" class = "error" style="color: red;">
+            <p></p>
+        </div>
 
     </div>
 
@@ -75,6 +78,8 @@
         const form = document.getElementById('ignform');
         console.log(form)
         function load_stats(e) {
+            const para = document.getElementById('nick');
+            para.innerHTML = "";
             var key = localStorage.getItem("api_key");
             e.preventDefault();
             text = document.getElementById('ign')
@@ -101,6 +106,10 @@
 
                         })
                 })
+                .catch((error) => {
+                    console.log("nick")
+                    para.innerHTML = "This player does not exist."
+                });
         }
         form.addEventListener('submit', load_stats)
     </script>

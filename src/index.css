@@ -5,7 +5,7 @@
 body {
   font-family: Minecraftia, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
   margin: auto;
-  background: rgba(0, 0, 0, 0.1);
+  background: rgb(40, 40, 40);
 }
 
 
@@ -42,7 +42,7 @@ body {
   background: none;
   color: #fff;
   font-size: 20px;
-  padding: 19px 20px;
+  padding: 15px 20px;
   border: none;
   width: 100%;
 }

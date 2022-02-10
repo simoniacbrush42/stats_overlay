@@ -607,6 +607,57 @@
         })
         .catch((error) => {
           //console.log('err')
+          rank_color = "#AAAAAA"
+          const table_body = document.querySelector('tbody');
+          let ign = document.createElement("td")
+          //ign.style.objectPosition = "center top"
+          ign.classList.add("names");
+          let im_span = document.createElement("span")
+          im_span.style.paddingRight = "5px"
+          let im = document.createElement("img")
+          //im.src = "/images/warning.png"
+          im.src = "./images/warningimg.png"
+          im.width = "15"
+          im.length = "15"
+          im_span.appendChild(im)
+          //span.style.float = "none"
+          ign_span = document.createElement("span")
+          ign_span.textContent = name
+          ign_span.style.color = "#AAAAAA"
+          
+          ign.appendChild(im_span)
+          ign.appendChild(ign_span)
+          
+
+
+          const tr = table_body.insertRow(-1)
+          tr.style.paddingBottom = "100px"
+          ign.style.textAlign = 'left';
+          tr.appendChild(ign)
+          nicked_elem = document.createElement("td");
+          nicked_elem.style.position = "absolute";
+          nicked_elem.style.left = '272px';
+          nicked_elem.classList.add("ws")
+          nicked_elem.style.color = "red"
+          
+          nicked_elem.innerHTML = "NICKED"
+          tr.appendChild(nicked_elem)
+
+          fkdr_elem = document.createElement("td");
+          fkdr_elem.innerHTML = "Infinity"
+          fkdr_elem.style.display = "none";
+
+          tr.appendChild(fkdr_elem)
+
+          finals_elem = document.createElement("td");
+          finals_elem.innerHTML = "Infinity"
+          finals_elem.style.display = "none";
+          tr.appendChild(finals_elem)
+
+          index_elem = document.createElement("td");
+          index_elem.innerHTML = "Infinity"
+          index_elem.style.display = "none";
+          tr.appendChild(index_elem)
           stats.push(name, 'NICKED', 'NICKED', 'NICKED', 'NICKED', "NICKED",
             'NICKED', 'NICKED', 'NICKED'
           )
@@ -773,10 +824,10 @@
     }
     
 
-    // names = ["Dragondoodler222", "lowof", "wemmbu", "BuckyBarrTV"]
-    // for (name in names) {
-    //   getData(names[name])
-    // }
+    names = ["Dragondoodler222", "lowof", "wemmbu", "BuckyBarrTV", "bobertabaggins"]
+    for (name in names) {
+      getData(names[name])
+    }
     // setTimeout(function () {
     //     removePlayer("lowof")
     // }, 5000);

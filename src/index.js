@@ -18,7 +18,7 @@ const createWindow = () => {
     height: 500,
     x:0,
     y:10,
-    transparent:true,
+    //transparent:true,
     frame: false,
     movable: true,
     //backgroundColor: '#59000000',
