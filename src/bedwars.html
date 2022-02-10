@@ -47,6 +47,11 @@
                     <button>Select Client</button>
                 </form>
             </li>
+            <li>
+                <form action="index.html">
+                    <button>About</button>
+                </form>
+            </li>
         </ul>
     </div>
     <div class="stats">
@@ -260,16 +265,16 @@
             });
         }
         */
-        names = ["icydelta,", "deansiie,", "wemmbu,", "bunnyhead,", "manhal_iq_,", "b0mbies,", "lowof,", "hyydro,", "dragondoodler222,", "frogggirl,", "oflqwless,", "gamerboy80,", "46e,", "kysiek1234,", "nosdaemon,", "defenderrush"]
+        names = ["icydelta,", "deansiie,", "wemmbu,", "bunnyhead,", "manhal_iq_,", "b0mbies,", "lowof,", "hyydro,", "dragondoodler222,", "frogggirl,", "oflqwless,", "gamerboy80,", "46e,", "kysiek1234,", "nosdaemon,", "bobertabaggins"]
         
         //table_body.innerHTML = "";
         
-        // for (ind in names) {
-        //     let name = names[ind].replace(",", "");
-        //     getData(name);
-        //     //console.log(arr)
-        //     //stats.push(arr)
-        // }
+        for (ind in names) {
+            let name = names[ind].replace(",", "");
+            getData(name);
+            //console.log(arr)
+            //stats.push(arr)
+        }
         // setTimeout(function () {
         //     removePlayer("lowof")
         // }, 5000);
@@ -702,6 +707,36 @@
                         });
                 })
                 .catch((error) => {
+                    console.log(name)
+                    console.log("NICKED")
+                    rank_color = "#AAAAAA"
+                    const table_body = document.querySelector('tbody');
+                    let ign = document.createElement("td")
+                    //ign.style.objectPosition = "center top"
+                    ign.classList.add("names");
+                    let im_span = document.createElement("span")
+                    im_span.style.paddingRight = "5px"
+                    let im = document.createElement("img")
+                    //im.src = "/images/warning.png"
+                    im.src = "https://image.similarpng.com/very-thumbnail/2021/06/Attention-sign-icon.png"
+                    im.width = "15px"
+                    im.length = "15px"
+                    im_span.appendChild(im)
+                    //span.style.float = "none"
+                    ign_span = document.createElement("span")
+                    ign_span.textContent = name
+                    ign_span.style.color = "#AAAAAA"
+                    
+                    ign.appendChild(im_span)
+                    ign.appendChild(ign_span)
+                    
+
+
+                    const tr = document.createElement("tr");
+                    tr.style.paddingBottom = "100px"
+                    //ign.style.textAlign = 'left';
+                    tr.appendChild(ign)
+                    table_body.appendChild(tr)
                     //console.log('err')
                     /*stats.push(name, 'NICKED', 'NICKED', 'NICKED', 'NICKED', "NICKED",
                         'NICKED', 'NICKED', 'NICKED'
