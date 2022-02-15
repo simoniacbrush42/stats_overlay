@@ -4,16 +4,38 @@
 <head>
     <meta charset="UTF-8">
     <title>Stats Overlay</title>
+    <link rel="stylesheet" href="settings.css">
     <link rel="stylesheet" href="index.css">
-    <link rel="stylesheet" href="bedwars.css">
+    
 </head>
 
 <body>
-    
-    <div class="form-settings">
-        <form>
-            <input type="text" class = "blur" name="fname">
-        </form>
+    <div class = "page-title">
+        <h1>Settings</h1>
+    </div>
+    <div class = "settings">
+        <h3>Background Color</h3>
+        <input type="color" id="head" name="head"
+               value="#e66465">
+    </div>
+    <div class = "settings client-settings">
+        <h3>Client</h3>
+        <select name="Client" id="Client">
+          <option value="lunar">Lunar Client</option>
+          <option value="badlion">Badlion Client</option>
+          <option value="forge">Forge/Vanilla</option>
+        </select>
+        <div class="box">
+            <span>Custom Path</span>
+            <input type="file" name="logfile" accept=".log" onsubmit="customLogPath()" title= "Custom Path" value = "Custom Path">
+        </div>
+        
+        
+    </div>
+    <div class = "settings">
+        <h3>API Key</h3>
+        <input type="color" id="head" name="head"
+               value="#e66465">
     </div>
 
 

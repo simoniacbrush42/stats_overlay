@@ -1,0 +1,42 @@
+.settings{
+	padding-top: 40px;
+	text-align: center;
+}
+.settings h3{
+	color: white;
+}
+
+.page-title{
+	padding-top: 10px;
+	text-align: center;
+}
+.page-title h1{
+	color: white;
+}
+
+.client-settings select{
+	background: navajowhite;
+	border: 2px solid black;
+	height: 28px;
+	width:150px;
+}
+.box{
+	display: inline;
+	background: navajowhite;
+	border: 2px solid black;
+	height: 30px;
+	width: 30px;
+}
+.box span{
+	position: absolute;
+	padding-left: 15px;
+}
+
+.removeValue{
+	color: transparent;
+}
+input[type='file'] {
+    width:150px;
+    height:30px;
+    opacity:0
+}
