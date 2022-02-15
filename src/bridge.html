@@ -391,6 +391,7 @@
               title_elem = document.createElement("td")
               title_elem.style.position = "absolute";
               title_elem.style.left = '257px';
+              console.log(wins)
               lst = getTitle(wins)
               title = lst[0]
               titleColor = lst[1]
@@ -737,25 +738,21 @@
                       setAPIKey(line_parts[9].slice(0, -2))
                   } 
                 }
+
                 if (line_parts[4] == "Team") {
-                    console.log(line_parts[5])
-                    teams.push(line_parts[5]);
-                    let name = line_parts[7].replace(/[\[\]']+/g,'')
+                  //console.log(line_parts[5])
+                  
+                  //teams.push(line_parts[5]);
+                  for (let i = 7; i < line_parts.length; i++){
+                    let name = line_parts[i].replace(/[\[\]']+/g,'');
                     console.log(name)
+                    name = name.replace(",", "");
+                    //getData(name)
                     if (!(names.includes(name))){
                       names.push(name)
                     }
-                    
-
-                    
-                    //names = line_parts.slice(5);
-                    //console.log(names)
-                    const table_body = document.querySelector('tbody');
-                    //console.log("poo");
-                    //table_body.innerHTML = "";
-                    
-                        //console.log(arr)
-                        //stats.push(arr)
+                  }
+                  const table_body = document.querySelector('tbody');
                 }
                 if (line_parts[8]){
                   if((line_parts[7]+line_parts[8][0]) == "thel"){
@@ -828,6 +825,42 @@
     for (name in names) {
       getData(names[name])
     }
+    // s = "[22:55:36] [Client thread/INFO]: [CHAT] Team #1 - [lululee, lowof]"
+    // line_parts = s.split(' ')
+    // if (line_parts[4] == "Team") {
+    //     //console.log(line_parts[5])
+        
+    //     //teams.push(line_parts[5]);
+    //     for (let i = 7; i < line_parts.length; i++){
+    //       let name = line_parts[i].replace(/[\[\]']+/g,'');
+    //       console.log(name)
+    //       name = name.replace(",", "");
+    //       //getData(name)
+    //       if (!(names.includes(name))){
+    //         names.push(name)
+    //       }
+    //     }
+    //   }
+        // let name = line_parts[7].replace(/[\[\]']+/g,'')
+        // console.log(name)
+        // if (!(names.includes(name))){
+        //   names.push(name)
+        // }
+        //[22:58:31] [Client thread/INFO]: [CHAT] Team #1 - [lowof]
+        //[22:58:31] [Client thread/INFO]: [CHAT] Team #2 - [DragonDoodler222]
+        //[22:55:36] [Client thread/INFO]: [CHAT] Team #1 - [lululee, lowof]
+        //[22:55:36] [Client thread/INFO]: [CHAT] Team #2 - [DragonDoodler222, amongbu]
+        
+
+        
+        //names = line_parts.slice(5);
+        //console.log(names)
+        
+        //console.log("poo");
+        //table_body.innerHTML = "";
+        
+            //console.log(arr)
+            //stats.push(arr)
     // setTimeout(function () {
     //     removePlayer("lowof")
     // }, 5000);

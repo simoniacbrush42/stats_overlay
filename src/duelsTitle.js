@@ -181,6 +181,10 @@ function getTitle(wins){
         title = "Rookie"
         color = "rgb(128, 128, 128)"
     }
+    else{
+        title = "None"
+        color = "rgb(128, 128, 128)"
+    }
     return [title, color]
 }
 
