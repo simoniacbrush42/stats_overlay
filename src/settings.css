@@ -1,6 +1,7 @@
 .settings{
-	padding-top: 40px;
+	padding-top: 20px;
 	text-align: center;
+	padding-bottom: 20px;
 }
 .settings h3{
 	color: white;
@@ -30,6 +31,8 @@
 .box span{
 	position: absolute;
 	padding-left: 15px;
+	padding-top: 2px;
+	font-size: 16px;
 }
 
 .removeValue{
@@ -39,4 +42,28 @@ input[type='file'] {
     width:150px;
     height:30px;
     opacity:0
+}
+
+.blur input[type="text"]{
+	background: navajowhite;
+	color: transparent;
+	text-shadow: 0 0 5px #000;
+	width: 400px;
+}
+.clear input[type="text"]{
+	background: navajowhite;
+	color: black;
+	text-shadow: none;
+	/*color: transparent;
+	text-shadow: 0 0 5px #000;*/
+	width: 400px;
+}
+
+.buttons button{
+	width: 100px;
+}
+
+.color input[type="color"]{
+	width: 400px;
+	height: 75px;
 }

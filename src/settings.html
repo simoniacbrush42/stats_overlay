@@ -5,7 +5,12 @@
     <meta charset="UTF-8">
     <title>Stats Overlay</title>
     <link rel="stylesheet" href="settings.css">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+        integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link rel="stylesheet" href="http://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.3.0/css/font-awesome.css"
+        type='text/css'>
     <link rel="stylesheet" href="index.css">
+
     
 </head>
 
@@ -13,30 +18,37 @@
     <div class = "page-title">
         <h1>Settings</h1>
     </div>
-    <div class = "settings">
-        <h3>Background Color</h3>
-        <input type="color" id="head" name="head"
-               value="#e66465">
-    </div>
-    <div class = "settings client-settings">
-        <h3>Client</h3>
-        <select name="Client" id="Client">
-          <option value="lunar">Lunar Client</option>
-          <option value="badlion">Badlion Client</option>
-          <option value="forge">Forge/Vanilla</option>
-        </select>
-        <div class="box">
-            <span>Custom Path</span>
-            <input type="file" name="logfile" accept=".log" onsubmit="customLogPath()" title= "Custom Path" value = "Custom Path">
+    <form onsubmit="submitHandle()">
+        <div class = "settings color">
+            <h3>Background Color</h3>
+            <input type="color" id="head" name="head"
+                   value="#e66465">
         </div>
-        
-        
-    </div>
-    <div class = "settings">
-        <h3>API Key</h3>
-        <input type="color" id="head" name="head"
-               value="#e66465">
-    </div>
+        <div class = "settings client-settings">
+            <h3>Client</h3>
+            <select name="Client" id="Client">
+              <option value="lunar">Lunar Client</option>
+              <option value="badlion">Badlion Client</option>
+              <option value="forge">Forge/Vanilla</option>
+            </select>
+            <div class="box">
+                <span>Custom Path</span>
+                <input type="file" name="logfile" accept=".log" onsubmit="customLogPath()" title= "Custom Path" value = "Custom Path">
+            </div>
+            
+            
+        </div>
+        <div class = "settings blur" id = "apiDiv" onclick="removeBlur()">
+            <h3>API Key</h3>
+            <input class = "blur" type="text" id="API" name="apiInput"
+                   value="">
+        </div>
+        <div class = "settings buttons">
+            <button type="button" class="btn btn-success">Save</button>
+            <button type="button" class="btn btn-danger">Cancel</button>
+        </div>
+    </form>
+    
 
 
 
@@ -92,6 +104,29 @@
     <script>
         function show() {
             document.getElementById("sidebar").classList.toggle('active');
+        }
+    </script>
+    <script type="text/javascript">
+        document.addEventListener('DOMContentLoaded', (event) => {
+            path = require("path");
+            fs = require("fs");
+            const filename = path.resolve(__dirname, "data.json");
+            var file_content = fs.readFileSync(filename);
+            var content = JSON.parse(file_content);
+            apiInput = document.getElementById("API")
+            apiInput.value = content.api_key;
+        })
+
+        function removeBlur(){
+            console.log("bobahdl;isugkhjasd;ol")
+            apiInput = document.getElementById("apiDiv")
+            apiInput.classList.remove("blur");
+            apiInput.classList.add("clear");
+            console.log(apiInput.classList);
+        }
+
+        function submitHandler(){
+            console.log("submit")
         }
     </script>
 </body>
