@@ -67,3 +67,7 @@ input[type='file'] {
 	width: 400px;
 	height: 75px;
 }
+
+.opacity input[type="range"]{
+	width: 400px;
+}

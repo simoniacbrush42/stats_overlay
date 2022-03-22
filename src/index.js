@@ -18,17 +18,18 @@ const createWindow = () => {
     height: 500,
     x:0,
     y:10,
-    //transparent:true,
+    transparent:true,
     frame: false,
     movable: true,
-    //backgroundColor: '#59000000',
+    // vibrancy: 'ultra-dark',
+    // backgroundColor: '#59000000',
     webPreferences: {
       nodeIntegration: true,
       contextIsolation: false,
       enableRemoteModule: true
     }
   });
-  mainWindow.setMenuBarVisibility(false)
+  mainWindow.setMenuBarVisibility(true)
 
   // and load the index.html of the app.
   mainWindow.loadFile(path.join(__dirname, 'index.html'));

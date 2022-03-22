@@ -6,7 +6,7 @@
     transform: translate(-50%, -50%);
 }
 
-#SLIDE_BG{
+/*#SLIDE_BG{
 	width: 100%;
 	height: 100vh;
 	background-position: center center;
@@ -16,7 +16,7 @@
 	animation: slideBg 20s linear infinite 0s;
 	animation-timing-function: ease-in-out;
 	background-image: url('./images/6.png');
-}
+}*/
 
 /*
 @keyframes slideBg{
