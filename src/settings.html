@@ -10,11 +10,21 @@
     <link rel="stylesheet" href="http://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.3.0/css/font-awesome.css"
         type='text/css'>
     <link rel="stylesheet" href="index.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet"/>
+    <link rel="stylesheet" type="text/css" href="alert.css">
 
     
 </head>
 
 <body>
+    <div class = "buttonsArea">
+        <span class = "closeButton" id = "closeButton" onclick="closeWindow()"></span>
+        <span class = "minimizeButton" id = "minimizeButton" onclick="minimizeWindow()"></span>
+        <span class = "fullButton" id = "fullButton" onclick="fullscreenWindow()"></span>
+        
+        <!-- <button></button>
+        <button></button> -->
+    </div>
     <div class = "page-title">
         <h1>Settings</h1>
     </div>
@@ -31,14 +41,14 @@
         <div class = "settings client-settings">
             <h3>Client</h3>
             <select name="Client" id="Client">
-              <option value="lunar">Lunar Client</option>
-              <option value="badlion">Badlion Client</option>
-              <option value="forge">Forge/Vanilla</option>
+              <option value="lunar" id = "lunar">Lunar Client</option>
+              <option value="badlion" id = "badlion">Badlion Client</option>
+              <option value="forge" id = "forge">Forge/Vanilla</option>
             </select>
-            <div class="box">
+            <!-- <div class="box">
                 <span>Custom Path</span>
                 <input type="file" name="logfile" accept=".log" onsubmit="customLogPath()" title= "Custom Path" value = "Custom Path">
-            </div>
+            </div> -->
             
             
         </div>
@@ -49,7 +59,7 @@
         </div>
         <div class = "settings buttons">
             <button type="button" id= "saveButton" class="btn btn-success">Save</button>
-            <button type="button" id = "cancelButton" class="btn btn-danger">Cancel</button>
+            <button type="button" id = "cancelButton" onclick = "cancel()" class="btn btn-danger">Cancel</button>
         </div>
     </form>
     
@@ -103,7 +113,19 @@
                     <button>Select Client</button>
                 </form>
             </li>
+            <li>
+                <form action="about.html">
+                    <button>About</button>
+                </form>
+            </li>
         </ul>
+    </div>
+    <div class= "alert hidden" id = "alert">
+        <span class="fa" id = "icon"></span>
+        <span class="msg" id = "alertText"></span>
+        <span class = "close-btn" onclick="removeAlert()">
+            <i class="fa fa-close" style="font-size: 20px;"></i>
+        </span>
     </div>
     <script>
         function show() {
@@ -113,6 +135,8 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
     <script src="http://code.jquery.com/jquery-1.8.3.js"></script>
     <script type="text/javascript" src="backgroundOpacity.js"></script>
+    <script type="text/javascript" src="client.js"></script>
+    <script type="text/javascript" src="buttons.js"></script>
     <!-- <script type="text/javascript">
         $(document).ready(function() {
             var path = require("path")
@@ -137,16 +161,40 @@
             path = require("path");
             fs = require("fs");
             const filename = path.resolve(__dirname, "data.json");
-            var file_content = fs.readFileSync(filename);
-            var content = JSON.parse(file_content);
+            fs.readFile(filename, 'utf8', (error, data) => {
+             if(error){
+                console.log(error);
+                return;
+             }
+             var content = JSON.parse(data);
+            })
             apiInput = document.getElementById("API")
             apiInput.value = content.api_key;
 
             const opacitySlider = document.getElementById("contrast")
             var val = content.background.substring(content.background.length - 6);
-            console.log(parseFloat(val.substring(0,5)))
+            //console.log(parseFloat(val.substring(0,5)))
             opacitySlider.value = parseFloat(val.substring(0,5))
+
+            const LunarOption = document.getElementById("lunar")
+            const BadlionOption = document.getElementById("badlion")
+            const ForgeOption = document.getElementById("forge")
+            var client = content.client
+            console.log(client)
+            if (client == "lunar"){
+                LunarOption.setAttribute('selected', true)
+            }else if (client == "badlion"){
+                BadlionOption.setAttribute('selected', true)
+            }else{
+                ForgeOption.setAttribute('selected', true)
+            }
+            console.log(localStorage.getItem("log_path"))
+
         })
+
+        function cancel(){
+            location.reload();
+        }
 
         function removeBlur(){
             //zconsole.log("bobahdl;isugkhjasd;ol")
@@ -171,10 +219,36 @@
             var val = document.getElementById("contrast").value
             content.background = "rgba(0,0,0, " + val + ")"
 
+            var apiKeyItem = document.getElementById("API");
+            console.log(apiKeyItem.value)
+            content.api_key = apiKeyItem.value;
+
+            var dropdown = document.getElementById("Client");
+            
+
+            if (dropdown.value == "lunar"){
+                setClientLunar();
+                content.client = "lunar"
+                console.log(localStorage.getItem("log_path"))
+            } 
+            else if (dropdown.value == "badlion"){
+                setClientBadlion();
+                content.client = "badlion"
+                console.log(localStorage.getItem("log_path"))
+            }
+            else if (dropdown.value == "forge"){
+                setClientForge();
+                content.client = "forge"
+                console.log(localStorage.getItem("log_path"))
+            }
+
             fs.writeFile(filename, JSON.stringify(content), function writeJSON(err) {
               if (err) return console.log(err);
             });
-            location.reload();
+
+
+
+            location.reload(); 
         }
     </script>
 </body>

@@ -6,49 +6,71 @@
   <title>Stats Overlay</title>
   <link rel="stylesheet" href="index.css">
   <link rel="stylesheet" href="bridge.css">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet"/>
+  <link rel="stylesheet" type="text/css" href="alert.css">
 </head>
 
 <body>
-  <div id="sidebar">
-    <div class="toggle-btn" onclick="show()">
-      <span></span>
-      <span></span>
-      <span></span>
-    </div>
-    <ul>
-      <li>
-        <form action="bedwars.html">
-          <button>Bedwars</button>
-        </form>
-      </li>
-      <li>
-        <form action="bridge.html">
-          <button>Bridge</button>
-        </form>
-      </li>
-      <li>
-        <form action="skywars.html">
-            <button>Skywars</button>
-        </form>
-      </li>
-      <li>
-        <form action="search.html">
-          <button>Search</button>
-        </form>
-      </li>
-      <li>
-        <form action="settings.html">
-          <button>Settings</button>
-        </form>
-
-      </li>
-      <li>
-          <form action="index.html">
-              <button>Select Client</button>
-          </form>
-      </li>
-    </ul>
+  <div class = "buttonsArea">
+      <span class = "closeButton" id = "closeButton" onclick="closeWindow()"></span>
+      <span class = "minimizeButton" id = "minimizeButton" onclick="minimizeWindow()"></span>
+      <span class = "fullButton" id = "fullButton" onclick="fullscreenWindow()"></span>
+      
+      <!-- <button></button>
+      <button></button> -->
   </div>
+  <div id="sidebar">
+        <div class="toggle-btn" onclick="show()">
+            <span></span>
+            <span></span>
+            <span></span>
+        </div>
+        <ul>
+            <li>
+                <form action="bedwars.html">
+                    <button>Bedwars</button>
+                </form>
+            </li>
+            <li>
+                <form action="bridge.html">
+                    <button>Bridge</button>
+                </form>
+            </li>
+            <li>
+                <form action="skywars.html">
+                    <button>Skywars</button>
+                </form>
+            </li>
+            <li>
+                <form action="search.html">
+                    <button>Search</button>
+                </form>
+            </li>
+            <li>
+                <form action="settings.html">
+                    <button>Settings</button>
+                </form>
+
+            </li>
+            <li>
+                <form action="index.html">
+                    <button>Select Client</button>
+                </form>
+            </li>
+            <li>
+                <form action="about.html">
+                    <button>About</button>
+                </form>
+            </li>
+        </ul>
+    </div>
+    <div class= "alert hidden" id = "alert">
+        <span class="fa" id = "icon"></span>
+        <span class="msg" id = "alertText"></span>
+        <span class = "close-btn" onclick="removeAlert()">
+            <i class="fa fa-close" style="font-size: 20px;"></i>
+        </span>
+    </div>
   <div class="stats">
     <table class = "stats_table table-sortable" id = "statsTable">
         <thead class="titles">
@@ -57,7 +79,7 @@
             <th style="padding-right: 30px;">WS</th>
             <th style="padding-right: 45px; padding-left: 45px;">Wins</th>
             <th style="padding-right: 27px">WLR</th>
-            <th style="padding-right: 0;">Joined Time</th>
+            <th style="padding-right: 0;">Online Time</th>
         </thead>
         <!-- <th style="position: absolute; left: 50px; top: 10px;">Player</th>
 
@@ -108,6 +130,9 @@
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
   <script src="http://code.jquery.com/jquery-1.8.3.js"></script>
   <script type="text/javascript" src="backgroundOpacity.js"></script>
+  <script type="text/javascript" src="alert.js"></script>
+  <script type="text/javascript" src = "fileReader.js"></script>
+  <script type="text/javascript" src="buttons.js"></script>
   <script>
     function show() {
       document.getElementById("sidebar").classList.toggle('active');
@@ -138,6 +163,7 @@
               player
             }) => {
               stats = []
+              console.log("SADHGILDJSK")
               //console.log(player)
               // Log the player's username
               let name = player.displayname
@@ -607,7 +633,60 @@
 
 
 
-            });
+            })
+            .catch((error) => {
+              rank_color = "#AAAAAA"
+              const table_body = document.querySelector('tbody');
+              let ign = document.createElement("td")
+              //ign.style.objectPosition = "center top"
+              ign.classList.add("names");
+              let im_span = document.createElement("span")
+              im_span.style.paddingRight = "5px"
+              let im = document.createElement("img")
+              //im.src = "/images/warning.png"
+              im.src = "./images/warningimg.png"
+              im.width = "15"
+              im.length = "15"
+              im_span.appendChild(im)
+              //span.style.float = "none"
+              ign_span = document.createElement("span")
+              ign_span.textContent = name
+              ign_span.style.color = "#AAAAAA"
+              
+              ign.appendChild(im_span)
+              ign.appendChild(ign_span)
+              
+
+
+              const tr = table_body.insertRow(-1)
+              tr.style.paddingBottom = "100px"
+              ign.style.textAlign = 'left';
+              tr.appendChild(ign)
+              nicked_elem = document.createElement("td");
+              nicked_elem.style.position = "absolute";
+              nicked_elem.style.left = '272px';
+              nicked_elem.classList.add("ws")
+              nicked_elem.style.color = "red"
+              
+              nicked_elem.innerHTML = "Invalid API Key. Please Run /api new"
+              tr.appendChild(nicked_elem)
+
+              fkdr_elem = document.createElement("td");
+              fkdr_elem.innerHTML = "Infinity"
+              fkdr_elem.style.display = "none";
+
+              tr.appendChild(fkdr_elem)
+
+              finals_elem = document.createElement("td");
+              finals_elem.innerHTML = "Infinity"
+              finals_elem.style.display = "none";
+              tr.appendChild(finals_elem)
+
+              index_elem = document.createElement("td");
+              index_elem.innerHTML = "Infinity"
+              index_elem.style.display = "none";
+              tr.appendChild(index_elem)
+            })
         })
         .catch((error) => {
           //console.log('err')
@@ -705,129 +784,134 @@
         return my_liste
     }
   </script>
+  
   <script>
 
-    console.log("running")
-    const electron = require('electron');
-    const readLastLines = require('read-last-lines');
-    var fs = require('fs');
-    const path = require('path');
-    //const log_timestamp = require('log-timestamp');
+    // console.log("running")
+    // const electron = require('electron');
+    // const readLastLines = require('read-last-lines');
+    // var fs = require('fs');
+    // const path = require('path');
+    // //const log_timestamp = require('log-timestamp');
     
-    const buttonPressesLogFile = localStorage.getItem('log_path');
+    // const buttonPressesLogFile = localStorage.getItem('log_path');
 
-    //console.log(`Watching for file changes on ${buttonPressesLogFile}`);
-    let previousNames = [];
-    fs.watchFile(buttonPressesLogFile, { interval: 1}, (curr, prev) => {
-      //console.log(`${buttonPressesLogFile} file Changed`);
-      readLastLines.read(localStorage.getItem('log_path'), 2)
-            .then((lines) => {
-              let names = [];
-              let teams = [];
-              //console.log("f")
-              let line_list = lines.split('\n') 
-              for (ind in line_list){
-                let line = line_list[ind]
-                //console.log(ind)
-                console.log(line)
-                let line_parts = line.split(' ')
-                console.log(line_parts)
-                if (line_parts[6]){
-                  console.log(line_parts[4]+line_parts[5]+line_parts[6])
-                  if (line_parts[4]+line_parts[5]+line_parts[6] == "YournewAPI"){
-                      //set api key
-                      console.log("API")
+    // //console.log(`Watching for file changes on ${buttonPressesLogFile}`);
+    // let previousNames = [];
+    // fs.watchFile(buttonPressesLogFile, { interval: 1}, (curr, prev) => {
+    //   //console.log(`${buttonPressesLogFile} file Changed`);
+    //   readLastLines.read(localStorage.getItem('log_path'), 2)
+    //         .then((lines) => {
+    //           let names = [];
+    //           let teams = [];
+    //           //console.log("f")
+    //           let line_list = lines.split('\n') 
+    //           for (ind in line_list){
+    //             let line = line_list[ind]
+    //             //console.log(ind)
+    //             console.log(line)
+    //             let line_parts = line.split(' ')
+    //             console.log(line_parts)
+    //             if (line_parts[6]){
+    //               console.log(line_parts[4]+line_parts[5]+line_parts[6])
+    //               if (line_parts[4]+line_parts[5]+line_parts[6] == "YournewAPI"){
+    //                   //set api key
+    //                   console.log("API")
 
-                      setAPIKey(line_parts[9].slice(0, -2))
-                  } 
-                }
+    //                   setAPIKey(line_parts[9].slice(0, -2))
+    //               } 
+    //             }
 
-                if (line_parts[4] == "Team") {
-                  //console.log(line_parts[5])
+    //             if (line_parts[4] == "Team") {
+    //               //console.log(line_parts[5])
                   
-                  //teams.push(line_parts[5]);
-                  for (let i = 7; i < line_parts.length; i++){
-                    let name = line_parts[i].replace(/[\[\]']+/g,'');
-                    console.log(name)
-                    name = name.replace(",", "");
-                    //getData(name)
-                    if (!(names.includes(name))){
-                      names.push(name)
-                    }
-                  }
-                  const table_body = document.querySelector('tbody');
-                }
-                if (line_parts[8]){
-                  if((line_parts[7]+line_parts[8][0]) == "thel"){
-                      //console.log("bob")
-                      const table_body = document.querySelector('tbody');
-                      table_body.innerHTML = "";
-                  }
-                }
-                console.log((line_parts[5]+line_parts[6]))
-                if (line_parts[7]){
-                   if((line_parts[5]+line_parts[6]+line_parts[7][0]) == "hasjoined("){
-                        getData(line_parts[4])
-                    }
-                }
-                // console.log((line_parts[5]+line_parts[6]) == "hasquit!")
-                // console.log((line_parts[5]+line_parts[6]))
-                if (line_parts[6]){
-                    if ((line_parts[5]+line_parts[6][0]) == "hasq"){
-                        removePlayer(line_parts[4])
-                    }
-                }
-              }
-              console.log(previousNames)
-              console.log(names)
-              if (previousNames){
-                if (!(names == previousNames) && (teams.includes("#1"))){
-                  let stats = document.getElementById("sections")
-                  stats.innerHTML = ""
-                  for (ind in names) {
-                      let name = names[ind].replace(",", "");
-                      getData(name);
-                  }
-                }
-              }else{
-                if (teams.includes("#1")){
-                  let stats = document.getElementById("sections")
-                  stats.innerHTML = ""
-                  for (ind in names) {
-                    let name = names[ind].replace(",", "");
-                    getData(name);
-                  }
-                }
-              }
+    //               //teams.push(line_parts[5]);
+    //               for (let i = 7; i < line_parts.length; i++){
+    //                 let name = line_parts[i].replace(/[\[\]']+/g,'');
+    //                 console.log(name)
+    //                 name = name.replace(",", "");
+    //                 //getData(name)
+    //                 if (!(names.includes(name))){
+    //                   names.push(name)
+    //                 }
+    //               }
+    //               const table_body = document.querySelector('tbody');
+    //             }
+    //             if (line_parts[8]){
+    //               if((line_parts[7]+line_parts[8][0]) == "thel"){
+    //                   //console.log("bob")
+    //                   const table_body = document.querySelector('tbody');
+    //                   table_body.innerHTML = "";
+    //               }
+    //             }
+    //             console.log((line_parts[5]+line_parts[6]))
+    //             if (line_parts[7]){
+    //                if((line_parts[5]+line_parts[6]+line_parts[7][0]) == "hasjoined("){
+    //                     getData(line_parts[4])
+    //                 }
+    //             }
+    //             // console.log((line_parts[5]+line_parts[6]) == "hasquit!")
+    //             // console.log((line_parts[5]+line_parts[6]))
+    //             if (line_parts[6]){
+    //                 if ((line_parts[5]+line_parts[6][0]) == "hasq"){
+    //                     removePlayer(line_parts[4])
+    //                 }
+    //             }
+    //           }
+    //           console.log(previousNames)
+    //           console.log(names)
+    //           if (previousNames){
+    //             if (!(names == previousNames) && (teams.includes("#1"))){
+    //               let stats = document.getElementById("sections")
+    //               stats.innerHTML = ""
+    //               for (ind in names) {
+    //                   let name = names[ind].replace(",", "");
+    //                   getData(name);
+    //               }
+    //             }
+    //           }else{
+    //             if (teams.includes("#1")){
+    //               let stats = document.getElementById("sections")
+    //               stats.innerHTML = ""
+    //               for (ind in names) {
+    //                 let name = names[ind].replace(",", "");
+    //                 getData(name);
+    //               }
+    //             }
+    //           }
               
-              previousNames = names
+    //           previousNames = names
 
               
               
-            });
+    //         });
 
                
-    });
-    function setAPIKey(key){
-      console.log(key);
-      var path = require("path")
-      const filename = path.resolve(__dirname, "data.json");
-      var file_content = fs.readFileSync(filename);
-      var content = JSON.parse(file_content);
-      console.log(content)
-      content.api_key = key
+    // });
+    // function setAPIKey(key){
+    //   console.log(key);
+    //   var path = require("path")
+    //   const filename = path.resolve(__dirname, "data.json");
+    //   var file_content = fs.readFileSync(filename);
+    //   var content = JSON.parse(file_content);
+    //   console.log(content)
+    //   content.api_key = key
 
-      fs.writeFile(filename, JSON.stringify(content), function writeJSON(err) {
-        if (err) return console.log(err);
-      });
-      localStorage.setItem("api_key", key)
-    }
+    //   fs.writeFile(filename, JSON.stringify(content), function writeJSON(err) {
+    //     if (err) return console.log(err);
+    //   });
+    //   localStorage.setItem("api_key", key)
+    // }
+
+    // window.onbeforeunload = function(){
+    //   fs.unwatchFile(buttonPressesLogFile); 
+    // };
     
 
-    names = ["Dragondoodler222", "lowof", "wemmbu", "BuckyBarrTV", "bobertabaggins"]
-    for (name in names) {
-      getData(names[name])
-    }
+    // names = ["Dragondoodler222", "lowof", "wemmbu", "BuckyBarrTV", "bobertabaggins"]
+    // for (name in names) {
+    //   getData(names[name])
+    // }
     // s = "[22:55:36] [Client thread/INFO]: [CHAT] Team #1 - [lululee, lowof]"
     // line_parts = s.split(' ')
     // if (line_parts[4] == "Team") {

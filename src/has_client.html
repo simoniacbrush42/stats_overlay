@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="UTF-8">
+  <title>Stats Overlay</title>
+  <link rel="stylesheet" href="index.css">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet"/>
+  <link rel="stylesheet" type="text/css" href="alert.css">
+</head>
+
+<body>
+  <div class = "buttonsArea">
+        <span class = "closeButton" id = "closeButton" onclick="closeWindow()"></span>
+        <span class = "minimizeButton" id = "minimizeButton" onclick="minimizeWindow()"></span>
+        <span class = "fullButton" id = "fullButton" onclick="fullscreenWindow()"></span>
+        
+        <!-- <button></button>
+        <button></button> -->
+    </div>
+  <div style="text-align: center; padding-top: 40px; color: white;">
+    <h1 id = "text"></h1>
+  </div>
+  
+  <div class = "sections logos">
+    <section class = "clients">
+      <img src = "images/BedWars.png" style= "padding-top: 20px; padding-right: 20px; padding-left: 20px" height="180" width="180" onclick="bedwarsHandler();">
+      <h3>Bedwars</h3>
+    </section>
+
+    <section class = "clients">
+      <img src = "images/Skywars.png" height="180" width="180" style="padding-top: 20px; padding-right: 20px; padding-left: 20px" onclick="skywarsHandler();">
+      <h3>Skywars</h3>
+    </section>
+
+    <section class = "clients">
+      <img src = "images/Duels.png" height="180" width="180" style="padding-top: 20px; padding-right: 20px; padding-left: 20px" onclick="bridgeHandler();">
+      <h3>The Bridge</h3>
+    </section>
+  </div>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+  <script src="http://code.jquery.com/jquery-1.8.3.js"></script>
+  <script type="text/javascript" src="backgroundOpacity.js"></script>
+  <script type="text/javascript" src="alert.js"></script>
+  <script type="text/javascript" src = "fileReader.js"></script>
+  <script type="text/javascript" src = "index.js"></script>
+  <script type="text/javascript" src="buttons.js"></script>
+  <script type="text/javascript">
+    window.addEventListener('DOMContentLoaded', (event) => {
+      var header = document.getElementById("text")
+      var path = require("path");
+      var fs = require("fs");
+      const filename = path.resolve(__dirname, "data.json");
+      fs.readFile(filename, 'utf8', (error, data) => {
+       if(error){
+          console.log(error);
+          return;
+       }
+       var content = JSON.parse(data);
+       fetch("https://api.hypixel.net/key?key="+content.api_key)
+        .then(response => response.json())
+        .then(data => {
+          fetch("https://api.hypixel.net/player?uuid="+data.record.owner+"&key="+content.api_key)
+            .then(result => result.json())
+            .then(({ player }) => {
+                // Log the player's username
+                header.innerHTML = "Welcome back " + player.displayname + "!"
+            })
+          console.log(data.record.owner)
+        });
+      })
+      
+    });
+
+    function bedwarsHandler(){
+      window.location = "bedwars.html"
+    }
+    function skywarsHandler(){
+      window.location = "skywars.html"
+    }
+    function bridgeHandler(){
+      window.location = "bridge.html"
+    }
+  </script>
+  <!-- <form>
+    <label>Custom Path</label>
+    <input type="file" name="logfile" onsubmit="customLogPath()">
+  </form> -->
+
+
+  <!-- <div id="sidebar">
+    <div class="toggle-btn" onclick="show()">
+      <span></span>
+      <span></span>
+      <span></span>
+    </div>
+    <ul>
+      <li>
+        <form action="bedwars.html">
+          <button>Bedwars</button>
+        </form>
+      </li>
+      <li>
+        <form action="bridge.html">
+          <button>Bridge</button>
+        </form>
+      </li>
+      <li>
+        <form action="skywars.html">
+            <button>Skywars</button>
+        </form>
+      </li>
+      <li>
+        <form action="search.html">
+          <button>Search</button>
+        </form>
+      </li>
+      <li>
+        <form action="settings.html">
+          <button>Settings</button>
+        </form>
+
+      </li>
+    </ul>
+  </div> -->
+  
+</body>
+</html>

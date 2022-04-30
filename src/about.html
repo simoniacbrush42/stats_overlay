@@ -7,6 +7,7 @@
   <link rel="stylesheet" href="index.css">
   <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet"/>
   <link rel="stylesheet" type="text/css" href="alert.css">
+  <link rel="stylesheet" type="text/css" href="about.css">
 </head>
 
 <body>
@@ -18,26 +19,81 @@
     <!-- <button></button>
     <button></button> -->
   </div>
-  <div style="text-align: center; padding-top: 40px; color: white;">
-    <h1>Select Which Client You Are Using</h1>
-  </div>
+  <div id="sidebar">
+        <div class="toggle-btn" onclick="show()">
+            <span></span>
+            <span></span>
+            <span></span>
+        </div>
+        <ul>
+            <li>
+                <form action="bedwars.html">
+                    <button>Bedwars</button>
+                </form>
+            </li>
+            <li>
+                <form action="bridge.html">
+                    <button>Bridge</button>
+                </form>
+            </li>
+            <li>
+                <form action="skywars.html">
+                    <button>Skywars</button>
+                </form>
+            </li>
+            <li>
+                <form action="search.html">
+                    <button>Search</button>
+                </form>
+            </li>
+            <li>
+                <form action="settings.html">
+                    <button>Settings</button>
+                </form>
+
+            </li>
+            <li>
+                <form action="index.html">
+                    <button>Select Client</button>
+                </form>
+            </li>
+            <li>
+                <form action="about.html">
+                    <button>About</button>
+                </form>
+            </li>
+        </ul>
+    </div>
+    <div class = "sections">
+      <div class = "scroll">
+        <section class = "instruction">
+        <h1>Changing/Setting API Key</h1>
+        <p>To change/set your API key, go onto hypixel and type the command /api new. A notification should indicate that your API key has been changed. If this does not work, go into the settings and copy and paste the API key from your Minecraft chat into the API key area.</p>
+        </section>
+        <section class = "instruction">
+          <h1>Bedwars</h1>
+          <p>Navigate to the bedwars tab in the menu. After you join a bedwars game, run the command /who. The players in your game will then populated the overlay. The players that join the game after you will also be added. If any players are missing, run the command /who again, and all of the players in the game will be added to the overlay.</p>
+        </section>
+        <section class = "instruction">
+          <h1>Skywars</h1>
+          <p>Navigate to the skywars tab in the menu. After you join a skywars game, the players that join after you will be added to the overlay. In order to get all the players on the overlay, you either have to wait until the game starts and then run the command /who, or you can be the first player into a lobby.</p>
+        </section>
+        <section class = "instruction">
+          <h1>Bridge</h1>
+          <p>Navigate to the bridge tab in the menu. After you join a bridge game, you will need to wait until the game starts and then run the command /who. The people in your game will then appear on the overlay.</p>
+        </section>
+      </div>
+      
+    </div>
+    <div class= "alert hidden" id = "alert">
+        <span class="fa" id = "icon"></span>
+        <span class="msg" id = "alertText"></span>
+        <span class = "close-btn" onclick="removeAlert()">
+            <i class="fa fa-close" style="font-size: 20px;"></i>
+        </span>
+    </div>
   
-  <div class = "sections logos">
-    <section class = "clients">
-      <img src = "images/lunarLogo.png" height="200" width="200" onclick="lunarHandler();">
-      <h3>Lunar Client</h3>
-    </section>
 
-    <section class = "clients">
-      <img src = "images/badlionLogo.png" height="180" width="180" style="padding-top: 20px; padding-right: 20px; padding-left: 20px" onclick="badlionHandler();">
-      <h3>Badlion Client</h3>
-    </section>
-
-    <section class = "clients">
-      <img src = "images/forgeLogo.png" height="160" width="160" style="padding-top: 30px; padding-right: 20px; padding-left: 20px" onclick="forgeHandler();">
-      <h3>Forge</h3>
-    </section>
-  </div>
   <!-- <form>
     <label>Custom Path</label>
     <input type="file" name="logfile" onsubmit="customLogPath()">
@@ -79,6 +135,11 @@
       </li>
     </ul>
   </div> -->
+  <script>
+    function show() {
+        document.getElementById("sidebar").classList.toggle('active');
+    }
+  </script>
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
   <script src="http://code.jquery.com/jquery-1.8.3.js"></script>
   <script type="text/javascript" src="backgroundOpacity.js"></script>

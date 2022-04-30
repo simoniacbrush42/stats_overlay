@@ -6,9 +6,20 @@
     <title>Stats Overlay</title>
     <link rel="stylesheet" href="index.css">
     <link rel="stylesheet" href="bedwars.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet"/>
+    <link rel="stylesheet" type="text/css" href="alert.css">
+
 </head>
 
 <body>
+    <div class = "buttonsArea">
+        <span class = "closeButton" id = "closeButton" onclick="closeWindow()"></span>
+        <span class = "minimizeButton" id = "minimizeButton" onclick="minimizeWindow()"></span>
+        <span class = "fullButton" id = "fullButton" onclick="fullscreenWindow()"></span>
+        
+        <!-- <button></button>
+        <button></button> -->
+    </div>
     <div id="sidebar">
         <div class="toggle-btn" onclick="show()">
             <span></span>
@@ -48,11 +59,18 @@
                 </form>
             </li>
             <li>
-                <form action="index.html">
+                <form action="about.html">
                     <button>About</button>
                 </form>
             </li>
         </ul>
+    </div>
+    <div class= "alert hidden" id = "alert">
+        <span class="fa" id = "icon"></span>
+        <span class="msg" id = "alertText"></span>
+        <span class = "close-btn" onclick="removeAlert()">
+            <i class="fa fa-close" style="font-size: 20px;"></i>
+        </span>
     </div>
     <div class="stats">
         <table class = "stats_table table-sortable" id = "statsTable">
@@ -64,7 +82,7 @@
                 <th style="padding-right: 27px">Index</th>
                 <th>BBL</th>
                 <th style="padding-right: 10px;">WLR</th>
-                <th style="padding-right: 0;">Joined Time</th>
+                <th style="padding-right: 0;">Online Time</th>
             </thead>
             <!-- <th style="position: absolute; left: 50px; top: 10px;">Player</th>
 
@@ -92,97 +110,103 @@
 
         }
     </script>
+    <script type="text/javascript" src="alert.js"></script>
+    <script type="text/javascript" src = "fileReader.js"></script>
+    <script type="text/javascript" src="buttons.js"></script>
     <script>
         
 
-        console.log("running")
-        const electron = require('electron');
-        const readLastLines = require('read-last-lines');
-        var fs = require('fs');
-        const path = require('path');
+        // console.log("running")
+        // const electron = require('electron');
+        // const readLastLines = require('read-last-lines');
+        // var fs = require('fs');
+        // const path = require('path');
         
-        //const log_timestamp = require('log-timestamp');
+        // //const log_timestamp = require('log-timestamp');
 
-        const buttonPressesLogFile = localStorage.getItem('log_path');
+        // const buttonPressesLogFile = localStorage.getItem('log_path');
 
-        console.log(`Watching for file changes on ${buttonPressesLogFile}`);
+        // console.log(`Watching for file changes on ${buttonPressesLogFile}`);
 
-        fs.watchFile(buttonPressesLogFile, { interval: 1}, (curr, prev) => {
-          //console.log(`${buttonPressesLogFile} file Changed`);
+        // fs.watchFile(buttonPressesLogFile, { interval: 1}, (curr, prev) => {
+        //   //console.log(`${buttonPressesLogFile} file Changed`);
 
-          readLastLines.read(localStorage.getItem('log_path'), 1)
-                .then((lines) => {
-                    console.log("bo")
-                    line_parts = lines.split(' ')
-                    //[12:08:04] [Client thread/INFO]: [CHAT] Your new API key is 23375d4a-288e-4fad-8941-c8513bc0924d
-                    if (line_parts[6]){
-                        //console.log(line_parts[4]+line_parts[5]+line_parts[6])
-                        if (line_parts[4]+line_parts[5]+line_parts[6] == "YournewAPI"){
-                            //set api key
-                            console.log("API")
-                            setAPIKey(line_parts[9].slice(0, -2))
-                        } 
-                    }
+        //   readLastLines.read(localStorage.getItem('log_path'), 1)
+        //         .then((lines) => {
+        //             console.log("bo")
+        //             line_parts = lines.split(' ')
+        //             //[12:08:04] [Client thread/INFO]: [CHAT] Your new API key is 23375d4a-288e-4fad-8941-c8513bc0924d
+        //             if (line_parts[6]){
+        //                 //console.log(line_parts[4]+line_parts[5]+line_parts[6])
+        //                 if (line_parts[4]+line_parts[5]+line_parts[6] == "YournewAPI"){
+        //                     //set api key
+        //                     console.log("API")
+        //                     setAPIKey(line_parts[9].slice(0, -2))
+        //                 } 
+        //             }
                     
 
-                    if (line_parts[4] == "ONLINE:") {
-                        stats = []
-                        names = line_parts.slice(5);
-                        //console.log(names)
-                        const table_body = document.querySelector('tbody');
-                        //console.log("poo");
-                        table_body.innerHTML = "";
-                        for (ind in names) {
-                            let name = names[ind].replace(",", "");
-                            getData(name);
-                            console.log("checking" + name)
-                            //console.log(arr)
-                            //stats.push(arr)
-                        }
-                        //getData("dragondoodler222")
-                        //console.log(stats)
+        //             if (line_parts[4] == "ONLINE:") {
+        //                 stats = []
+        //                 names = line_parts.slice(5);
+        //                 //console.log(names)
+        //                 const table_body = document.querySelector('tbody');
+        //                 //console.log("poo");
+        //                 table_body.innerHTML = "";
+        //                 for (ind in names) {
+        //                     let name = names[ind].replace(",", "");
+        //                     getData(name);
+        //                     console.log("checking" + name)
+        //                     //console.log(arr)
+        //                     //stats.push(arr)
+        //                 }
+        //                 //getData("dragondoodler222")
+        //                 //console.log(stats)
 
-                        //FINALLYt
-                    }
+        //                 //FINALLYt
+        //             }
 
-                    if (line_parts[8]){
-                        if((line_parts[7]+line_parts[8][0]) == "thel"){
-                            //console.log("bob")
-                            const table_body = document.querySelector('tbody');
-                            table_body.innerHTML = "";
-                        }
-                    }
-                    if (line_parts[7]){
-                       if((line_parts[5]+line_parts[6]+line_parts[7][0]) == "hasjoined("){
-                            getData(line_parts[4])
-                        }
-                    }
-                    // console.log((line_parts[5]+line_parts[6]) == "hasquit!")
-                    // console.log((line_parts[5]+line_parts[6]))
-                    if (line_parts[6]){
-                        if ((line_parts[5]+line_parts[6][0]) == "hasq"){
-                            removePlayer(line_parts[4])
-                        }
-                    }
+        //             if (line_parts[8]){
+        //                 if((line_parts[7]+line_parts[8][0]) == "thel"){
+        //                     //console.log("bob")
+        //                     const table_body = document.querySelector('tbody');
+        //                     table_body.innerHTML = "";
+        //                 }
+        //             }
+        //             if (line_parts[7]){
+        //                if((line_parts[5]+line_parts[6]+line_parts[7][0]) == "hasjoined("){
+        //                     getData(line_parts[4])
+        //                 }
+        //             }
+        //             // console.log((line_parts[5]+line_parts[6]) == "hasquit!")
+        //             // console.log((line_parts[5]+line_parts[6]))
+        //             if (line_parts[6]){
+        //                 if ((line_parts[5]+line_parts[6][0]) == "hasq"){
+        //                     removePlayer(line_parts[4])
+        //                 }
+        //             }
                     
                     
-                })
-        });
+        //         })
+        // });
         
-        function setAPIKey(key){
-            console.log(key);
-            var path = require("path")
-            const filename = path.resolve(__dirname, "data.json");
-            var file_content = fs.readFileSync(filename);
-            var content = JSON.parse(file_content);
-            console.log(content)
-            content.api_key = key
+        // function setAPIKey(key){
+        //     console.log(key);
+        //     var path = require("path")
+        //     const filename = path.resolve(__dirname, "data.json");
+        //     var file_content = fs.readFileSync(filename);
+        //     var content = JSON.parse(file_content);
+        //     console.log(content)
+        //     content.api_key = key
 
-            fs.writeFile(filename, JSON.stringify(content), function writeJSON(err) {
-              if (err) return console.log(err);
-            });
-            localStorage.setItem("api_key", key)
-        }
+        //     fs.writeFile(filename, JSON.stringify(content), function writeJSON(err) {
+        //       if (err) return console.log(err);
+        //     });
+        //     localStorage.setItem("api_key", key)
+        // }
+        // window.onbeforeunload = function(){
+        //   fs.unwatchFile(buttonPressesLogFile); 
+        // };
         /*
         // totalStats = []
         // names = ["icydelta", "deansiie", "wemmbu", "bunnyhead", "manhal_iq_", "b0mbies", "lowof", "hyydro", "dragondoodler222", "frogggirl", "oflqwless", "gamerboy80", "46e", "kysiek1234", "nosdaemon", "defenderrush"]
@@ -268,7 +292,7 @@
             });
         }
         */
-        names = ["icydelta,", "deansiie,", "wemmbu,", "bunnyhead,", "manhal_iq_,", "b0mbies,", "lowof,", "hyydro,", "dragondoodler222,", "frogggirl,", "oflqwless,", "gamerboy80,", "46e,", "kysiek1234,", "nosdaemon,", "bobertabaggins"]
+        names = ["icydelta,", "deansiie,", "wemmbu,", "bunnyhead,", "manhal_iq_,", "b0mbies,", "lowof,", "hyydro,", "dragondoodler222,", "frogggirl,", "oflqwless,", "gamerboy80,", "46e,", "kysiek1234,", "nosdaemon,", "bobertabaggins", "lowof", "lowof", "lowof", "lowof", "lowof", "lowof", "lowof", "lowof", "lowof", "lowof", "lowof", "lowof", "lowof", "lowof", "lowof", "lowof", "lowof", "lowof", "lowof", "lowof", "lowof", "lowof", "lowof", "lowof", "lowof", "lowof", "lowof", "lowof", "lowof", "lowof", "lowof", "lowof", "lowof"]
         
         //table_body.innerHTML = "";
         
@@ -298,8 +322,7 @@
                     //console.log(id)
                     // Log the player's username
                     uid = id;
-                    fetch("https://api.hypixel.net/player?key="+key+"&uuid=" +
-                        uid)
+                    fetch("https://api.hypixel.net/player?key="+key+"&uuid="+uid)
                         .then(result => result.json())
                         .then(({
                             player
@@ -703,11 +726,60 @@
                                 }
                             }
                             //console.log(trArr[0].innerText)
-
+                        })
+                        .catch((error) => {
+                            rank_color = "#AAAAAA"
+                            const table_body = document.querySelector('tbody');
+                            let ign = document.createElement("td")
+                            //ign.style.objectPosition = "center top"
+                            ign.classList.add("names");
+                            let im_span = document.createElement("span")
+                            im_span.style.paddingRight = "5px"
+                            let im = document.createElement("img")
+                            //im.src = "/images/warning.png"
+                            im.src = "./images/warningimg.png"
+                            im.width = "15"
+                            im.length = "15"
+                            im_span.appendChild(im)
+                            //span.style.float = "none"
+                            ign_span = document.createElement("span")
+                            ign_span.textContent = name
+                            ign_span.style.color = "#AAAAAA"
+                            
+                            ign.appendChild(im_span)
+                            ign.appendChild(ign_span)
                             
 
 
-                        });
+                            const tr = table_body.insertRow(-1)
+                            tr.style.paddingBottom = "100px"
+                            ign.style.textAlign = 'left';
+                            tr.appendChild(ign)
+                            nicked_elem = document.createElement("td");
+                            nicked_elem.style.position = "absolute";
+                            nicked_elem.style.left = '272px';
+                            nicked_elem.classList.add("ws")
+                            nicked_elem.style.color = "red"
+                            
+                            nicked_elem.innerHTML = "Invalid API Key. Please Run /api new"
+                            tr.appendChild(nicked_elem)
+
+                            fkdr_elem = document.createElement("td");
+                            fkdr_elem.innerHTML = "Infinity"
+                            fkdr_elem.style.display = "none";
+
+                            tr.appendChild(fkdr_elem)
+
+                            finals_elem = document.createElement("td");
+                            finals_elem.innerHTML = "Infinity"
+                            finals_elem.style.display = "none";
+                            tr.appendChild(finals_elem)
+
+                            index_elem = document.createElement("td");
+                            index_elem.innerHTML = "Infinity"
+                            index_elem.style.display = "none";
+                            tr.appendChild(index_elem)
+                        })
                 })
                 .catch((error) => {
                     console.log(name)

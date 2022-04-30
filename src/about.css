@@ -1,0 +1,19 @@
+.instruction h1{
+	text-align: center;
+	color: white;
+	font-size: 30px;
+}
+
+p{
+	color: white;
+	padding: 10px 40px;
+	font-size: 12px;
+}
+
+.sections{
+	overflow: hidden;
+}
+
+.scroll{
+	overflow: scroll;
+}

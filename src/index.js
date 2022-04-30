@@ -1,4 +1,4 @@
-const { app, BrowserWindow } = require('electron');
+const { app, BrowserWindow, ipcMain } = require('electron');
 const path = require('path');
 const fetch = require('node-fetch');
 const fs = require("fs");
@@ -9,6 +9,10 @@ const { contextIsolated } = require('process');
 if (require('electron-squirrel-startup')) { // eslint-disable-line global-require
   app.quit();
 }
+
+ipcMain.on('quit', (evt, arg) => {
+  app.quit()
+})
 
 const createWindow = () => {
   // Create the browser window.
@@ -29,14 +33,36 @@ const createWindow = () => {
       enableRemoteModule: true
     }
   });
+  ipcMain.on("minimize", (event, data) => {
+    mainWindow.minimize;
+  });
   mainWindow.setMenuBarVisibility(true)
 
   // and load the index.html of the app.
-  mainWindow.loadFile(path.join(__dirname, 'index.html'));
+  const filename = path.resolve(__dirname, "data.json");
+  fs.readFile(filename, 'utf8', (error, data) => {
+   if(error){
+      console.log(error);
+      return;
+   }
+   var content = JSON.parse(data);
+   if (content.client != ""){
+      mainWindow.loadFile(path.join(__dirname, 'has_client.html'));
+   }else{
+    mainWindow.loadFile(path.join(__dirname, 'index.html'));
+   }
+  })
+
+
+  
   
   // Open the DevTools.
   mainWindow.webContents.openDevTools();
 };
+
+
+
+
 
 // This method will be called when Electron has finished
 // initialization and is ready to create browser windows.

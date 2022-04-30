@@ -13,10 +13,19 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/js/bootstrap.min.js"
         integrity="sha384-skAcpIdS7UcVUC05LJ9Dxay8AXcDYfBJqt1CJ85S/CFujBsIzCIv+l9liuYLaMQ/"
         crossorigin="anonymous"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet"/>
+    <link rel="stylesheet" type="text/css" href="alert.css">
 </head>
 
 <body>
-    
+    <div class = "buttonsArea">
+        <span class = "closeButton" id = "closeButton" onclick="closeWindow()"></span>
+        <span class = "minimizeButton" id = "minimizeButton" onclick="minimizeWindow()"></span>
+        <span class = "fullButton" id = "fullButton" onclick="fullscreenWindow()"></span>
+        
+        <!-- <button></button>
+        <button></button> -->
+    </div>
     <div class = "container">
         <div class = "generic_info">
             <section>
@@ -94,7 +103,19 @@
                     <button>Select Client</button>
                 </form>
             </li>
+            <li>
+                <form action="about.html">
+                    <button>About</button>
+                </form>
+            </li>
         </ul>
+    </div>
+    <div class= "alert hidden" id = "alert">
+        <span class="fa" id = "icon"></span>
+        <span class="msg" id = "alertText"></span>
+        <span class = "close-btn" onclick="removeAlert()">
+            <i class="fa fa-close" style="font-size: 20px;"></i>
+        </span>
     </div>
 
     <script>
@@ -102,61 +123,14 @@
             document.getElementById("sidebar").classList.toggle('active');
         }
     </script>
+    <script type="text/javascript" src="alert.js"></script>
+    <script type="text/javascript" src="fileReader.js"></script>
 
-    <script type="text/javascript">
-        
-
-        console.log("running")
-        const electron = require('electron');
-        const readLastLines = require('read-last-lines');
-        var fs = require('fs');
-        const path = require('path');
-        
-        //const log_timestamp = require('log-timestamp');
-
-        const buttonPressesLogFile = localStorage.getItem('log_path');
-
-        console.log(`Watching for file changes on ${buttonPressesLogFile}`);
-
-        fs.watchFile(buttonPressesLogFile, { interval: 1}, (curr, prev) => {
-          console.log(`${buttonPressesLogFile} file Changed`);
-
-          readLastLines.read(localStorage.getItem('log_path'), 20)
-                .then((lines) => {
-                    let team_lines;
-                    loop_lines = lines.split("\n")
-                    //console.log(lines.split("\n"))
-                    for (var i = loop_lines.length - 1; i >= 0; i--){
-                        let line_parts = loop_lines[i].split(' ')
-                        //console.log(line_parts[4])
-                        if (line_parts[6]){
-                            console.log(line_parts[4]+line_parts[5]+line_parts[6])
-                            if (line_parts[4]+line_parts[5]+line_parts[6] == "YournewAPI"){
-                                //set api key
-                                console.log("API")
-
-                                setAPIKey(line_parts[9].slice(0, -2))
-                            } 
-                        }
-                    }
-                })
-        })
-        function setAPIKey(key){
-          console.log(key);
-          var path = require("path")
-          const filename = path.resolve(__dirname, "data.json");
-          var file_content = fs.readFileSync(filename);
-          var content = JSON.parse(file_content);
-          console.log(content)
-          content.api_key = key
-
-          fs.writeFile(filename, JSON.stringify(content), function writeJSON(err) {
-            if (err) return console.log(err);
-          });
-          localStorage.setItem("api_key", key)
-        }
-
-    </script>
+    
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script src="http://code.jquery.com/jquery-1.8.3.js"></script>
+    <script type="text/javascript" src="backgroundOpacity.js"></script>
+    <script type="text/javascript" src="buttons.js"></script>
 
     <script>
         window.addEventListener('DOMContentLoaded', function() {
@@ -295,58 +269,95 @@
             //bedwars area
 
             let star = player.achievements.bedwars_level
-            let bw_ws = player.stats.Bedwars.winstreak
-            if (!bw_ws){
-                bw_ws = 0
-            }
-            let finals = player.stats.Bedwars.final_kills_bedwars
-            let final_deaths = player.stats.Bedwars.final_deaths_bedwars
+            let finals;
+            let final_deaths;
             let fkdr;
-            if (finals && final_deaths){
-                fkdr = (finals/final_deaths).toFixed(2)
-            }else if (finals && !final_deaths){
-                fkdr = finals
+            let bw_ws
+
+            if(player.stats.Bedwars){
+                bw_ws = player.stats.Bedwars.winstreak
+                if (!bw_ws){
+                    bw_ws = 0
+                }
+                finals = player.stats.Bedwars.final_kills_bedwars
+                final_deaths = player.stats.Bedwars.final_deaths_bedwars
+                if (finals && final_deaths){
+                    fkdr = (finals/final_deaths).toFixed(2)
+                }else if (finals && !final_deaths){
+                    fkdr = finals
+                }else{
+                    fkdr = 0
+                } 
             }else{
+                bw_ws = 0
+                finals = 0
                 fkdr = 0
+                star = 1
             }
+            
             let index = ((fkdr ** 2) * star).toFixed(0)
             //sw area
-            let sw_exp = player.stats.SkyWars.skywars_experience
-            let sw_lvl;
-            if (sw_exp){
-                sw_lvl = sw_xp_to_lvl(sw_exp).toFixed(0)
-            } else {
-                sw_lvl = 1
-            }
-            let sw_winstreak = player.stats.SkyWars.win_streak
-            let wins = player.stats.SkyWars.wins
-            let losses = player.stats.SkyWars.losses
-            let sw_wlr;
 
-            if (wins && losses){
-                sw_wlr = (wins/losses).toFixed(2)
-            }else if (wins && !losses){
-                sw_wlr = wins
+            let sw_exp;
+            let sw_lvl;
+            let sw_winstreak;
+            let wins;
+            let losses;
+            let sw_wlr;
+            if (player.stats.SkyWars){
+                sw_exp = player.stats.SkyWars.skywars_experience
+                sw_lvl;
+                if (sw_exp){
+                    sw_lvl = sw_xp_to_lvl(sw_exp).toFixed(0)
+                } else {
+                    sw_lvl = 1
+                }
+                sw_winstreak = player.stats.SkyWars.win_streak
+                wins = player.stats.SkyWars.wins
+                losses = player.stats.SkyWars.losses
+                
+
+                if (wins && losses){
+                    sw_wlr = (wins/losses).toFixed(2)
+                }else if (wins && !losses){
+                    sw_wlr = wins
+                }else{
+                    sw_wlr = 0
+                }
             }else{
+                sw_lvl = 0
+                sw_winstreak = 0
                 sw_wlr = 0
             }
+            
             console.log(sw_lvl)
 
 
 
             //duels area
+            let duels_ws
+            let duels_wins
+            let duels_losses
+            let duels_wlr
 
-            let duels_ws = player.stats.Duels.current_winstreak 
-            let duels_wins = player.stats.Duels.wins
-            let duels_losses = player.stats.Duels.losses
-            let duels_wlr;
-            if (duels_wins && duels_losses){
-                duels_wlr = (duels_wins/duels_losses).toFixed(2)
-            }else if (duels_wins && !duels_losses){
-                duels_wlr = duels_wins
+            if (player.stats.Duels){
+                duels_ws = player.stats.Duels.current_winstreak 
+                duels_wins = player.stats.Duels.wins
+                duels_losses = player.stats.Duels.losses
+                duels_wlr;
+                if (duels_wins && duels_losses){
+                    duels_wlr = (duels_wins/duels_losses).toFixed(2)
+                }else if (duels_wins && !duels_losses){
+                    duels_wlr = duels_wins
+                }else{
+                    duels_wlr = 0
+                }
             }else{
+                duels_ws = 0
+                duels_wins = 0
                 duels_wlr = 0
             }
+            
             //generic stats
             //<li>[MVP <span style="color: red">++</span>]</li>
             generic_list = document.getElementById('generic')
