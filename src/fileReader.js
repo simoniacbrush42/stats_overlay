@@ -22,9 +22,43 @@ console.log(tail)
 fs.watchFile(buttonPressesLogFile, { interval: 1}, (curr, prev) => {
     console.log(`${buttonPressesLogFile} file Changed`);
     });
+/*
+[12:13:21] [Client thread/INFO]: [CHAT] -----------------------------------------------------
+[12:13:21] [Client thread/INFO]: [CHAT] Guild Name: EELS
+[12:13:21] [Client thread/INFO]: [CHAT] 
+[12:13:21] [Client thread/INFO]: [CHAT]                              -- Guild Master --
+[12:13:21] [Client thread/INFO]: [CHAT] [MVP+] daeel ●  
+[12:13:21] [Client thread/INFO]: [CHAT] 
+[12:13:21] [Client thread/INFO]: [CHAT]                               -- DON UNAGI --
+[12:13:21] [Client thread/INFO]: [CHAT] [YOUTUBE] wemmbu ●  [MVP+] deansiie ●  [MVP+] Louqe ●  [MVP+] lowof ●  
+[12:13:21] [Client thread/INFO]: [CHAT] 
+[12:13:21] [Client thread/INFO]: [CHAT]                              -- FEMBOY EEL --
+[12:13:21] [Client thread/INFO]: [CHAT] [VIP] DragonDoodler222 ●  [MVP+] Bunnyhead ●  
+[12:13:21] [Client thread/INFO]: [CHAT] 
+[12:13:21] [Client thread/INFO]: [CHAT]                               -- SUSSY EEL --
+[12:13:21] [Client thread/INFO]: [CHAT] [MVP+] JewishGorilla ●  [MVP+] oPanda ●  [MVP] WildLog ●  
+[12:13:21] [Client thread/INFO]: [CHAT] 
+[12:13:21] [Client thread/INFO]: [CHAT]                              -- JELLIED EEL --
+[12:13:21] [Client thread/INFO]: [CHAT] [MVP+] frogggirl ●  [VIP] LolliBubble577 ●  
+[12:13:21] [Client thread/INFO]: [CHAT] 
+[12:13:21] [Client thread/INFO]: [CHAT]                                  -- EEEL --
+[12:13:21] [Client thread/INFO]: [CHAT] [VIP] Minecraft4King ●  [MVP+] wubes ●  
+[12:13:21] [Client thread/INFO]: [CHAT] 
+[12:13:21] [Client thread/INFO]: [CHAT] Total Members: 14
+[12:13:21] [Client thread/INFO]: [CHAT] Online Members: 1
+[12:13:21] [Client thread/INFO]: [CHAT] -----------------------------------------------------
+*/
 
+/*
+[12:22:57] [Client thread/INFO]: [CHAT] -----------------------------------------------------
+[12:22:57] [Client thread/INFO]: [CHAT] Party Members (16)
+[12:22:57] [Client thread/INFO]: [CHAT] 
+[12:22:57] [Client thread/INFO]: [CHAT] Party Leader: [MVP++] Peskypetepp ●
+[12:22:57] [Client thread/INFO]: [CHAT] Party Members: [MVP++] Dream9999 ● WitherBoy121 ● [VIP] JackRustan ● [VIP] Phantom_zzz ● [VIP] honkkers ● [VIP+] ItzLLaggy ● [VIP+] Remarkable_Gamer ● [VIP+] Sub_Atomicc ● [MVP+] Pricle ● [MVP+] Luigiz ● [MVP+] lowof ● [MVP+] MigyPro ● [MVP+] ADinoThatPoops ● [MVP+] JD_GAMER_ ● [MVP+] Wizbud ● 
+[12:22:57] [Client thread/INFO]: [CHAT] -----------------------------------------------------
+*/
 tail.on("line", function(data) {
-    console.log(data.split(' '));
+    //console.log(data.split(' '));
     line_parts = data.split(' ')
     //[12:08:04] [Client thread/INFO]: [CHAT] Your new API key is 23375d4a-288e-4fad-8941-c8513bc0924d
     if (line_parts[6]){
@@ -36,6 +70,58 @@ tail.on("line", function(data) {
             setAPIKey(line_parts[9])
         } 
     }
+    if (line_parts[4]){
+        if (line_parts[4].includes("Party") && line_parts[5].includes(":")){
+            console.log(line_parts[5])
+            for (var i = 6; i < line_parts.length; i++){
+                //console.log(split_line[i].length);
+                if (line_parts[i].includes("[") || line_parts[i].length == 1){
+                    //console.log(i)
+
+                }else{
+                    getData(line_parts[i])
+                }
+            }
+        }
+    }
+
+
+    // if (line_parts[4].includes("-----")){
+    //     readLastLines.read(localStorage.getItem('log_path'), 4)
+    //         .then((lines) => {
+    //             var individual_lines = lines.split("\n")
+    //             //console.log(individual_lines)
+    //             var endReached = false;
+    //             var passed = false;
+    //             var j = 1
+    //             while (!endReached){
+    //                 //console.log(j)
+    //                 var line = individual_lines[(individual_lines.length)-j]
+    //                 var split_line = line.split(' ')
+    //                 //console.log(split_line)
+                    
+                    
+    //                 if (split_line[4]){
+
+    //                     if (passed && split_line[4].includes("-----")){
+    //                         //console.log(j)
+    //                         //console.log("END")
+    //                         //console.log(line)
+    //                         endReached = true;
+    //                     }
+
+    //                     if (split_line[4].includes("----") && !passed){
+    //                         passed = true;
+    //                     }
+
+                        
+    //                 }
+                    
+    //                 j+= 1
+    //             }
+
+    //         });
+    // }
     
 
     if (line_parts[4] == "ONLINE:") {
