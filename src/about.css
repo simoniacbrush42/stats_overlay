@@ -9,11 +9,33 @@ p{
 	padding: 10px 40px;
 	font-size: 12px;
 }
+.title h1{
+	padding-top: 10px;
+	text-align: center;
+	color: white;
+	font-size: 40px;
+}
+.gifs{
+	align-content: center;
+	height: 200px;
+	width: 400px;
+	display: block;
+	margin-right: auto;
+	margin-left: auto;
+	padding-top: 10px;
+}
 
-.sections{
+/*.instruction {
+	/*background: rgba(255,255,255,0.5);*/
+	padding: 10px;
+	border: 2px solid black;
+	border-radius: 20px;
+}*/
+
+/*.sections{
 	overflow: hidden;
 }
 
 .scroll{
 	overflow: scroll;
-}
+}*/

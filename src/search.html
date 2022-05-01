@@ -144,6 +144,10 @@
                             
 
                         })
+                        .catch((error) => {
+                            console.log("nick")
+                            showAlert("This player does not exist", "negative")
+                        }); 
                 })
                 .catch((error) => {
                     console.log("nick")

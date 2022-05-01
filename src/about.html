@@ -64,10 +64,15 @@
             </li>
         </ul>
     </div>
+    <div class="title">
+      <h1>About</h1>
+    </div>
     <div class = "sections">
       <div class = "scroll">
         <section class = "instruction">
+
         <h1>Changing/Setting API Key</h1>
+        <!-- <img src="images/api_key.gif" class = "gifs"> -->
         <p>To change/set your API key, go onto hypixel and type the command /api new. A notification should indicate that your API key has been changed. If this does not work, go into the settings and copy and paste the API key from your Minecraft chat into the API key area.</p>
         </section>
         <section class = "instruction">
@@ -149,7 +154,7 @@
   <script type="text/javascript" src="buttons.js"></script>
 
   <script>
-    //const filename = path.resolve(__dirname, "data.json");
+    const filename = path.resolve(__dirname, "data.json");
     fs.readFile(filename, 'utf8', (error, data) => {
      if(error){
         console.log(error);

@@ -19,9 +19,12 @@ var sw_going = false;
 
 tail = new Tail(buttonPressesLogFile);
 console.log(tail)
+fs.watchFile(buttonPressesLogFile, { interval: 1}, (curr, prev) => {
+    console.log(`${buttonPressesLogFile} file Changed`);
+    });
 
 tail.on("line", function(data) {
-    //console.log(data.split(' '));
+    console.log(data.split(' '));
     line_parts = data.split(' ')
     //[12:08:04] [Client thread/INFO]: [CHAT] Your new API key is 23375d4a-288e-4fad-8941-c8513bc0924d
     if (line_parts[6]){

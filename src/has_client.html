@@ -41,10 +41,12 @@
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
   <script src="http://code.jquery.com/jquery-1.8.3.js"></script>
   <script type="text/javascript" src="backgroundOpacity.js"></script>
+  <script type="text/javascript" src="client.js"></script>
   <script type="text/javascript" src="alert.js"></script>
   <script type="text/javascript" src = "fileReader.js"></script>
   <script type="text/javascript" src = "index.js"></script>
   <script type="text/javascript" src="buttons.js"></script>
+
   <script type="text/javascript">
     window.addEventListener('DOMContentLoaded', (event) => {
       var header = document.getElementById("text")
@@ -57,6 +59,10 @@
           return;
        }
        var content = JSON.parse(data);
+
+       if (content.client == "lunar"){
+          setClientLunar();
+       }
        fetch("https://api.hypixel.net/key?key="+content.api_key)
         .then(response => response.json())
         .then(data => {
@@ -82,6 +88,7 @@
       window.location = "bridge.html"
     }
   </script>
+
   <!-- <form>
     <label>Custom Path</label>
     <input type="file" name="logfile" onsubmit="customLogPath()">
