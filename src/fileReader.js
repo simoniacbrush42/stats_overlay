@@ -58,6 +58,7 @@ fs.watchFile(buttonPressesLogFile, { interval: 1}, (curr, prev) => {
 [12:22:57] [Client thread/INFO]: [CHAT] -----------------------------------------------------
 */
 tail.on("line", function(data) {
+    console.log(localStorage.getItem('in_lobby'))
     //console.log(data.split(' '));
     line_parts = data.split(' ')
     //[12:08:04] [Client thread/INFO]: [CHAT] Your new API key is 23375d4a-288e-4fad-8941-c8513bc0924d
@@ -75,7 +76,7 @@ tail.on("line", function(data) {
             console.log(line_parts[5])
             for (var i = 6; i < line_parts.length; i++){
                 //console.log(split_line[i].length);
-                if (line_parts[i].includes("[") || line_parts[i].length == 1){
+                if (line_parts[i].includes("[") || line_parts[i].length <= 1){
                     //console.log(i)
 
                 }else{
@@ -127,6 +128,7 @@ tail.on("line", function(data) {
     if (line_parts[4] == "ONLINE:") {
         let stats = []
         let names = line_parts.slice(5);
+        localStorage.setItem('in_lobby', false);
         //console.log(names)
         const table_body = document.querySelector('tbody');
         //console.log("poo");
@@ -147,12 +149,18 @@ tail.on("line", function(data) {
     if (line_parts[8]){
         if((line_parts[7]+line_parts[8][0]) == "thel"){
             //console.log("bob")
-            const table_body = document.querySelector('tbody');
-            table_body.innerHTML = "";
+            console.log((localStorage.getItem('in_lobby') == "false"))
+            if (localStorage.getItem('in_lobby') == "false"){
+                const table_body = document.querySelector('tbody');
+                table_body.innerHTML = "";
+                
+            }
+            localStorage.setItem('in_lobby', true);
         }
     }
     if (line_parts[7]){
        if((line_parts[5]+line_parts[6]+line_parts[7][0]) == "hasjoined("){
+            localStorage.setItem('in_lobby', false);
             if (window.location != "bridge.html"){
                 getData(line_parts[4])
             }
@@ -172,6 +180,7 @@ tail.on("line", function(data) {
       //console.log("f")
     console.log(data)
     if ((line_parts[4]) == "Teams:") {
+        localStorage.setItem('in_lobby', false);
         statsDiv = document.getElementById("tbody")
         statsDiv.innerHTML = ""
         setTimeout(function(){
@@ -283,7 +292,9 @@ tail.on("line", function(data) {
     //SW
    if (!sw_going){
     if (line_parts[6]){
+        
         if ((line_parts[3]+line_parts[4]+line_parts[5][0])=="[CHAT]Team#"){
+            localStorage.setItem('in_lobby', false);
             setTimeout(function(){
                 readLastLines.read(localStorage.getItem('log_path'), 20)
                 .then((lines) => {

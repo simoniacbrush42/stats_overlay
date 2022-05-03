@@ -13,9 +13,11 @@
 
 <body>
     <div class = "buttonsArea">
+        <span class = "reloadButton" id = "reloadButton" onclick="reloadPage()">&#8634;</span>
         <span class = "closeButton" id = "closeButton" onclick="closeWindow()"></span>
         <span class = "minimizeButton" id = "minimizeButton" onclick="minimizeWindow()"></span>
         <span class = "fullButton" id = "fullButton" onclick="fullscreenWindow()"></span>
+
         
         <!-- <button></button>
         <button></button> -->
@@ -869,6 +871,11 @@
             }
             
             
+        }
+    </script>
+    <script type="text/javascript">
+        function reloadPage(){
+            location.reload()
         }
     </script>
     <script type="text/javascript" src="plusColor.js"></script>

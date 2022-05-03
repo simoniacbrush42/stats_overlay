@@ -118,6 +118,7 @@
       fs.writeFile(filename, JSON.stringify(content), function writeJSON(err) {
         if (err) return console.log(err);
       });
+      localStorage.setItem('in_lobby', true);
       window.location.href = "bedwars.html";
     }
     // path = require("path");

@@ -147,4 +147,20 @@ body {
 	background-color: #018032;
 }
 
+.reloadButton {
+	position: absolute;
+	right: 55px;
+	/*top: 10px;*/
+	color: white;
+  	
+  	display: inline-block;
+}
 
+.reloadButton:hover {
+	color: rgb(220,220,220);
+	cursor: pointer;
+	position: absolute;
+	right: 55px;
+	/*top: 10px;*/
+  	display: inline-block;
+}
