@@ -19,9 +19,9 @@ var sw_going = false;
 
 tail = new Tail(buttonPressesLogFile);
 console.log(tail)
-fs.watchFile(buttonPressesLogFile, { interval: 1}, (curr, prev) => {
-    console.log(`${buttonPressesLogFile} file Changed`);
-    });
+// fs.watchFile(buttonPressesLogFile, { interval: 1}, (curr, prev) => {
+//     console.log(`${buttonPressesLogFile} file Changed`);
+//     });
 /*
 [12:13:21] [Client thread/INFO]: [CHAT] -----------------------------------------------------
 [12:13:21] [Client thread/INFO]: [CHAT] Guild Name: EELS
@@ -57,6 +57,10 @@ fs.watchFile(buttonPressesLogFile, { interval: 1}, (curr, prev) => {
 [12:22:57] [Client thread/INFO]: [CHAT] Party Members: [MVP++] Dream9999 ● WitherBoy121 ● [VIP] JackRustan ● [VIP] Phantom_zzz ● [VIP] honkkers ● [VIP+] ItzLLaggy ● [VIP+] Remarkable_Gamer ● [VIP+] Sub_Atomicc ● [MVP+] Pricle ● [MVP+] Luigiz ● [MVP+] lowof ● [MVP+] MigyPro ● [MVP+] ADinoThatPoops ● [MVP+] JD_GAMER_ ● [MVP+] Wizbud ● 
 [12:22:57] [Client thread/INFO]: [CHAT] -----------------------------------------------------
 */
+
+
+var guildGoing = false;
+
 tail.on("line", function(data) {
     console.log(localStorage.getItem('in_lobby'))
     //console.log(data.split(' '));
@@ -76,15 +80,47 @@ tail.on("line", function(data) {
             console.log(line_parts[5])
             for (var i = 6; i < line_parts.length; i++){
                 //console.log(split_line[i].length);
-                if (line_parts[i].includes("[") || line_parts[i].length <= 1){
+                if (!(line_parts[i].includes("[") || line_parts[i].length <= 1)){
                     //console.log(i)
+                    getData(line_parts[i])
+                }
+            }
+        }
+        if (line_parts[4]+line_parts[5] == "TotalMembers:" && guildGoing){
+            guildGoing = false;
+        }
+    }
 
-                }else{
+    if (guildGoing){
+        
+        if (!data.includes("-")){
+            console.log(data)
+            for (var i = 4; i < line_parts.length; i++){
+                //console.log(split_line[i].length);
+                if (!(line_parts[i].includes("[") || line_parts[i].length <= 1)){
+                    //console.log(i)
+                    console.log(line_parts[i])
                     getData(line_parts[i])
                 }
             }
         }
     }
+
+    if (line_parts[5]){
+        console.log(line_parts[4]+line_parts[5])
+        if (line_parts[4]+line_parts[5] == "GuildName:"){
+            guildGoing = true
+        }
+    }
+
+    if (line_parts[12]){
+        if (line_parts[10] + line_parts[11] == 'nameof'){
+            var ign = line_parts[12].substr(2, line_parts[12].length-3)
+            getData(ign)
+        }
+    }
+
+    
 
 
     // if (line_parts[4].includes("-----")){
@@ -123,7 +159,21 @@ tail.on("line", function(data) {
 
     //         });
     // }
-    
+    if (line_parts[4]+line_parts[5] == "OnlinePlayers"){
+        let names = line_parts.slice(7);
+        const table_body = document.querySelector('tbody');
+        table_body.innerHTML = "";
+        for (ind in names) {
+            let name = names[ind].replace(",", "");
+            if (!name.includes("[")){
+                getData(name);
+            }
+           
+            //console.log("checking" + name)
+            //console.log(arr)
+            //stats.push(arr)
+        }
+    }
 
     if (line_parts[4] == "ONLINE:") {
         let stats = []
@@ -131,12 +181,11 @@ tail.on("line", function(data) {
         localStorage.setItem('in_lobby', false);
         //console.log(names)
         const table_body = document.querySelector('tbody');
-        //console.log("poo");
         table_body.innerHTML = "";
         for (ind in names) {
             let name = names[ind].replace(",", "");
             getData(name);
-            console.log("checking" + name)
+            //console.log("checking" + name)
             //console.log(arr)
             //stats.push(arr)
         }

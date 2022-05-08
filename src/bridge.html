@@ -12,6 +12,7 @@
 
 <body>
   <div class = "buttonsArea">
+    <span class = "reloadButton" id = "reloadButton" onclick="reloadPage()">&#8634;</span>
       <span class = "closeButton" id = "closeButton" onclick="closeWindow()"></span>
       <span class = "minimizeButton" id = "minimizeButton" onclick="minimizeWindow()"></span>
       <span class = "fullButton" id = "fullButton" onclick="fullscreenWindow()"></span>
@@ -133,6 +134,11 @@
   <script type="text/javascript" src="alert.js"></script>
   <script type="text/javascript" src = "fileReader.js"></script>
   <script type="text/javascript" src="buttons.js"></script>
+  <script type="text/javascript">
+        function reloadPage(){
+            location.reload()
+        }
+    </script>
   <script>
     function show() {
       document.getElementById("sidebar").classList.toggle('active');

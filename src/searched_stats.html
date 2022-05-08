@@ -19,6 +19,7 @@
 
 <body>
     <div class = "buttonsArea">
+        <span class = "reloadButton" id = "reloadButton" onclick="reloadPage()">&#8634;</span>
         <span class = "closeButton" id = "closeButton" onclick="closeWindow()"></span>
         <span class = "minimizeButton" id = "minimizeButton" onclick="minimizeWindow()"></span>
         <span class = "fullButton" id = "fullButton" onclick="fullscreenWindow()"></span>
@@ -131,6 +132,11 @@
     <script src="http://code.jquery.com/jquery-1.8.3.js"></script>
     <script type="text/javascript" src="backgroundOpacity.js"></script>
     <script type="text/javascript" src="buttons.js"></script>
+    <script type="text/javascript">
+        function reloadPage(){
+            location.reload()
+        }
+    </script>
 
     <script>
         window.addEventListener('DOMContentLoaded', function() {

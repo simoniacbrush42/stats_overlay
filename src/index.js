@@ -31,6 +31,7 @@ const createWindow = () => {
     transparent:true,
     frame: false,
     movable: true,
+    icon: path.join(__dirname, 'images/thing.png'),
     // vibrancy: 'ultra-dark',
     // backgroundColor: '#59000000',
     webPreferences: {

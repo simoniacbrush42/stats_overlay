@@ -25,12 +25,9 @@ p{
 	padding-top: 10px;
 }
 
-/*.instruction {
-	/*background: rgba(255,255,255,0.5);*/
-	padding: 10px;
-	border: 2px solid black;
-	border-radius: 20px;
-}*/
+.sections{
+	padding-top: 10px;
+}
 
 /*.sections{
 	overflow: hidden;
