@@ -18,55 +18,24 @@
 </head>
 
 <body>
-    <div class = "buttonsArea">
-        <span class = "reloadButton" id = "reloadButton" onclick="reloadPage()">&#8634;</span>
-        <span class = "closeButton" id = "closeButton" onclick="closeWindow()"></span>
-        <span class = "minimizeButton" id = "minimizeButton" onclick="minimizeWindow()"></span>
-        <span class = "fullButton" id = "fullButton" onclick="fullscreenWindow()"></span>
+    <div class="header">
+        <div class = "buttonsArea">
+            <span class = "reloadButton" id = "reloadButton" onclick="reloadPage()">&#8634;</span>
+            <span class = "closeButton" id = "closeButton" onclick="closeWindow()"></span>
+            <span class = "minimizeButton" id = "minimizeButton" onclick="minimizeWindow()"></span>
+            <span class = "fullButton" id = "fullButton" onclick="fullscreenWindow()"></span>
         
         <!-- <button></button>
         <button></button> -->
-    </div>
-    <div class = "container">
-        <div class = "generic_info">
-            <section>
-                <h3>Network</h3>
-                <img id = "network_image" src="https://crafatar.com/renders/head/d946cf0d-c0b1-4c91-bee5-21aac2956f19">
-                <ul id = "generic">
-                    <li></li>
-                    <li></li>
-                    <li></li>
-                </ul>
-            </section>
         </div>
-        <div class = "sections">
-            <section>
-                <h3>Bedwars</h3>
-                <ul id = "bedwars">
-                    <li></li>
-                    <li></li>
-                    <li></li>
-                </ul>
-            </section>
-            <section>
-                <h3>SkyWars</h3>
-                <ul id = "skywars">
-                    <li></li>
-                    <li></li>
-                    <li></li>
-                </ul>
-            </section>
-            <section>
-                <h3>Duels</h3>
-                <ul id = "duels">
-                    <li></li>
-                    <li></li>
-                    <li></li>
-                </ul>
-            </section>
+        <div class="topbar">
+            
         </div>
-    </div>
-    <div id="sidebar">
+        <div class="top" id = "top">
+            <p>Foresight Overlay</p>
+        </div>
+    
+  <div id="sidebar">
         <div class="toggle-btn" onclick="show()">
             <span></span>
             <span></span>
@@ -111,6 +80,47 @@
             </li>
         </ul>
     </div>
+  </div>
+    <div class = "container">
+        <div class = "generic_info">
+            <section>
+                <h3>Network</h3>
+                <img id = "network_image" src="https://crafatar.com/renders/head/d946cf0d-c0b1-4c91-bee5-21aac2956f19">
+                <ul id = "generic">
+                    <li></li>
+                    <li></li>
+                    <li></li>
+                </ul>
+            </section>
+        </div>
+        <div class = "sections">
+            <section>
+                <h3>Bedwars</h3>
+                <ul id = "bedwars">
+                    <li></li>
+                    <li></li>
+                    <li></li>
+                </ul>
+            </section>
+            <section>
+                <h3>SkyWars</h3>
+                <ul id = "skywars">
+                    <li></li>
+                    <li></li>
+                    <li></li>
+                </ul>
+            </section>
+            <section>
+                <h3>Duels</h3>
+                <ul id = "duels">
+                    <li></li>
+                    <li></li>
+                    <li></li>
+                </ul>
+            </section>
+        </div>
+    </div>
+    
     <div class= "alert hidden" id = "alert">
         <span class="fa" id = "icon"></span>
         <span class="msg" id = "alertText"></span>

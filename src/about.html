@@ -11,15 +11,23 @@
 </head>
 
 <body>
-  <div class = "buttonsArea">
-    <span class = "reloadButton" id = "reloadButton" onclick="reloadPage()">&#8634;</span>
-    <span class = "closeButton" id = "closeButton" onclick="closeWindow()"></span>
-    <span class = "minimizeButton" id = "minimizeButton" onclick="minimizeWindow()"></span>
-    <span class = "fullButton" id = "fullButton" onclick="fullscreenWindow()"></span>
+  <div class="header">
+        <div class = "buttonsArea">
+            <span class = "reloadButton" id = "reloadButton" onclick="reloadPage()">&#8634;</span>
+            <span class = "closeButton" id = "closeButton" onclick="closeWindow()"></span>
+            <span class = "minimizeButton" id = "minimizeButton" onclick="minimizeWindow()"></span>
+            <span class = "fullButton" id = "fullButton" onclick="fullscreenWindow()"></span>
+        
+        <!-- <button></button>
+        <button></button> -->
+        </div>
+        <div class="topbar">
+            
+        </div>
+        <div class="top" id = "top">
+            <p>Foresight Overlay</p>
+        </div>
     
-    <!-- <button></button>
-    <button></button> -->
-  </div>
   <div id="sidebar">
         <div class="toggle-btn" onclick="show()">
             <span></span>
@@ -65,6 +73,7 @@
             </li>
         </ul>
     </div>
+  </div>
     <div class="title">
       <h1>About</h1>
     </div>
@@ -87,6 +96,13 @@
         <section class = "instruction">
           <h1>Bridge</h1>
           <p>Navigate to the bridge tab in the menu. After you join a bridge game, you will need to wait until the game starts and then run the command /who. The people in your game will then appear on the overlay.</p>
+        </section>
+        <section class = "instruction">
+          <h1>Commands</h1>
+          <p>/who --> adds all the players in your game to the overlay</p>
+          <p>/p list --> adds all the players in your party to the overlay</p>
+          <p>/g list --> adds all the players in your guild to the overlay</p>
+          <p>/w ![username] --> adds an individual player to the overlay</p>
         </section>
       </div>
       

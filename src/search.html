@@ -19,16 +19,24 @@
 </head>
 
 <body>
-    <div class = "buttonsArea">
-        <span class = "reloadButton" id = "reloadButton" onclick="reloadPage()">&#8634;</span>
-        <span class = "closeButton" id = "closeButton" onclick="closeWindow()"></span>
-        <span class = "minimizeButton" id = "minimizeButton" onclick="minimizeWindow()"></span>
-        <span class = "fullButton" id = "fullButton" onclick="fullscreenWindow()"></span>
+   <div class="header">
+        <div class = "buttonsArea">
+            <span class = "reloadButton" id = "reloadButton" onclick="reloadPage()">&#8634;</span>
+            <span class = "closeButton" id = "closeButton" onclick="closeWindow()"></span>
+            <span class = "minimizeButton" id = "minimizeButton" onclick="minimizeWindow()"></span>
+            <span class = "fullButton" id = "fullButton" onclick="fullscreenWindow()"></span>
         
         <!-- <button></button>
         <button></button> -->
-    </div>
-    <div id="sidebar">
+        </div>
+        <div class="topbar">
+            
+        </div>
+        <div class="top" id = "top">
+            <p>Foresight Overlay</p>
+        </div>
+    
+  <div id="sidebar">
         <div class="toggle-btn" onclick="show()">
             <span></span>
             <span></span>
@@ -73,6 +81,7 @@
             </li>
         </ul>
     </div>
+  </div>
     <div class= "alert hidden" id = "alert">
         <span class="fa" id = "icon"></span>
         <span class="msg" id = "alertText"></span>

@@ -19,9 +19,9 @@ var sw_going = false;
 
 tail = new Tail(buttonPressesLogFile);
 console.log(tail)
-// fs.watchFile(buttonPressesLogFile, { interval: 1}, (curr, prev) => {
-//     console.log(`${buttonPressesLogFile} file Changed`);
-//     });
+fs.watchFile(buttonPressesLogFile, { interval: 1}, (curr, prev) => {
+    console.log(`${buttonPressesLogFile} file Changed`);
+    });
 /*
 [12:13:21] [Client thread/INFO]: [CHAT] -----------------------------------------------------
 [12:13:21] [Client thread/INFO]: [CHAT] Guild Name: EELS
@@ -62,6 +62,7 @@ console.log(tail)
 var guildGoing = false;
 
 tail.on("line", function(data) {
+    console.log(data)
     console.log(localStorage.getItem('in_lobby'))
     //console.log(data.split(' '));
     line_parts = data.split(' ')

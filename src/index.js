@@ -30,8 +30,8 @@ const createWindow = () => {
     y:10,
     transparent:true,
     frame: false,
-    movable: true,
-    icon: path.join(__dirname, 'images/thing.png'),
+    // movable: true,
+    icon: path.join(__dirname, 'icon.ico'),
     // vibrancy: 'ultra-dark',
     // backgroundColor: '#59000000',
     webPreferences: {
@@ -65,7 +65,7 @@ const createWindow = () => {
   
   
   // Open the DevTools.
-  mainWindow.webContents.openDevTools();
+  //mainWindow.webContents.openDevTools();
 };
 
 
