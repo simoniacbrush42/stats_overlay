@@ -99,39 +99,32 @@
   <script type="text/javascript" src="buttons.js"></script>
 
   <script>
+
+    async function changeClient(client){
+      await settings.set('client', client)
+      localStorage.setItem('in_lobby', true);
+      window.location.href = "bedwars.html";
+    }
     //const filename = path.resolve(__dirname, "data.json");
-    fs.readFile(filename, 'utf8', (error, data) => {
-     if(error){
-        console.log(error);
-        return;
-     }
-     var content = JSON.parse(data);
-    });
+    
     function lunarHandler(){
       setClientLunar()
-      content.client = "lunar"
-      changeJSON()
+      changeClient("lunar")
+      
     }
 
     function badlionHandler(){
       setClientBadlion()
-      content.client = "badlion"
-      changeJSON()
+      changeClient("badlion")
+      
     }
 
     function forgeHandler(){
       setClientForge()
-      content.client = "forge"
-      changeJSON()
+      changeClient("forge")
+      
     }
-
-    function changeJSON(){
-      fs.writeFile(filename, JSON.stringify(content), function writeJSON(err) {
-        if (err) return console.log(err);
-      });
-      localStorage.setItem('in_lobby', true);
-      window.location.href = "bedwars.html";
-    }
+    
     // path = require("path");
     // fs = require("fs");
     // const filename = path.resolve(__dirname, "data.json");

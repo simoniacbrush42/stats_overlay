@@ -1,8 +1,30 @@
+// const shell = require('electron').shell;
+// const remote = require('electron').remote;
+// const {app, BrowserWindow, Notification } = remote;
 const { app, BrowserWindow, ipcMain } = require('electron');
 const path = require('path');
 const fetch = require('node-fetch');
 const fs = require("fs");
 const { contextIsolated } = require('process');
+//const storage = require('electron-json-storage');
+const settings = require('electron-settings');
+
+// async function clearSettings(){
+//   await settings.unset();
+
+// }
+//  clearSettings()
+
+// console.log('File used for Persisting Data - ' + 
+//         settings.file());
+// //console.log(settings.get('client'))
+// console.log(settings.has('client'))
+// if (settings.has('client')){
+//   console.log(settings.get('client'))
+// }else{
+//   settings.set('client', 'lunar')
+//   console.log("SET")
+// }
 
 // const {autoUpdater} = require('electron-updater');
 // const log = require('electron-log');
@@ -47,19 +69,30 @@ const createWindow = () => {
   mainWindow.setMenuBarVisibility(true)
 
   // and load the index.html of the app.
-  const filename = path.resolve(__dirname, "data.json");
-  fs.readFile(filename, 'utf8', (error, data) => {
-   if(error){
-      console.log(error);
-      return;
-   }
-   var content = JSON.parse(data);
-   if (content.client != ""){
+  getSettings();
+  async function getSettings(){
+    const x = await settings.has('client')
+    console.log(x)
+    const check = await settings.has('background')
+
+    if (!check){
+      settings.set('background', 'rgba(0,0,0,0.450)')
+    }
+    if (x){
       mainWindow.loadFile(path.join(__dirname, 'has_client.html'));
    }else{
     mainWindow.loadFile(path.join(__dirname, 'index.html'));
    }
-  })
+  }
+  //const filename = path.resolve(__dirname, "data.json");
+  // fs.readFile(filename, 'utf8', (error, data) => {
+  //  if(error){
+  //     console.log(error);
+  //     return;
+  //  }
+  //var content = JSON.parse(data);
+   
+  
 
 
   

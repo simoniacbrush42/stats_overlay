@@ -57,26 +57,14 @@
   <script type="text/javascript" src="buttons.js"></script>
 
   <script type="text/javascript">
-    window.addEventListener('DOMContentLoaded', (event) => {
-      localStorage.setItem('in_lobby', true);
+    async function getText(){
+      var api_key = await settings.get('api_key')
       var header = document.getElementById("text")
-      var path = require("path");
-      var fs = require("fs");
-      const filename = path.resolve(__dirname, "data.json");
-      fs.readFile(filename, 'utf8', (error, data) => {
-       if(error){
-          console.log(error);
-          return;
-       }
-       var content = JSON.parse(data);
 
-       if (content.client == "lunar"){
-          setClientLunar();
-       }
-       fetch("https://api.hypixel.net/key?key="+content.api_key)
+      fetch("https://api.hypixel.net/key?key="+api_key)
         .then(response => response.json())
         .then(data => {
-          fetch("https://api.hypixel.net/player?uuid="+data.record.owner+"&key="+content.api_key)
+          fetch("https://api.hypixel.net/player?uuid="+data.record.owner+"&key="+api_key)
             .then(result => result.json())
             .then(({ player }) => {
                 // Log the player's username
@@ -84,9 +72,12 @@
             })
           console.log(data.record.owner)
         });
+    }
+    window.addEventListener('DOMContentLoaded', (event) => {
+        localStorage.setItem('in_lobby', true);
+        getText()
       })
       
-    });
 
     function bedwarsHandler(){
       window.location = "bedwars.html"

@@ -1,7 +1,6 @@
-const electron = require('electron');
+
 const readLastLines = require('read-last-lines');
 var fs = require('fs');
-const path = require('path');
 const Tail = require('tail').Tail
 
 
@@ -19,44 +18,7 @@ var sw_going = false;
 
 tail = new Tail(buttonPressesLogFile);
 console.log(tail)
-fs.watchFile(buttonPressesLogFile, { interval: 1}, (curr, prev) => {
-    console.log(`${buttonPressesLogFile} file Changed`);
-    });
-/*
-[12:13:21] [Client thread/INFO]: [CHAT] -----------------------------------------------------
-[12:13:21] [Client thread/INFO]: [CHAT] Guild Name: EELS
-[12:13:21] [Client thread/INFO]: [CHAT] 
-[12:13:21] [Client thread/INFO]: [CHAT]                              -- Guild Master --
-[12:13:21] [Client thread/INFO]: [CHAT] [MVP+] daeel ●  
-[12:13:21] [Client thread/INFO]: [CHAT] 
-[12:13:21] [Client thread/INFO]: [CHAT]                               -- DON UNAGI --
-[12:13:21] [Client thread/INFO]: [CHAT] [YOUTUBE] wemmbu ●  [MVP+] deansiie ●  [MVP+] Louqe ●  [MVP+] lowof ●  
-[12:13:21] [Client thread/INFO]: [CHAT] 
-[12:13:21] [Client thread/INFO]: [CHAT]                              -- FEMBOY EEL --
-[12:13:21] [Client thread/INFO]: [CHAT] [VIP] DragonDoodler222 ●  [MVP+] Bunnyhead ●  
-[12:13:21] [Client thread/INFO]: [CHAT] 
-[12:13:21] [Client thread/INFO]: [CHAT]                               -- SUSSY EEL --
-[12:13:21] [Client thread/INFO]: [CHAT] [MVP+] JewishGorilla ●  [MVP+] oPanda ●  [MVP] WildLog ●  
-[12:13:21] [Client thread/INFO]: [CHAT] 
-[12:13:21] [Client thread/INFO]: [CHAT]                              -- JELLIED EEL --
-[12:13:21] [Client thread/INFO]: [CHAT] [MVP+] frogggirl ●  [VIP] LolliBubble577 ●  
-[12:13:21] [Client thread/INFO]: [CHAT] 
-[12:13:21] [Client thread/INFO]: [CHAT]                                  -- EEEL --
-[12:13:21] [Client thread/INFO]: [CHAT] [VIP] Minecraft4King ●  [MVP+] wubes ●  
-[12:13:21] [Client thread/INFO]: [CHAT] 
-[12:13:21] [Client thread/INFO]: [CHAT] Total Members: 14
-[12:13:21] [Client thread/INFO]: [CHAT] Online Members: 1
-[12:13:21] [Client thread/INFO]: [CHAT] -----------------------------------------------------
-*/
 
-/*
-[12:22:57] [Client thread/INFO]: [CHAT] -----------------------------------------------------
-[12:22:57] [Client thread/INFO]: [CHAT] Party Members (16)
-[12:22:57] [Client thread/INFO]: [CHAT] 
-[12:22:57] [Client thread/INFO]: [CHAT] Party Leader: [MVP++] Peskypetepp ●
-[12:22:57] [Client thread/INFO]: [CHAT] Party Members: [MVP++] Dream9999 ● WitherBoy121 ● [VIP] JackRustan ● [VIP] Phantom_zzz ● [VIP] honkkers ● [VIP+] ItzLLaggy ● [VIP+] Remarkable_Gamer ● [VIP+] Sub_Atomicc ● [MVP+] Pricle ● [MVP+] Luigiz ● [MVP+] lowof ● [MVP+] MigyPro ● [MVP+] ADinoThatPoops ● [MVP+] JD_GAMER_ ● [MVP+] Wizbud ● 
-[12:22:57] [Client thread/INFO]: [CHAT] -----------------------------------------------------
-*/
 
 
 var guildGoing = false;
@@ -71,8 +33,8 @@ tail.on("line", function(data) {
         //console.log(line_parts[4]+line_parts[5]+line_parts[6])
         if (line_parts[4]+line_parts[5]+line_parts[6] == "YournewAPI"){
             //set api key
-            console.log("API")
-            console.log((line_parts[9]+line_parts[10]))
+            // console.log("API")
+            // console.log((line_parts[9]+line_parts[10]))
             setAPIKey(line_parts[9])
         } 
     }
@@ -391,18 +353,8 @@ tail.on("error", function(error) {
 });
 
 
-function setAPIKey(key){
-    console.log(key);
-    var path = require("path")
-    const filename = path.resolve(__dirname, "data.json");
-    var file_content = fs.readFileSync(filename);
-    var content = JSON.parse(file_content);
-    console.log(content)
-    content.api_key = key
-
-    fs.writeFile(filename, JSON.stringify(content), function writeJSON(err) {
-      if (err) return console.log(err);
-    });
+async function setAPIKey(key){
+    await settings.set('api_key', key)
     localStorage.setItem("api_key", key)
     showAlert("API Key Updated!", "positive")
 }

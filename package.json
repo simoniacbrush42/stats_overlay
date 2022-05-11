@@ -18,8 +18,7 @@
       "target": [
         "nsis"
       ],
-      "icon": "src/icon.ico",
-      "requestedExecutionLevel": "requireAdministrator"
+      "icon": "src/icon.ico"
     },
     "nsis": {
       "installerIcon": "src/icon.ico",
@@ -63,7 +62,10 @@
     }
   },
   "dependencies": {
+    "@electron/remote": "^2.0.8",
     "chokidar": "^3.5.3",
+    "electron-json-storage": "^4.5.0",
+    "electron-settings": "^4.0.2",
     "electron-squirrel-startup": "^1.0.0",
     "electron-window-position": "^1.0.1",
     "findit": "^2.0.0",

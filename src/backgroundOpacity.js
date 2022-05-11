@@ -1,26 +1,25 @@
 const electron = require('electron');
+const settings = require('electron-settings');
+
+
 $(document).ready(function() {
 	var path = require("path")
 	var fs = require('fs')
-    const userDataPath = (electron.app || electron.remote.app).getPath('userData');
-	//const filename = path.resolve(__dirname, "data.json");
-    const filename = path.join(userDataPath, "data" + '.json');
-	fs.readFile(filename, 'utf8', (error, data) => {
-     if(error){
-        console.log(error);
-        return;
-     }
-     var content = JSON.parse(data);
-     console.log(content.background)
-     $('body').css('background', content.background);
-     var top = document.getElementById("top");
-     console.log(top)
-     var opacity = content.background.slice(-6,-1)
-     var newOpacity = parseFloat(opacity)-0.3;
-     console.log(newOpacity)
-     top.style.backgroundColor = "rgba(0,0,0,"+newOpacity+")";
+    
+    getSettings()
      // $('top').css('background', content.background);
-	})
+    async function getSettings(){
+        //const x = await settings.has('client')
+        const background = await settings.get('background')
+        console.log(background)
+        $('body').css('background', background);
+        var top = document.getElementById("top");
+        console.log(top)
+        var opacity = background.slice(-6,-1)
+        var newOpacity = parseFloat(opacity)+0.35;
+        console.log(newOpacity)
+        top.style.backgroundColor = "rgba(0,0,0,"+newOpacity+")";
+    }
 	//console.log(filename)
 	// var file_content = fs.readFileSync(filename, 'utf8');
 	// console.log(file_content)
@@ -28,3 +27,4 @@ $(document).ready(function() {
 	//console.log(content)
 	
 });
+

@@ -174,39 +174,37 @@
     
    
     <script type="text/javascript">
-        document.addEventListener('DOMContentLoaded', (event) => {
-            path = require("path");
-            fs = require("fs");
-            const filename = path.resolve(__dirname, "data.json");
-            fs.readFile(filename, 'utf8', (error, data) => {
-             if(error){
-                console.log(error);
-                return;
-             }
-             var content = JSON.parse(data);
-            })
+        async function getSettings(){
+            var client = await settings.get('client')
+            var background = await settings.get('background')
+            var api_key = await settings.get('api_key')
+            console.log(client)
+            console.log(background)
+            console.log(api_key)
+
             apiInput = document.getElementById("API")
-            apiInput.value = content.api_key;
+            apiInput.value = api_key;
 
             const opacitySlider = document.getElementById("contrast")
-            var val = content.background.substring(content.background.length - 6);
+            var val = background.substring(background.length - 6);
             //console.log(parseFloat(val.substring(0,5)))
             opacitySlider.value = parseFloat(val.substring(0,5))
 
             const LunarOption = document.getElementById("lunar")
             const BadlionOption = document.getElementById("badlion")
             const ForgeOption = document.getElementById("forge")
-            var client = content.client
-            console.log(client)
-            if (client == "lunar"){
+            var clientChoice = client
+            console.log(clientChoice)
+            if (clientChoice == "lunar"){
                 LunarOption.setAttribute('selected', true)
-            }else if (client == "badlion"){
+            }else if (clientChoice == "badlion"){
                 BadlionOption.setAttribute('selected', true)
             }else{
                 ForgeOption.setAttribute('selected', true)
             }
-            console.log(localStorage.getItem("log_path"))
-
+        }
+        document.addEventListener('DOMContentLoaded', (event) => {
+            getSettings()
         })
 
         function cancel(){
@@ -226,46 +224,40 @@
         });
 
         function submitHandler(){
-            console.log("submit")
-            var path = require("path")
-            var fs = require("fs")
-            const filename = path.resolve(__dirname, "data.json");
-            var file_content = fs.readFileSync(filename);
-            var content = JSON.parse(file_content);
-            console.log(content)
+            
             var val = document.getElementById("contrast").value
-            content.background = "rgba(0,0,0, " + val + ")"
+            var background = "rgba(0,0,0, " + val + ")"
 
             var apiKeyItem = document.getElementById("API");
             console.log(apiKeyItem.value)
-            content.api_key = apiKeyItem.value;
+            var api_key = apiKeyItem.value;
 
             var dropdown = document.getElementById("Client");
             
-
+            var client;
             if (dropdown.value == "lunar"){
                 setClientLunar();
-                content.client = "lunar"
-                console.log(localStorage.getItem("log_path"))
+                client = "lunar"
             } 
             else if (dropdown.value == "badlion"){
                 setClientBadlion();
-                content.client = "badlion"
-                console.log(localStorage.getItem("log_path"))
+                client = "badlion"
             }
             else if (dropdown.value == "forge"){
                 setClientForge();
-                content.client = "forge"
-                console.log(localStorage.getItem("log_path"))
+                client = "forge"
             }
+            changeSettings(client, background, api_key) 
+        }
 
-            fs.writeFile(filename, JSON.stringify(content), function writeJSON(err) {
-              if (err) return console.log(err);
-            });
-
-
-
-            location.reload(); 
+        async function changeSettings(client, background, api_key){
+            // console.log(client)
+            // console.log(background)
+            // console.log(api_key)
+            await settings.set('client', client)
+            await settings.set('background', background)
+            await settings.set('api_key', api_key)
+            location.reload();
         }
     </script>
 </body>
