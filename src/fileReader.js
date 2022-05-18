@@ -19,7 +19,9 @@ var sw_going = false;
 tail = new Tail(buttonPressesLogFile);
 console.log(tail)
 
-
+fs.watchFile(buttonPressesLogFile, { interval: 1}, (curr, prev) => {
+    console.log(`${buttonPressesLogFile} file Changed`);
+    });
 
 var guildGoing = false;
 

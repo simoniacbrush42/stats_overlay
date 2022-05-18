@@ -16,7 +16,7 @@ $(document).ready(function() {
         var top = document.getElementById("top");
         console.log(top)
         var opacity = background.slice(-6,-1)
-        var newOpacity = parseFloat(opacity)+0.35;
+        var newOpacity = parseFloat(opacity)+0.1;
         console.log(newOpacity)
         top.style.backgroundColor = "rgba(0,0,0,"+newOpacity+")";
     }
