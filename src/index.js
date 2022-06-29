@@ -1,7 +1,9 @@
 // const shell = require('electron').shell;
 // const remote = require('electron').remote;
-// const {app, BrowserWindow, Notification } = remote;
-const { app, BrowserWindow, ipcMain } = require('electron');
+// const {app, BrowserWindow, ipcRenderer } = remote;
+const { app, BrowserWindow, ipcMain} = require('electron');
+//const { ipcRenderer } = require('@electron/remote/ipcRenderer')
+
 const path = require('path');
 const fetch = require('node-fetch');
 const fs = require("fs");

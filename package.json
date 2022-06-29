@@ -20,6 +20,9 @@
       ],
       "icon": "src/icon.ico"
     },
+    "mac": {
+      "icon": "src/mac-icon.icns"
+    },
     "nsis": {
       "installerIcon": "src/icon.ico",
       "uninstallerIcon": "src/icon.ico",

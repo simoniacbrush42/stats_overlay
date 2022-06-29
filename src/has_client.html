@@ -60,7 +60,14 @@
     async function getText(){
       var api_key = await settings.get('api_key')
       var header = document.getElementById("text")
-
+      var client = await settings.get('client')
+      if (client == "lunar"){
+        setClientLunar()
+      }else if (client == "badlion"){
+        setClientBadlion()
+      }else if (client == "forge"){
+        setClientForge()
+      }
       fetch("https://api.hypixel.net/key?key="+api_key)
         .then(response => response.json())
         .then(data => {
