@@ -1,7 +1,7 @@
 // const shell = require('electron').shell;
 // const remote = require('electron').remote;
 // const {app, BrowserWindow, ipcRenderer } = remote;
-const { app, BrowserWindow, ipcMain} = require('electron');
+const { app, BrowserWindow, ipcMain, dialog} = require('electron');
 //const { ipcRenderer } = require('@electron/remote/ipcRenderer')
 
 const path = require('path');
@@ -10,6 +10,8 @@ const fs = require("fs");
 const { contextIsolated } = require('process');
 //const storage = require('electron-json-storage');
 const settings = require('electron-settings');
+const { autoUpdater } = require("electron-updater")
+const uaup = require("uaup-js")
 
 // async function clearSettings(){
 //   await settings.unset();
@@ -36,6 +38,10 @@ const settings = require('electron-settings');
 // autoUpdater.logger.transports.file.level = 'info';
 // log.info('App starting...');
 // Handle creating/removing shortcuts on Windows when installing/uninstalling.
+
+
+
+
 if (require('electron-squirrel-startup')) { // eslint-disable-line global-require
   app.quit();
 }
@@ -46,7 +52,6 @@ ipcMain.on('quit', (evt, arg) => {
 
 const createWindow = () => {
   // Create the browser window.
-  //https://gist.github.com/thedoapps/50019afade672fa132e8
   const mainWindow = new BrowserWindow({
     width: 800,
     height: 500,
@@ -101,6 +106,7 @@ const createWindow = () => {
   
   // Open the DevTools.
   //mainWindow.webContents.openDevTools();
+  updateHandler();
 };
 
 
@@ -127,9 +133,80 @@ app.on('activate', () => {
   if (BrowserWindow.getAllWindows().length === 0) {
     
     createWindow();
+   
+
     
   }
 });
+
+// autoUpdater.on("update-available", (_event, releaseNotes, releaseName) => {
+//   const dialogOpts = {
+//     type: 'info',
+//     buttons: ["Ok"],
+//     title: "New Version Available"
+//   }
+//   dialog.showMessageBox(dialogOpts, (response) => {
+
+//   })
+// })
+
+// autoUpdater.on("update-downloaded", (_event, releaseNotes, releaseName) => {
+//   const dialogOpts = {
+//     type: 'info',
+//     buttons: ["Restart", "Later"],
+//     title: "New Version Available",
+//     detail: "A new version has been downloaded. Restart the application to apply the updates."
+//   }
+//   dialog.showMessageBox(dialogOpts).then((returnValue) => {
+//     if (returnValue.response === 0){
+//       autoUpdater.quitAndInstall()
+//     }
+//   })
+// })
+
+function updateHandler(){
+
+  const updateOptions = {
+      gitRepo: "stats-overlay", // [Required] Your Repo Name
+      gitUsername: "simoniacbrush42",  // [Required] Your GitHub Username.
+
+      appName: "stats_overlay", //[Required] The Name of the app archive and the app folder.
+      appExecutableName: "Foresight Overlay.app", 
+  };
+  let isUpdateAvalible = uaup.CheckForUpdates(updateOptions);
+  console.log(isUpdateAvalible)
+  if(isUpdateAvalible){
+      const dialogOpts = {
+        type: 'info',
+        buttons: ["Install", "Later"],
+        title: "New Version Available",
+        detail: "A new version is available. Click install to update."
+      }
+      dialog.showMessageBox(dialogOpts).then((returnValue) => {
+        if (returnValue.response === 0){
+          uaup.Update(updateOptions)
+        }
+      })
+  }
+}
+
+
+
+
+
+
+
+//uaup.Update(updateOptions);
+
+
+
+
+
+
+
+
+
+
 
 // const sendStatusToWindow = (text) => {
 //   log.info(text);
@@ -165,49 +242,3 @@ app.on('activate', () => {
 //   // You could call autoUpdater.quitAndInstall(); immediately
 //   autoUpdater.quitAndInstall();
 // });
-
-// In this file you can include the rest of your app's specific main process
-// code. You can also put them in separate files and import them here.
-
-
-function check_file(){
-   
-
-
-
-
-
-  /*
-  const md5 = require('md5');
-  txt_path = '../../../../../../Users/simon/.lunarclient/offline/1.8/logs/latest.log'
-  console.log(txt_path)
-  console.log('Watching for file changes on ${txt_path}');
-  let md5Previous = null;
-  let fsWait = false;
-  
-  fs.watch(txt_path, (event , filename) => {
-    console.log("hi")
-    if(filename){
-      console.log("poo")
-        if(fsWait) return;
-        fsWait = setTimeout( () => {
-            fsWait = false;
-        }, 0.00000001);
-        const md5Current = md5(fs.readFileSync(txt_path));
-        if (md5Current === md5Previous) {
-            return;
-        }
-        md5Previous = md5Current;
-        console.log("file changed");
-        fs.readFile(txt_path, 'utf-8', (err, data) => {
-            if (err) throw err;
-            let lines = data.trim().split("\n")
-            console.log(lines[lines.length - 1])
-        })
-    }
-})
-*/
-}
-
-
-
