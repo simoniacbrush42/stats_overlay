@@ -52,7 +52,7 @@ const createWindow = () => {
       nodeIntegration: true,
       contextIsolation: false,
       enableRemoteModule: true,
-      //devTools: false
+      devTools: false
     }
    //autoUpdater.checkForUpdates();
   });
@@ -91,7 +91,7 @@ const createWindow = () => {
   
   
   // Open the DevTools.
-  mainWindow.webContents.openDevTools();
+  //mainWindow.webContents.openDevTools();
 
 };
 ipcMain.on('bedwars-link', (evt, arg) => {

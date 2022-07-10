@@ -105,32 +105,30 @@
   <script type="text/javascript" src="alert.js"></script>
   <script type="text/javascript" src = "fileReader.js"></script>
   <script type="text/javascript" src="buttons.js"></script>
+  <script type="text/javascript" src="links.js"></script>
 
   <script>
 
     async function changeClient(client){
       await settings.set('client', client)
       localStorage.setItem('in_lobby', true);
-      window.location.href = "bedwars.html";
+      ipcRenderer.send("bedwars-link");
     }
     //const filename = path.resolve(__dirname, "data.json");
     
     function lunarHandler(){
       setClientLunar()
       changeClient("lunar")
-      
     }
 
     function badlionHandler(){
       setClientBadlion()
       changeClient("badlion")
-      
     }
 
     function forgeHandler(){
       setClientForge()
       changeClient("forge")
-      
     }
     
     // path = require("path");
