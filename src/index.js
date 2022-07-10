@@ -23,13 +23,6 @@ const dispatch = (data) => {
   win.webContents.send('message', data)
 }
 
-if (app.isPackaged){
-  const server = "stats-overlay-releases.vercel.app"
-  const url = server+"/update/"+process.platform+"/"+app.getVersion()
-  console.log(url)
-
-  autoUpdater.setFeedURL({ url }) 
-}
 
 
 
