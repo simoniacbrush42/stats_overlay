@@ -1,3 +1,4 @@
+
 function showAlert(text, type){
 	alertText = document.getElementById("alertText")
 	alertText.textContent = text;

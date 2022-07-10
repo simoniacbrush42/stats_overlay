@@ -1,7 +1,7 @@
 {
   "name": "stats_overlay",
   "productName": "Foresight Overlay",
-  "version": "1.0.5",
+  "version": "1.0.8",
   "description": "A stats overlay for many gamemodes on hypixel",
   "main": "src/index.js",
   "scripts": {
@@ -10,8 +10,8 @@
     "make": "electron-forge make",
     "publish": "electron-forge publish",
     "lint": "echo \"No linting configured\"",
-    "build-installer": "electron-builder",
-    "release": "electron-builder"
+    "build": "electron-builder build --mac --win --publish never",
+    "deploy": "electron-builder build --mac --win --publish always"
   },
   "build": {
     "appId": "stats_overlay",

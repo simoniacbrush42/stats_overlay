@@ -1,6 +1,3 @@
-// const shell = require('electron').shell;
-// const remote = require('electron').remote;
-// const {app, BrowserWindow, ipcRenderer } = remote;
 const { app, BrowserWindow, ipcMain, dialog} = require('electron');
 //const { ipcRenderer } = require('@electron/remote/ipcRenderer')
 const { autoUpdater } = require("electron-updater")
@@ -18,12 +15,9 @@ const uaup = require("uaup-js")
 //   await settings.unset();
 
 // }
-//  clearSettings()
+// clearSettings()
 
 let mainWindow
-const dispatch = (data) => {
-  mainWindow.webContents.send('message', data)
-}
 
 
 
@@ -43,7 +37,7 @@ ipcMain.on('quit', (evt, arg) => {
 
 const createWindow = () => {
   // Create the browser window.
-  const mainWindow = new BrowserWindow({
+  mainWindow = new BrowserWindow({
     width: 800,
     height: 500,
     x:0,
@@ -58,7 +52,7 @@ const createWindow = () => {
       nodeIntegration: true,
       contextIsolation: false,
       enableRemoteModule: true,
-      // devTools: false
+      //devTools: false
     }
    //autoUpdater.checkForUpdates();
   });
@@ -97,7 +91,7 @@ const createWindow = () => {
   
   
   // Open the DevTools.
-  //mainWindow.webContents.openDevTools();
+  mainWindow.webContents.openDevTools();
 
 };
 ipcMain.on('bedwars-link', (evt, arg) => {
@@ -187,7 +181,8 @@ ipcMain.on('searched-link', (evt, arg) => {
 // Some APIs can only be used after this event occurs.
 app.on('ready', () =>{
   createWindow()
-  autoUpdater.checkForUpdatesAndNotify()
+  autoUpdater.checkForUpdatesAndNotify();
+
 });
 //check_file();
 // Quit when all windows are closed, except on macOS. There, it's common
@@ -211,13 +206,43 @@ app.on('activate', () => {
   }
 });
 
-autoUpdater.on('update-available', (info) => {
-  dispatch('Update available.')
-})
+autoUpdater.on('update-available', () => {
+  mainWindow.webContents.send('update_available');
+});
+autoUpdater.on('update-downloaded', () => {
+  mainWindow.webContents.send('update_downloaded');
+});
 
-autoUpdater.on('update-downloaded', (info) => {
-  dispatch('Update downloaded')
-})
+ipcMain.on('update_available', () => {
+  alertText = document.getElementById("alertText")
+  alertText.textContent = 'A new update is available. Downloading now...';
+  alert = document.getElementById("alert")
+  icon = document.getElementById("icon")
+  alert.classList.remove("hidden");
+  alert.classList.add("positive")
+  icon.classList.add("fa-check")
+  setTimeout(function () {
+      alert.className = "alert";
+      alert.classList.add("hidden")
+      icon.className = "fa"
+  }, 5000);
+  ipcMain.removeAllListeners('update_available');
+});
+ipcMain.on('update_downloaded', () => {
+  ipcMain.removeAllListeners('update_downloaded');
+  alertText = document.getElementById("alertText")
+  alertText.textContent = 'Update Downloaded. It will be installed on restart.';
+  alert = document.getElementById("alert")
+  icon = document.getElementById("icon")
+  alert.classList.remove("hidden");
+  alert.classList.add("positive")
+  icon.classList.add("fa-check")
+  setTimeout(function () {
+      alert.className = "alert";
+      alert.classList.add("hidden")
+      icon.className = "fa"
+  }, 5000);
+});
 
 // function updateThing(){
 //   let x = autoUpdater.checkForUpdatesAndNotify()
