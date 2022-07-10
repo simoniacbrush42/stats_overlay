@@ -3,14 +3,15 @@
 // const {app, BrowserWindow, ipcRenderer } = remote;
 const { app, BrowserWindow, ipcMain, dialog} = require('electron');
 //const { ipcRenderer } = require('@electron/remote/ipcRenderer')
+const { autoUpdater } = require("electron-updater")
 
 const path = require('path');
+var url = require('url')
 const fetch = require('node-fetch');
 const fs = require("fs");
 const { contextIsolated } = require('process');
 //const storage = require('electron-json-storage');
 const settings = require('electron-settings');
-const { autoUpdater } = require("electron-updater")
 const uaup = require("uaup-js")
 
 // async function clearSettings(){
@@ -18,26 +19,20 @@ const uaup = require("uaup-js")
 
 // }
 //  clearSettings()
+const dispatch = (data) => {
+  win.webContents.send('message', data)
+}
 
-// console.log('File used for Persisting Data - ' + 
-//         settings.file());
-// //console.log(settings.get('client'))
-// console.log(settings.has('client'))
-// if (settings.has('client')){
-//   console.log(settings.get('client'))
-// }else{
-//   settings.set('client', 'lunar')
-//   console.log("SET")
-// }
+if (app.isPackaged){
+  const server = "stats-overlay-releases.vercel.app"
+  const url = server+"/update/"+process.platform+"/"+app.getVersion()
+  console.log(url)
 
-// const {autoUpdater} = require('electron-updater');
-// const log = require('electron-log');
+  autoUpdater.setFeedURL({ url }) 
+}
 
-// configure logging
-// autoUpdater.logger = log;
-// autoUpdater.logger.transports.file.level = 'info';
-// log.info('App starting...');
-// Handle creating/removing shortcuts on Windows when installing/uninstalling.
+
+
 
 
 
@@ -49,6 +44,7 @@ if (require('electron-squirrel-startup')) { // eslint-disable-line global-requir
 ipcMain.on('quit', (evt, arg) => {
   app.quit()
 })
+
 
 const createWindow = () => {
   // Create the browser window.
@@ -98,7 +94,7 @@ const createWindow = () => {
   //     return;
   //  }
   //var content = JSON.parse(data);
-   
+
   
 
 
@@ -106,8 +102,86 @@ const createWindow = () => {
   
   // Open the DevTools.
   //mainWindow.webContents.openDevTools();
-  updateHandler();
+  autoUpdater.checkForUpdates()
+
 };
+ipcMain.on('bedwars-link', (evt, arg) => {
+  BrowserWindow.getAllWindows()[0].loadURL(url.format({
+    pathname : path.join(__dirname,'bedwars.html'),
+    protocol:'file',
+    slashes:true
+  }))
+})
+
+ipcMain.on('bridge-link', (evt, arg) => {
+  BrowserWindow.getAllWindows()[0].loadURL(url.format({
+    pathname : path.join(__dirname,'bridge.html'),
+    protocol:'file',
+    slashes:true
+  }))
+})
+
+ipcMain.on('skywars-link', (evt, arg) => {
+  BrowserWindow.getAllWindows()[0].loadURL(url.format({
+    pathname : path.join(__dirname,'skywars.html'),
+    protocol:'file',
+    slashes:true
+  }))
+})
+
+ipcMain.on('search-link', (evt, arg) => {
+  BrowserWindow.getAllWindows()[0].loadURL(url.format({
+    pathname : path.join(__dirname,'search.html'),
+    protocol:'file',
+    slashes:true
+  }))
+})
+
+ipcMain.on('settings-link', (evt, arg) => {
+  BrowserWindow.getAllWindows()[0].loadURL(url.format({
+    pathname : path.join(__dirname,'settings.html'),
+    protocol:'file',
+    slashes:true
+  }))
+})
+
+ipcMain.on('select-link', (evt, arg) => {
+  BrowserWindow.getAllWindows()[0].loadURL(url.format({
+    pathname : path.join(__dirname,'index.html'),
+    protocol:'file',
+    slashes:true
+  }))
+})
+
+ipcMain.on('about-link', (evt, arg) => {
+  BrowserWindow.getAllWindows()[0].loadURL(url.format({
+    pathname : path.join(__dirname,'about.html'),
+    protocol:'file',
+    slashes:true
+  }))
+})
+ipcMain.on('searched-link', (evt, arg) => {
+  BrowserWindow.getAllWindows()[0].loadURL(url.format({
+    pathname : path.join(__dirname,'searched_stats.html'),
+    protocol:'file',
+    slashes:true
+  }))
+})
+
+autoUpdater.on('update-downloaded', (event, releaseNotes, releaseName) => {
+  const dialogOpts = {
+    type: 'info',
+    buttons: ['Restart', 'Later'],
+    title: 'Application Update',
+    message: process.platform === 'win32' ? releaseNotes : releaseName,
+    detail:
+      'A new version has been downloaded. Restart the application to apply the updates.',
+  }
+
+  dialog.showMessageBox(dialogOpts).then((returnValue) => {
+    if (returnValue.response === 0) autoUpdater.quitAndInstall()
+  })
+})
 
 
 
@@ -116,7 +190,10 @@ const createWindow = () => {
 // This method will be called when Electron has finished
 // initialization and is ready to create browser windows.
 // Some APIs can only be used after this event occurs.
-app.on('ready', createWindow);
+app.on('ready', () =>{
+  createWindow()
+  autoUpdater.checkForUpdatesAndNotify()
+});
 //check_file();
 // Quit when all windows are closed, except on macOS. There, it's common
 // for applications and their menu bar to stay active until the user quits
@@ -139,56 +216,14 @@ app.on('activate', () => {
   }
 });
 
-// autoUpdater.on("update-available", (_event, releaseNotes, releaseName) => {
-//   const dialogOpts = {
-//     type: 'info',
-//     buttons: ["Ok"],
-//     title: "New Version Available"
-//   }
-//   dialog.showMessageBox(dialogOpts, (response) => {
+autoUpdater.on('update-available', (info) => {
+  dispatch('Update available.')
+})
 
-//   })
-// })
+autoUpdater.on('update-downloaded', (info) => {
+  dispatch('Update downloaded')
+})
 
-// autoUpdater.on("update-downloaded", (_event, releaseNotes, releaseName) => {
-//   const dialogOpts = {
-//     type: 'info',
-//     buttons: ["Restart", "Later"],
-//     title: "New Version Available",
-//     detail: "A new version has been downloaded. Restart the application to apply the updates."
-//   }
-//   dialog.showMessageBox(dialogOpts).then((returnValue) => {
-//     if (returnValue.response === 0){
-//       autoUpdater.quitAndInstall()
-//     }
-//   })
-// })
-
-function updateHandler(){
-
-  const updateOptions = {
-      gitRepo: "stats-overlay", // [Required] Your Repo Name
-      gitUsername: "simoniacbrush42",  // [Required] Your GitHub Username.
-
-      appName: "stats_overlay", //[Required] The Name of the app archive and the app folder.
-      appExecutableName: "Foresight Overlay.app", 
-  };
-  let isUpdateAvalible = uaup.CheckForUpdates(updateOptions);
-  console.log(isUpdateAvalible)
-  if(isUpdateAvalible){
-      const dialogOpts = {
-        type: 'info',
-        buttons: ["Install", "Later"],
-        title: "New Version Available",
-        detail: "A new version is available. Click install to update."
-      }
-      dialog.showMessageBox(dialogOpts).then((returnValue) => {
-        if (returnValue.response === 0){
-          uaup.Update(updateOptions)
-        }
-      })
-  }
-}
 
 
 

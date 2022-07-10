@@ -84,15 +84,17 @@
     "read-last-lines": "^1.8.0",
     "tail": "^2.2.4",
     "text-file-follower": "^0.1.0",
-    "uaup-js": "^0.0.22"
+    "uaup-js": "^0.0.22",
+    "update-electron-app": "^2.0.1",
+    "url": "^0.11.0"
   },
   "devDependencies": {
-    "electron-builder": "^23.1.0",
     "@electron-forge/cli": "^6.0.0-beta.61",
     "@electron-forge/maker-deb": "^6.0.0-beta.61",
     "@electron-forge/maker-rpm": "^6.0.0-beta.61",
     "@electron-forge/maker-squirrel": "^6.0.0-beta.61",
     "@electron-forge/maker-zip": "^6.0.0-beta.61",
-    "electron": "13.1.8"
+    "electron": "13.1.8",
+    "electron-builder": "^23.1.0"
   }
 }

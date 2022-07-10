@@ -44,38 +44,38 @@
         </div>
         <ul>
             <li>
-                <form action="bedwars.html">
+                <form onsubmit="bedwarsLink(event)">
                     <button>Bedwars</button>
                 </form>
             </li>
             <li>
-                <form action="bridge.html">
+                <form onsubmit="bridgeLink(event)">
                     <button>Bridge</button>
                 </form>
             </li>
             <li>
-                <form action="skywars.html">
+                <form onsubmit="skywarsLink(event)">
                     <button>Skywars</button>
                 </form>
             </li>
             <li>
-                <form action="search.html">
+                <form onsubmit="searchLink(event)">
                     <button>Search</button>
                 </form>
             </li>
             <li>
-                <form action="settings.html">
+                <form onsubmit="settingsLink(event)">
                     <button>Settings</button>
                 </form>
 
             </li>
             <li>
-                <form action="index.html">
+                <form onsubmit="selectLink(event)">
                     <button>Select Client</button>
                 </form>
             </li>
             <li>
-                <form action="about.html">
+                <form onsubmit="aboutLink(event)">
                     <button>About</button>
                 </form>
             </li>
@@ -117,6 +117,7 @@
     <script type="text/javascript" src="fileReader.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
     <script type="text/javascript" src="buttons.js"></script>
+    <script type="text/javascript" src="links.js"></script>
     <script type="text/javascript">
         $('#contrast').on('input', function() {
             $('#contrastFilter').css('opacity', $(this).val());
@@ -152,7 +153,8 @@
                         }) => { 
                             if (player.displayname){
                                 sessionStorage.setItem('stats', JSON.stringify(player)) // https://lage.us/Javascript-Pass-Variables-to-Another-Page.html
-                                window.location.href = "searched_stats.html";
+                                // window.location.href = "searched_stats.html";
+                                searchedLink()
                             }else{
                                 showAlert("This player does not exist", "negative")
                             }

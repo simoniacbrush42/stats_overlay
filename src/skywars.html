@@ -36,38 +36,38 @@
         </div>
         <ul>
             <li>
-                <form action="bedwars.html">
+                <form onsubmit="bedwarsLink(event)">
                     <button>Bedwars</button>
                 </form>
             </li>
             <li>
-                <form action="bridge.html">
+                <form onsubmit="bridgeLink(event)">
                     <button>Bridge</button>
                 </form>
             </li>
             <li>
-                <form action="skywars.html">
+                <form onsubmit="skywarsLink(event)">
                     <button>Skywars</button>
                 </form>
             </li>
             <li>
-                <form action="search.html">
+                <form onsubmit="searchLink(event)">
                     <button>Search</button>
                 </form>
             </li>
             <li>
-                <form action="settings.html">
+                <form onsubmit="settingsLink(event)">
                     <button>Settings</button>
                 </form>
 
             </li>
             <li>
-                <form action="index.html">
+                <form onsubmit="selectLink(event)">
                     <button>Select Client</button>
                 </form>
             </li>
             <li>
-                <form action="about.html">
+                <form onsubmit="aboutLink(event)">
                     <button>About</button>
                 </form>
             </li>
@@ -126,6 +126,7 @@
 
     <script type="text/javascript" src = "fileReader.js"></script>
     <script type="text/javascript" src="buttons.js"></script>
+    <script type="text/javascript" src="links.js"></script>
     <script type="text/javascript">
         function reloadPage(){
             location.reload()
