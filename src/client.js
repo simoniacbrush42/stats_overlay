@@ -26,22 +26,22 @@ function setClientLunar(){
   console.log(process.platform)
   //C:\Users\simon\.lunarclient\offline\1.8\logs
   if(isWin){
-    fs.access(userHomeDir+"\\.lunarclient\\offline\\1.8\\logs", function(error) {
+    fs.access(userHomeDir+"\\.lunarclient\\offline\\1.8.9\\logs", function(error) {
       if (error) {
         console.log("Directory does not exist.")
       } else {
         console.log("Directory exists.")
-        localStorage.setItem("log_path", userHomeDir+"\\.lunarclient\\offline\\1.8\\logs\\latest.log");
+        localStorage.setItem("log_path", userHomeDir+"\\.lunarclient\\offline\\1.8.9\\logs\\latest.log");
         //window.location.href = "bedwars.html";
       }
     });
   }else{
-    fs.access(userHomeDir+"/.lunarclient/offline/1.8/logs", function(error) {
+    fs.access(userHomeDir+"/.lunarclient/offline/1.8.9/logs", function(error) {
       if (error) {
         console.log("Directory does not exist.")
       } else {
         console.log("Directory exists.")
-        localStorage.setItem("log_path", userHomeDir+"/.lunarclient/offline/1.8/logs/latest.log");
+        localStorage.setItem("log_path", userHomeDir+"/.lunarclient/offline/1.8.9/logs/latest.log");
         
       }
     })

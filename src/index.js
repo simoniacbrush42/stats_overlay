@@ -19,8 +19,10 @@ const uaup = require("uaup-js")
 
 // }
 //  clearSettings()
+
+let mainWindow
 const dispatch = (data) => {
-  win.webContents.send('message', data)
+  mainWindow.webContents.send('message', data)
 }
 
 
@@ -55,7 +57,8 @@ const createWindow = () => {
     webPreferences: {
       nodeIntegration: true,
       contextIsolation: false,
-      enableRemoteModule: true
+      enableRemoteModule: true,
+      // devTools: false
     }
    //autoUpdater.checkForUpdates();
   });
@@ -95,7 +98,6 @@ const createWindow = () => {
   
   // Open the DevTools.
   //mainWindow.webContents.openDevTools();
-  autoUpdater.checkForUpdates()
 
 };
 ipcMain.on('bedwars-link', (evt, arg) => {
@@ -161,20 +163,20 @@ ipcMain.on('searched-link', (evt, arg) => {
   }))
 })
 
-autoUpdater.on('update-downloaded', (event, releaseNotes, releaseName) => {
-  const dialogOpts = {
-    type: 'info',
-    buttons: ['Restart', 'Later'],
-    title: 'Application Update',
-    message: process.platform === 'win32' ? releaseNotes : releaseName,
-    detail:
-      'A new version has been downloaded. Restart the application to apply the updates.',
-  }
+// autoUpdater.on('update-downloaded', (event, releaseNotes, releaseName) => {
+//   const dialogOpts = {
+//     type: 'info',
+//     buttons: ['Restart', 'Later'],
+//     title: 'Application Update',
+//     message: process.platform === 'win32' ? releaseNotes : releaseName,
+//     detail:
+//       'A new version has been downloaded. Restart the application to apply the updates.',
+//   }
 
-  dialog.showMessageBox(dialogOpts).then((returnValue) => {
-    if (returnValue.response === 0) autoUpdater.quitAndInstall()
-  })
-})
+//   dialog.showMessageBox(dialogOpts).then((returnValue) => {
+//     if (returnValue.response === 0) autoUpdater.quitAndInstall()
+//   })
+// })
 
 
 
@@ -216,6 +218,11 @@ autoUpdater.on('update-available', (info) => {
 autoUpdater.on('update-downloaded', (info) => {
   dispatch('Update downloaded')
 })
+
+// function updateThing(){
+//   let x = autoUpdater.checkForUpdatesAndNotify()
+//   console.log(x)
+// }
 
 
 

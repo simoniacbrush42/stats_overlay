@@ -1,4 +1,3 @@
-
 const readLastLines = require('read-last-lines');
 var fs = require('fs');
 const Tail = require('tail').Tail
@@ -24,7 +23,7 @@ fs.watchFile(buttonPressesLogFile, { interval: 1}, (curr, prev) => {
     });
 
 var guildGoing = false;
-
+tail.on('error', (err) => {con.log('error', err)});
 tail.on("line", function(data) {
     console.log(data)
     console.log(localStorage.getItem('in_lobby'))
