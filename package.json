@@ -1,7 +1,7 @@
 {
   "name": "stats_overlay",
   "productName": "Foresight Overlay",
-  "version": "1.0.9",
+  "version": "1.0.0",
   "description": "A stats overlay for many gamemodes on hypixel",
   "main": "src/index.js",
   "scripts": {

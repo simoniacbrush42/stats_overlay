@@ -1,14 +1,12 @@
 .settings{
-	padding-top: 20px;
+	padding: 15px 0px;
 	text-align: center;
-	padding-bottom: 20px;
 }
 .settings h3{
 	color: white;
 }
 
 .page-title{
-	padding-top: 10px;
 	text-align: center;
 }
 .page-title h1{
@@ -70,4 +68,8 @@ input[type='file'] {
 
 .opacity input[type="range"]{
 	width: 400px;
+}
+
+.clearButton{
+	text-align: center;
 }

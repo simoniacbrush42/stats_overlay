@@ -23,8 +23,10 @@ function settingsLink(e){
 	ipcRenderer.send("settings-link");
 }
 
-function selectLink(e){
-	e.preventDefault()
+function selectLink(e="hi"){
+	if(e != "hi"){
+		e.preventDefault()
+	}
 	ipcRenderer.send("select-link");
 }
 

@@ -116,6 +116,10 @@
         <div class = "settings buttons">
             <button type="button" id= "saveButton" class="btn btn-success">Save</button>
             <button type="button" id = "cancelButton" onclick = "cancel()" class="btn btn-danger">Cancel</button>
+            
+        </div>
+        <div class = "clearButton">
+            <button type="button" id = "clearButton" class="btn btn-danger">Clear Storage</button>
         </div>
     </form>
     
@@ -222,6 +226,16 @@
         document.getElementById("saveButton").addEventListener("click", function(event){
             event.preventDefault()
             submitHandler();
+        });
+        document.getElementById("clearButton").addEventListener("click", function(event){
+            event.preventDefault()
+            async function clearSettings(){
+                await settings.unset();
+                await settings.set('background', 'rgba(0,0,0,0.450)')
+                selectLink()
+                console.log("HIHI")
+            }
+            clearSettings()
         });
 
         function submitHandler(){
